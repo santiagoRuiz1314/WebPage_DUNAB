@@ -1,12 +1,26 @@
 import React from 'react';
+import { useDunab } from '../../context/DunabContext';
+import { formatCurrency } from '../../utils/formatters';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 const DunabBalance = () => {
-  // TODO: Implementar componente de saldo para header
+  const { balance, loading } = useDunab();
+
+  if (loading) {
+    return (
+      <div className="dunab-balance-header">
+        <LoadingSpinner size="small" />
+      </div>
+    );
+  }
 
   return (
     <div className="dunab-balance-header">
-      <span className="balance-label">DUNAB:</span>
-      <span className="balance-value">0</span>
+      <span className="balance-icon">💰</span>
+      <div className="balance-info">
+        <span className="balance-label">Tu Saldo DUNAB</span>
+        <span className="balance-value">{formatCurrency(balance || 0)} D</span>
+      </div>
     </div>
   );
 };

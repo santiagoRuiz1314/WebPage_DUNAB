@@ -1,11 +1,17 @@
 import React from 'react';
+import { useTheme } from '../../context/ThemeContext';
 
 const ThemeToggle = () => {
-  // TODO: Implementar toggle de tema oscuro/claro
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <button className="theme-toggle">
-      🌙
+    <button
+      className="theme-toggle"
+      onClick={toggleTheme}
+      aria-label="Toggle Theme"
+      title={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
+    >
+      {theme === 'light' ? '🌙' : '☀️'}
     </button>
   );
 };

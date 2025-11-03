@@ -1,6 +1,7 @@
-/* TODO: Estilos globales */
+/* Global Styles */
 
 @import './variables.css';
+@import './components.css';
 
 * {
   box-sizing: border-box;

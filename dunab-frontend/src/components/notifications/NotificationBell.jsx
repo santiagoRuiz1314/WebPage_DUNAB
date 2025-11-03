@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNotifications } from '../../context/NotificationContext';
+import NotificationCenter from './NotificationCenter';
 
 const NotificationBell = () => {
-  // TODO: Implementar campana de notificaciones con badge
+  const { unreadCount } = useNotifications();
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
+  };
 
   return (
     <div className="notification-bell">
-      <button>
-        🔔
-        <span className="badge">0</span>
+      <button
+        className="notification-btn"
+        onClick={toggleNotifications}
+        aria-label="Notifications"
+      >
+        <span className="bell-icon">🔔</span>
+        {unreadCount > 0 && (
+          <span className="notification-badge">{unreadCount > 9 ? '9+' : unreadCount}</span>
+        )}
       </button>
+
+      {showNotifications && (
+        <>
+          <div className="notification-overlay" onClick={() => setShowNotifications(false)} />
+          <NotificationCenter onClose={() => setShowNotifications(false)} />
+        </>
+      )}
     </div>
   );
 };

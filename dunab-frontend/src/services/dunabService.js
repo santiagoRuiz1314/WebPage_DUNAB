@@ -1,132 +1,349 @@
+/**
+ * Servicio DUNAB - Core del Sistema
+ * Maneja todas las operaciones CRUD de cuentas, transacciones, estadísticas y categorías
+ */
+
 import api from './api';
+import { API_ENDPOINTS } from '../config/apiConfig';
 
 const dunabService = {
-  // ============ CUENTAS DUNAB ============
+  // ============================================
+  // CUENTAS DUNAB
+  // ============================================
 
-  // TODO: Crear cuenta DUNAB
+  /**
+   * Crear cuenta DUNAB para un estudiante
+   * @param {object} accountData - Datos de la cuenta
+   * @returns {Promise<object>} Cuenta creada
+   */
   createAccount: async (accountData) => {
-    // const response = await api.post('/dunab/accounts', accountData);
-    // return response.data;
+    try {
+      const response = await api.post(API_ENDPOINTS.DUNAB_ACCOUNTS, accountData);
+      return response;
+    } catch (error) {
+      console.error('Error creando cuenta DUNAB:', error);
+      throw error;
+    }
   },
 
-  // TODO: Obtener cuenta por ID
+  /**
+   * Obtener cuenta DUNAB por ID
+   * @param {number|string} accountId - ID de la cuenta
+   * @returns {Promise<object>} Datos de la cuenta
+   */
   getAccount: async (accountId) => {
-    // const response = await api.get(`/dunab/accounts/${accountId}`);
-    // return response.data;
+    try {
+      const response = await api.get(`${API_ENDPOINTS.DUNAB_ACCOUNTS}/${accountId}`);
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo cuenta DUNAB:', error);
+      throw error;
+    }
   },
 
-  // TODO: Obtener saldo
+  /**
+   * Obtener saldo de una cuenta DUNAB
+   * @param {number|string} accountId - ID de la cuenta
+   * @returns {Promise<number>} Saldo actual
+   */
   getBalance: async (accountId) => {
-    // const response = await api.get(`/dunab/accounts/${accountId}/balance`);
-    // return response.data;
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_BALANCE(accountId));
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo saldo:', error);
+      throw error;
+    }
   },
 
-  // TODO: Actualizar cuenta
+  /**
+   * Actualizar cuenta DUNAB
+   * @param {number|string} accountId - ID de la cuenta
+   * @param {object} accountData - Datos a actualizar
+   * @returns {Promise<object>} Cuenta actualizada
+   */
   updateAccount: async (accountId, accountData) => {
-    // const response = await api.put(`/dunab/accounts/${accountId}`, accountData);
-    // return response.data;
+    try {
+      const response = await api.put(`${API_ENDPOINTS.DUNAB_ACCOUNTS}/${accountId}`, accountData);
+      return response;
+    } catch (error) {
+      console.error('Error actualizando cuenta DUNAB:', error);
+      throw error;
+    }
   },
 
-  // TODO: Eliminar cuenta (soft delete)
+  /**
+   * Eliminar cuenta DUNAB (soft delete)
+   * @param {number|string} accountId - ID de la cuenta
+   * @returns {Promise<void>}
+   */
   deleteAccount: async (accountId) => {
-    // const response = await api.delete(`/dunab/accounts/${accountId}`);
-    // return response.data;
+    try {
+      const response = await api.delete(`${API_ENDPOINTS.DUNAB_ACCOUNTS}/${accountId}`);
+      return response;
+    } catch (error) {
+      console.error('Error eliminando cuenta DUNAB:', error);
+      throw error;
+    }
   },
 
-  // ============ TRANSACCIONES ============
+  // ============================================
+  // TRANSACCIONES
+  // ============================================
 
-  // TODO: Crear transacción
+  /**
+   * Crear una nueva transacción DUNAB
+   * @param {object} transactionData - Datos de la transacción
+   * @returns {Promise<object>} Transacción creada
+   */
   createTransaction: async (transactionData) => {
-    // const response = await api.post('/dunab/transactions', transactionData);
-    // return response.data;
+    try {
+      const response = await api.post(API_ENDPOINTS.DUNAB_TRANSACTIONS, transactionData);
+      return response;
+    } catch (error) {
+      console.error('Error creando transacción:', error);
+      throw error;
+    }
   },
 
-  // TODO: Listar todas las transacciones (con paginación)
+  /**
+   * Listar todas las transacciones (con paginación)
+   * @param {number} page - Número de página
+   * @param {number} size - Tamaño de página
+   * @returns {Promise<object>} Lista de transacciones paginada
+   */
   getAllTransactions: async (page = 0, size = 10) => {
-    // const response = await api.get('/dunab/transactions', { params: { page, size } });
-    // return response.data;
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_TRANSACTIONS, {
+        params: { page, size },
+      });
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo transacciones:', error);
+      throw error;
+    }
   },
 
-  // TODO: Obtener transacción por ID
+  /**
+   * Obtener una transacción específica por ID
+   * @param {number|string} transactionId - ID de la transacción
+   * @returns {Promise<object>} Datos de la transacción
+   */
   getTransaction: async (transactionId) => {
-    // const response = await api.get(`/dunab/transactions/${transactionId}`);
-    // return response.data;
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_TRANSACTION(transactionId));
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo transacción:', error);
+      throw error;
+    }
   },
 
-  // TODO: Obtener historial de estudiante
+  /**
+   * Obtener historial de transacciones de un estudiante
+   * @param {number|string} studentId - ID del estudiante
+   * @param {number} page - Número de página
+   * @param {number} size - Tamaño de página
+   * @returns {Promise<object>} Lista de transacciones del estudiante
+   */
   getStudentTransactions: async (studentId, page = 0, size = 10) => {
-    // const response = await api.get(`/dunab/transactions/student/${studentId}`, { params: { page, size } });
-    // return response.data;
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_STUDENT_TRANSACTIONS(studentId), {
+        params: { page, size },
+      });
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo transacciones del estudiante:', error);
+      throw error;
+    }
   },
 
-  // TODO: Filtrar transacciones
+  /**
+   * Filtrar transacciones por diversos criterios
+   * @param {object} filters - Filtros (fecha, tipo, categoría, etc.)
+   * @returns {Promise<array>} Lista de transacciones filtradas
+   */
   filterTransactions: async (filters) => {
-    // const response = await api.get('/dunab/transactions/filter', { params: filters });
-    // return response.data;
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_TRANSACTIONS_FILTER, {
+        params: filters,
+      });
+      return response;
+    } catch (error) {
+      console.error('Error filtrando transacciones:', error);
+      throw error;
+    }
   },
 
-  // TODO: Actualizar transacción
+  /**
+   * Actualizar una transacción
+   * @param {number|string} transactionId - ID de la transacción
+   * @param {object} transactionData - Datos a actualizar
+   * @returns {Promise<object>} Transacción actualizada
+   */
   updateTransaction: async (transactionId, transactionData) => {
-    // const response = await api.put(`/dunab/transactions/${transactionId}`, transactionData);
-    // return response.data;
+    try {
+      const response = await api.put(
+        API_ENDPOINTS.DUNAB_TRANSACTION(transactionId),
+        transactionData
+      );
+      return response;
+    } catch (error) {
+      console.error('Error actualizando transacción:', error);
+      throw error;
+    }
   },
 
-  // TODO: Anular transacción
-  deleteTransaction: async (transactionId) => {
-    // const response = await api.delete(`/dunab/transactions/${transactionId}`);
-    // return response.data;
+  /**
+   * Anular una transacción
+   * @param {number|string} transactionId - ID de la transacción
+   * @param {string} reason - Motivo de anulación
+   * @returns {Promise<void>}
+   */
+  deleteTransaction: async (transactionId, reason = '') => {
+    try {
+      const response = await api.delete(API_ENDPOINTS.DUNAB_TRANSACTION(transactionId), {
+        data: { reason },
+      });
+      return response;
+    } catch (error) {
+      console.error('Error anulando transacción:', error);
+      throw error;
+    }
   },
 
-  // ============ ESTADÍSTICAS ============
+  // ============================================
+  // ESTADÍSTICAS Y REPORTES
+  // ============================================
 
-  // TODO: Obtener estadísticas generales
+  /**
+   * Obtener estadísticas generales del sistema DUNAB
+   * @returns {Promise<object>} Estadísticas generales
+   */
   getGeneralStatistics: async () => {
-    // const response = await api.get('/dunab/statistics');
-    // return response.data;
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_STATISTICS);
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo estadísticas generales:', error);
+      throw error;
+    }
   },
 
-  // TODO: Obtener estadísticas por estudiante
+  /**
+   * Obtener estadísticas de un estudiante específico
+   * @param {number|string} studentId - ID del estudiante
+   * @returns {Promise<object>} Estadísticas del estudiante
+   */
   getStudentStatistics: async (studentId) => {
-    // const response = await api.get(`/dunab/statistics/${studentId}`);
-    // return response.data;
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_STUDENT_STATISTICS(studentId));
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo estadísticas del estudiante:', error);
+      throw error;
+    }
   },
 
-  // TODO: Generar reportes
+  /**
+   * Generar reporte de transacciones
+   * @param {object} reportParams - Parámetros del reporte (fechas, formato, etc.)
+   * @returns {Promise<blob|object>} Reporte generado
+   */
   generateReport: async (reportParams) => {
-    // const response = await api.get('/dunab/reports', { params: reportParams });
-    // return response.data;
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_REPORTS, {
+        params: reportParams,
+      });
+      return response;
+    } catch (error) {
+      console.error('Error generando reporte:', error);
+      throw error;
+    }
   },
 
-  // TODO: Obtener ranking de estudiantes
-  getRanking: async () => {
-    // const response = await api.get('/dunab/ranking');
-    // return response.data;
+  /**
+   * Obtener ranking de estudiantes por saldo DUNAB
+   * @param {number} limit - Número de estudiantes a mostrar
+   * @returns {Promise<array>} Lista ordenada de estudiantes
+   */
+  getRanking: async (limit = 10) => {
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_RANKING, {
+        params: { limit },
+      });
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo ranking:', error);
+      throw error;
+    }
   },
 
-  // ============ CATEGORÍAS ============
+  // ============================================
+  // CATEGORÍAS DE TRANSACCIONES
+  // ============================================
 
-  // TODO: Crear categoría
+  /**
+   * Crear una nueva categoría de transacción
+   * @param {object} categoryData - Datos de la categoría
+   * @returns {Promise<object>} Categoría creada
+   */
   createCategory: async (categoryData) => {
-    // const response = await api.post('/dunab/categories', categoryData);
-    // return response.data;
+    try {
+      const response = await api.post(API_ENDPOINTS.DUNAB_CATEGORIES, categoryData);
+      return response;
+    } catch (error) {
+      console.error('Error creando categoría:', error);
+      throw error;
+    }
   },
 
-  // TODO: Listar categorías
+  /**
+   * Listar todas las categorías
+   * @returns {Promise<array>} Lista de categorías
+   */
   getCategories: async () => {
-    // const response = await api.get('/dunab/categories');
-    // return response.data;
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_CATEGORIES);
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo categorías:', error);
+      throw error;
+    }
   },
 
-  // TODO: Actualizar categoría
+  /**
+   * Actualizar una categoría
+   * @param {number|string} categoryId - ID de la categoría
+   * @param {object} categoryData - Datos a actualizar
+   * @returns {Promise<object>} Categoría actualizada
+   */
   updateCategory: async (categoryId, categoryData) => {
-    // const response = await api.put(`/dunab/categories/${categoryId}`, categoryData);
-    // return response.data;
+    try {
+      const response = await api.put(
+        API_ENDPOINTS.DUNAB_CATEGORY(categoryId),
+        categoryData
+      );
+      return response;
+    } catch (error) {
+      console.error('Error actualizando categoría:', error);
+      throw error;
+    }
   },
 
-  // TODO: Eliminar categoría
+  /**
+   * Eliminar una categoría
+   * @param {number|string} categoryId - ID de la categoría
+   * @returns {Promise<void>}
+   */
   deleteCategory: async (categoryId) => {
-    // const response = await api.delete(`/dunab/categories/${categoryId}`);
-    // return response.data;
+    try {
+      const response = await api.delete(API_ENDPOINTS.DUNAB_CATEGORY(categoryId));
+      return response;
+    } catch (error) {
+      console.error('Error eliminando categoría:', error);
+      throw error;
+    }
   },
 };
 
