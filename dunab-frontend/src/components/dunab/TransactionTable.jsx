@@ -14,7 +14,16 @@ const TransactionTable = ({
   const [sortConfig, setSortConfig] = useState({ key: 'fecha', direction: 'desc' });
   const itemsPerPage = 10;
 
-  // Ordenar transacciones
+  /**
+   * NOTA: Este ordenamiento es solo para UX en tablas pequeñas.
+   * Para producción con muchos datos, esto debería:
+   * 1. Enviar sortBy y order al backend
+   * 2. El backend ordena en SQL
+   * 3. Implementar paginación real (no solo visual)
+   *
+   * Actual: Ordenamiento cliente - ACEPTABLE solo para conjuntos pequeños
+   * Ideal: GET /api/dunab/transactions?sortBy=fecha&order=desc&page=0
+   */
   const sortedTransactions = useMemo(() => {
     if (!transactions || transactions.length === 0) return [];
 

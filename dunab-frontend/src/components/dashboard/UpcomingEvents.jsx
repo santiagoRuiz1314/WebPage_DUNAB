@@ -14,7 +14,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
   const [error, setError] = useState(null);
 
   /**
-   * Cargar eventos próximos
+   * Cargar eventos próximos - DELEGA AL BACKEND
    */
   useEffect(() => {
     const fetchUpcomingEvents = async () => {
@@ -22,25 +22,11 @@ const UpcomingEvents = ({ limit = 3 }) => {
         setLoading(true);
         setError(null);
 
-        // Obtener todos los eventos y filtrar los próximos
-        const response = await eventService.getAllEvents();
-        const allEvents = response.content || response || [];
+        // EL BACKEND debe tener un endpoint específico para eventos próximos
+        // GET /api/events/upcoming?limit=3
+        const upcoming = await eventService.getUpcomingEvents(limit);
 
-        // Filtrar eventos próximos (fecha futura) y limitar
-        const now = new Date();
-        const upcoming = allEvents
-          .filter(event => {
-            const eventDate = new Date(event.fecha || event.date);
-            return eventDate > now && event.estado !== 'CANCELLED';
-          })
-          .sort((a, b) => {
-            const dateA = new Date(a.fecha || a.date);
-            const dateB = new Date(b.fecha || b.date);
-            return dateA - dateB;
-          })
-          .slice(0, limit);
-
-        setEvents(upcoming);
+        setEvents(upcoming || []);
       } catch (err) {
         console.error('Error fetching upcoming events:', err);
         setError('No se pudieron cargar los eventos');
