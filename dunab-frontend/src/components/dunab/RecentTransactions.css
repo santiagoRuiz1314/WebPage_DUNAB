@@ -1,0 +1,370 @@
+/* ============================================
+   RECENT TRANSACTIONS - Dashboard Component
+   Muestra transacciones recientes usando Stack (LIFO)
+   ============================================ */
+
+.recent-transactions {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.recent-transactions .transactions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.recent-transactions .transactions-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.recent-transactions .view-all-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.recent-transactions .view-all-link:hover {
+  color: var(--primary-dark);
+  transform: translateX(3px);
+}
+
+/* Lista de transacciones */
+.recent-transactions .transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+/* Scrollbar personalizado */
+.recent-transactions .transactions-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.recent-transactions .transactions-list::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.recent-transactions .transactions-list::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.recent-transactions .transactions-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* Item de transacción */
+.recent-transactions .transaction-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid transparent;
+  border-radius: var(--border-radius-md);
+  transition: all 0.3s ease;
+  align-items: center;
+}
+
+.recent-transactions .transaction-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+  background: var(--card-bg);
+}
+
+/* Colores según el tipo */
+.recent-transactions .transaction-item.transaction-success {
+  border-left-color: var(--success-color);
+}
+
+.recent-transactions .transaction-item.transaction-danger {
+  border-left-color: var(--danger-color);
+}
+
+.recent-transactions .transaction-item.transaction-info {
+  border-left-color: var(--info-color);
+}
+
+/* Icono de transacción */
+.recent-transactions .transaction-icon {
+  font-size: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-md);
+  background: var(--primary-light);
+  flex-shrink: 0;
+}
+
+/* Detalles de transacción */
+.recent-transactions .transaction-details {
+  min-width: 0; /* Para permitir text-overflow */
+}
+
+.recent-transactions .transaction-description {
+  font-size: 0.938rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-transactions .transaction-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.recent-transactions .transaction-category {
+  font-weight: 500;
+}
+
+.recent-transactions .transaction-separator {
+  color: var(--border-color);
+}
+
+.recent-transactions .transaction-date {
+  font-weight: 400;
+}
+
+/* Monto de transacción */
+.recent-transactions .transaction-amount {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 700;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.recent-transactions .amount-symbol {
+  font-size: 0.875rem;
+}
+
+.recent-transactions .amount-value {
+  font-size: 1rem;
+}
+
+.recent-transactions .amount-currency {
+  font-size: 0.813rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+/* Colores de montos */
+.recent-transactions .amount-success {
+  color: var(--success-color);
+}
+
+.recent-transactions .amount-danger {
+  color: var(--danger-color);
+}
+
+.recent-transactions .amount-info {
+  color: var(--info-color);
+}
+
+/* Footer */
+.recent-transactions .transactions-footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.recent-transactions .transactions-info {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Estado vacío */
+.recent-transactions .transactions-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.recent-transactions .transactions-empty p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.recent-transactions .transactions-empty span {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Estado de carga */
+.recent-transactions .transactions-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.recent-transactions .transaction-skeleton {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr 4rem;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius-md);
+  align-items: center;
+}
+
+.recent-transactions .skeleton-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-highlight) 50%,
+    var(--skeleton-base) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--border-radius-md);
+}
+
+.recent-transactions .skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.recent-transactions .skeleton-line {
+  height: 0.875rem;
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-highlight) 50%,
+    var(--skeleton-base) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--border-radius-sm);
+}
+
+.recent-transactions .skeleton-line.short {
+  width: 60%;
+}
+
+.recent-transactions .skeleton-amount {
+  width: 4rem;
+  height: 1rem;
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-highlight) 50%,
+    var(--skeleton-base) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--border-radius-sm);
+}
+
+/* Animación de skeleton */
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .recent-transactions {
+    padding: 1rem;
+  }
+
+  .recent-transactions .transactions-list {
+    max-height: 350px;
+  }
+
+  .recent-transactions .transaction-item {
+    padding: 0.875rem;
+    gap: 0.625rem;
+  }
+
+  .recent-transactions .transaction-icon {
+    font-size: 1.25rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .recent-transactions .transaction-description {
+    font-size: 0.875rem;
+  }
+
+  .recent-transactions .transaction-meta {
+    font-size: 0.688rem;
+  }
+
+  .recent-transactions .transaction-amount {
+    font-size: 0.938rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .recent-transactions .transactions-header h3 {
+    font-size: 1.125rem;
+  }
+
+  .recent-transactions .transaction-item {
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem;
+  }
+
+  .recent-transactions .transaction-amount {
+    grid-column: 2;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  .recent-transactions .transactions-empty {
+    padding: 2rem 1rem;
+  }
+}

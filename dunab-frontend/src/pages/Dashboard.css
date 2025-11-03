@@ -1,0 +1,445 @@
+/* ============================================
+   DASHBOARD - Página Principal
+   Sistema de Gestión de Dinero UNAB (DUNAB)
+   ============================================ */
+
+.dashboard {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+/* ============================================
+   HEADER DEL DASHBOARD
+   ============================================ */
+
+.dashboard-header {
+  margin-bottom: 2rem;
+  animation: fadeInDown 0.5s ease;
+}
+
+.dashboard-welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.dashboard-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ============================================
+   CONTENIDO DEL DASHBOARD
+   ============================================ */
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeInUp 0.6s ease;
+}
+
+/* Secciones del Dashboard */
+.dashboard-section {
+  width: 100%;
+}
+
+/* ============================================
+   GRIDS DEL DASHBOARD
+   ============================================ */
+
+/* Grid de 2 columnas */
+.dashboard-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+/* Items del grid */
+.grid-item {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   SECCIÓN DE ESTADÍSTICAS
+   ============================================ */
+
+.statistics-section {
+  animation: fadeInUp 0.7s ease;
+}
+
+/* ============================================
+   SECCIÓN DE GRÁFICO Y TRANSACCIONES
+   ============================================ */
+
+.chart-transactions-section {
+  animation: fadeInUp 0.8s ease;
+}
+
+.chart-item {
+  min-height: 400px;
+}
+
+.transactions-item {
+  min-height: 400px;
+}
+
+/* ============================================
+   SECCIÓN DE PROGRESO Y EVENTOS
+   ============================================ */
+
+.progress-events-section {
+  animation: fadeInUp 0.9s ease;
+}
+
+.academic-item {
+  min-height: 500px;
+}
+
+.events-item {
+  min-height: 400px;
+}
+
+/* ============================================
+   ACCIONES RÁPIDAS
+   ============================================ */
+
+.quick-actions-section {
+  animation: fadeInUp 1s ease;
+}
+
+.quick-actions-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.quick-actions-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.quick-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1rem;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.quick-action-btn:hover {
+  background: var(--card-bg);
+  border-color: var(--primary-color);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.quick-action-btn .action-icon {
+  font-size: 2rem;
+}
+
+.quick-action-btn .action-label {
+  font-size: 0.938rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ============================================
+   ESTADO DE CARGA
+   ============================================ */
+
+.dashboard-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets (hasta 992px) */
+@media (max-width: 992px) {
+  .dashboard {
+    padding: 1.5rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.75rem;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.938rem;
+  }
+
+  .dashboard-content {
+    gap: 1.5rem;
+  }
+
+  /* Grid de 2 columnas se mantiene en tablet */
+  .dashboard-grid-2col {
+    gap: 1rem;
+  }
+
+  .grid-item {
+    min-height: 250px;
+  }
+
+  .chart-item,
+  .transactions-item {
+    min-height: 350px;
+  }
+
+  .academic-item {
+    min-height: 450px;
+  }
+
+  .events-item {
+    min-height: 350px;
+  }
+
+  .quick-actions-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .quick-action-btn {
+    padding: 1.25rem 0.875rem;
+  }
+
+  .quick-action-btn .action-icon {
+    font-size: 1.75rem;
+  }
+}
+
+/* Móviles (hasta 768px) */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .dashboard-content {
+    gap: 1.25rem;
+  }
+
+  /* Grid cambia a 1 columna en móvil */
+  .dashboard-grid-2col {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .grid-item,
+  .chart-item,
+  .transactions-item,
+  .academic-item,
+  .events-item {
+    min-height: auto;
+  }
+
+  .quick-actions-card {
+    padding: 1rem;
+  }
+
+  .quick-actions-title {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .quick-action-btn {
+    padding: 1rem 0.75rem;
+  }
+
+  .quick-action-btn .action-icon {
+    font-size: 1.5rem;
+  }
+
+  .quick-action-btn .action-label {
+    font-size: 0.813rem;
+  }
+}
+
+/* Móviles pequeños (hasta 480px) */
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 0.875rem;
+  }
+
+  .dashboard-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.375rem;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.813rem;
+  }
+
+  .dashboard-content {
+    gap: 1rem;
+  }
+
+  .dashboard-grid-2col {
+    gap: 0.875rem;
+  }
+
+  .quick-actions-card {
+    padding: 0.875rem;
+  }
+
+  .quick-actions-title {
+    font-size: 1rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+    gap: 0.625rem;
+  }
+
+  .quick-action-btn {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 0.875rem 1rem;
+    gap: 1rem;
+  }
+
+  .quick-action-btn .action-icon {
+    font-size: 1.5rem;
+  }
+
+  .quick-action-btn .action-label {
+    font-size: 0.875rem;
+    text-align: left;
+  }
+}
+
+/* ============================================
+   MODO OSCURO
+   ============================================ */
+
+[data-theme="dark"] .dashboard {
+  background: var(--bg-primary);
+}
+
+[data-theme="dark"] .quick-action-btn {
+  background: var(--bg-tertiary);
+}
+
+[data-theme="dark"] .quick-action-btn:hover {
+  background: var(--card-bg);
+}
+
+/* ============================================
+   IMPRESIÓN
+   ============================================ */
+
+@media print {
+  .dashboard {
+    padding: 0;
+  }
+
+  .dashboard-content {
+    gap: 1rem;
+  }
+
+  .quick-actions-section {
+    display: none;
+  }
+
+  .dashboard-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}

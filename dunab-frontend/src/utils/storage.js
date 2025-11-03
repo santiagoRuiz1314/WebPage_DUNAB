@@ -230,4 +230,4 @@ export const getToken = getAuthToken;
 export const saveToken = setAuthToken;
 export const removeToken = removeAuthToken;
 export const saveUser = setUser;
-export { getUser, removeUser };
+// getUser y removeUser ya están exportados arriba

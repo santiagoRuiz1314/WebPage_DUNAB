@@ -1,0 +1,421 @@
+/* ============================================
+   ACADEMIC PROGRESS - Dashboard Component
+   Muestra progreso académico del estudiante
+   ============================================ */
+
+.academic-progress {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Header */
+.academic-progress .progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.academic-progress .progress-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.academic-progress .semester-badge {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-full);
+  font-size: 0.813rem;
+  font-weight: 600;
+}
+
+/* Progreso principal */
+.academic-progress .progress-main {
+  margin-bottom: 1.5rem;
+}
+
+.academic-progress .progress-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.academic-progress .progress-stats .stat {
+  text-align: center;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.academic-progress .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1;
+}
+
+.academic-progress .stat-label {
+  font-size: 0.813rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Barra de progreso */
+.academic-progress .progress-bar-container {
+  margin-top: 1.5rem;
+}
+
+.academic-progress .progress-bar-wrapper {
+  width: 100%;
+  height: 2rem;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.academic-progress .progress-bar {
+  height: 100%;
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 1rem;
+  transition: width 1s ease, background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.academic-progress .progress-bar-success {
+  background: linear-gradient(90deg, var(--success-color), var(--success-light));
+}
+
+.academic-progress .progress-bar-warning {
+  background: linear-gradient(90deg, var(--warning-color), var(--warning-light));
+}
+
+.academic-progress .progress-bar-info {
+  background: linear-gradient(90deg, var(--info-color), var(--info-light));
+}
+
+.academic-progress .progress-percentage {
+  color: white;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.academic-progress .progress-label {
+  text-align: center;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Resumen de materias */
+.academic-progress .courses-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.academic-progress .course-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius-md);
+  transition: all 0.3s ease;
+}
+
+.academic-progress .course-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.academic-progress .course-stat-icon {
+  font-size: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-md);
+  flex-shrink: 0;
+}
+
+.academic-progress .course-stat-icon.completed {
+  background: var(--success-light);
+}
+
+.academic-progress .course-stat-icon.in-progress {
+  background: var(--info-light);
+}
+
+.academic-progress .course-stat-icon.pending {
+  background: var(--warning-light);
+}
+
+.academic-progress .course-stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.academic-progress .course-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.academic-progress .course-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* GPA Section */
+.academic-progress .gpa-section {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.academic-progress .gpa-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.academic-progress .gpa-label {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.academic-progress .gpa-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+}
+
+/* Requisitos adicionales */
+.academic-progress .requirements-section {
+  margin-bottom: 1.5rem;
+}
+
+.academic-progress .requirements-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+}
+
+.academic-progress .requirements-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.academic-progress .requirement-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius-md);
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.academic-progress .requirement-item.completed {
+  border-left-color: var(--success-color);
+  background: var(--success-light);
+}
+
+.academic-progress .requirement-item.pending {
+  border-left-color: var(--warning-color);
+}
+
+.academic-progress .requirement-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.academic-progress .requirement-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Footer */
+.academic-progress .progress-footer {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.academic-progress .view-details-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: var(--border-radius-md);
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.academic-progress .view-details-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Estados de carga */
+.academic-progress .progress-loading {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.academic-progress .spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spinner-rotation 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+.academic-progress .progress-loading p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Estados de error y vacío */
+.academic-progress .progress-error,
+.academic-progress .progress-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+}
+
+.academic-progress .progress-error {
+  color: var(--danger-color);
+}
+
+/* Animación del spinner */
+@keyframes spinner-rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 992px) {
+  .academic-progress .progress-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .academic-progress .courses-summary {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .academic-progress .requirements-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .academic-progress {
+    padding: 1rem;
+  }
+
+  .academic-progress .progress-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .academic-progress .progress-stats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .academic-progress .progress-stats .stat {
+    padding: 0.875rem;
+  }
+
+  .academic-progress .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .academic-progress .courses-summary {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .academic-progress .course-stat {
+    padding: 0.875rem;
+  }
+
+  .academic-progress .gpa-badge {
+    padding: 0.875rem 1.5rem;
+  }
+
+  .academic-progress .gpa-value {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .academic-progress .progress-header h3 {
+    font-size: 1.125rem;
+  }
+
+  .academic-progress .progress-bar-wrapper {
+    height: 1.75rem;
+  }
+
+  .academic-progress .course-stat-value {
+    font-size: 1.25rem;
+  }
+
+  .academic-progress .requirement-item {
+    padding: 0.625rem 0.875rem;
+  }
+}
