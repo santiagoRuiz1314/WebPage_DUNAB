@@ -1,0 +1,76 @@
+{
+  "app": {
+    "title": "DUNAB - UNAB Money Management System",
+    "welcome": "Welcome"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "transactions": "Transactions",
+    "events": "Events",
+    "profile": "Profile",
+    "admin": "Administration",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "dunab": {
+    "balance": "DUNAB Balance",
+    "currentBalance": "Current Balance",
+    "totalEarned": "Total Earned",
+    "totalSpent": "Total Spent",
+    "recentTransactions": "Recent Transactions",
+    "transactionHistory": "Transaction History",
+    "createTransaction": "Create Transaction",
+    "transaction": "Transaction",
+    "amount": "Amount",
+    "type": "Type",
+    "category": "Category",
+    "description": "Description",
+    "date": "Date",
+    "status": "Status",
+    "income": "Income",
+    "expense": "Expense"
+  },
+  "events": {
+    "title": "Events",
+    "upcoming": "Upcoming Events",
+    "register": "Register",
+    "cost": "Cost",
+    "reward": "Reward",
+    "free": "Free"
+  },
+  "academic": {
+    "progress": "Academic Progress",
+    "credits": "Credits",
+    "completed": "Completed",
+    "remaining": "Remaining",
+    "courses": "Courses",
+    "graduationPath": "Graduation Path"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAsRead": "Mark as read",
+    "delete": "Delete",
+    "noNotifications": "You have no notifications"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}

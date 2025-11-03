@@ -1,0 +1,76 @@
+{
+  "app": {
+    "title": "DUNAB - Sistema de Gestión de Dinero UNAB",
+    "welcome": "Bienvenido"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "transactions": "Transacciones",
+    "events": "Eventos",
+    "profile": "Perfil",
+    "admin": "Administración",
+    "logout": "Cerrar Sesión"
+  },
+  "auth": {
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes cuenta?",
+    "hasAccount": "¿Ya tienes cuenta?"
+  },
+  "dunab": {
+    "balance": "Saldo DUNAB",
+    "currentBalance": "Saldo Actual",
+    "totalEarned": "Total Ganado",
+    "totalSpent": "Total Gastado",
+    "recentTransactions": "Transacciones Recientes",
+    "transactionHistory": "Historial de Transacciones",
+    "createTransaction": "Crear Transacción",
+    "transaction": "Transacción",
+    "amount": "Monto",
+    "type": "Tipo",
+    "category": "Categoría",
+    "description": "Descripción",
+    "date": "Fecha",
+    "status": "Estado",
+    "income": "Ingreso",
+    "expense": "Egreso"
+  },
+  "events": {
+    "title": "Eventos",
+    "upcoming": "Próximos Eventos",
+    "register": "Inscribirse",
+    "cost": "Costo",
+    "reward": "Recompensa",
+    "free": "Gratis"
+  },
+  "academic": {
+    "progress": "Progreso Académico",
+    "credits": "Créditos",
+    "completed": "Completados",
+    "remaining": "Restantes",
+    "courses": "Materias",
+    "graduationPath": "Camino a la Graduación"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "markAsRead": "Marcar como leída",
+    "delete": "Eliminar",
+    "noNotifications": "No tienes notificaciones"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  }
+}
