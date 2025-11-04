@@ -36,6 +36,8 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Login error:', error);
+      // Ensure user is logged out on failure
+      logout();
       throw error;
     }
   };
@@ -85,6 +87,8 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Registration error:', error);
+      // Ensure clean state on registration failure
+      logout();
       throw error;
     }
   };

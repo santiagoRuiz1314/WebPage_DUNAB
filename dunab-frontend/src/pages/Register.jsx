@@ -174,7 +174,7 @@ const Register = () => {
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
-          <h2 className="auth-title">Crear Cuenta</h2>
+          <h2 className="auth-title">{t('auth.createAccount')}</h2>
 
           {serverError && (
             <div className="alert alert-error" role="alert">
@@ -334,7 +334,7 @@ const Register = () => {
               className="btn btn-primary btn-block"
               disabled={loading}
             >
-              {loading ? 'Registrando...' : 'Registrarse'}
+              {loading ? t('common.loading') : t('auth.register')}
             </button>
           </div>
 
@@ -342,7 +342,7 @@ const Register = () => {
             <p>
               ¿Ya tienes una cuenta?{' '}
               <Link to="/login" className="auth-link">
-                Inicia sesión aquí
+                {t('auth.login')}
               </Link>
             </p>
           </div>

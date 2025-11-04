@@ -130,7 +130,7 @@ const Login = () => {
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
-          <h2 className="auth-title">Iniciar Sesión</h2>
+          <h2 className="auth-title">{t('auth.login')}</h2>
 
           {serverError && (
             <div className="alert alert-error" role="alert">
@@ -140,7 +140,7 @@ const Login = () => {
 
           <div className="form-group">
             <label htmlFor="email">
-              Correo Electrónico
+              {t('auth.email')}
               <span className="required">*</span>
             </label>
             <input
@@ -160,7 +160,7 @@ const Login = () => {
 
           <div className="form-group">
             <label htmlFor="password">
-              Contraseña
+              {t('auth.password')}
               <span className="required">*</span>
             </label>
             <div className="password-input-wrapper">
@@ -195,7 +195,7 @@ const Login = () => {
               className="btn btn-primary btn-block"
               disabled={loading}
             >
-              {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+              {loading ? t('common.loading') : t('auth.login')}
             </button>
           </div>
 
@@ -203,7 +203,7 @@ const Login = () => {
             <p>
               ¿No tienes una cuenta?{' '}
               <Link to="/register" className="auth-link">
-                Regístrate aquí
+                {t('auth.register')}
               </Link>
             </p>
           </div>
