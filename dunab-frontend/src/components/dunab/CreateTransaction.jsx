@@ -4,7 +4,7 @@ import { validateTransactionAmount, validateRequired } from '../../utils/validat
 import './CreateTransaction.css';
 
 const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'create' }) => {
-  const { createTransaction, updateTransaction, categories, loadCategories } = useDunab();
+  const { createTransaction, updateTransaction, categories, loadCategories, students, loadStudents } = useDunab();
 
   const [formData, setFormData] = useState({
     estudianteId: '',
@@ -18,6 +18,9 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [showStudentSearch, setShowStudentSearch] = useState(false);
+  const [studentSearchResults, setStudentSearchResults] = useState([]);
 
   // Cargar datos iniciales si es edición
   useEffect(() => {
@@ -33,12 +36,56 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
     }
   }, [mode, initialData]);
 
-  // Cargar categorías al montar
+  // Cargar categorías y estudiantes al montar
   useEffect(() => {
     if (loadCategories) {
       loadCategories();
     }
-  }, [loadCategories]);
+    if (loadStudents) {
+      loadStudents();
+    }
+  }, [loadCategories, loadStudents]);
+
+  // Buscar estudiantes cuando cambia el término de búsqueda
+  useEffect(() => {
+    if (!searchTerm || searchTerm.length < 2) {
+      setStudentSearchResults([]);
+      return;
+    }
+
+    // Filtrar estudiantes por código o nombre
+    if (students && students.length > 0) {
+      const results = students.filter(student =>
+        student.codigo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.email?.toLowerCase().includes(searchTerm.toLowerCase())
+      ).slice(0, 5); // Limitar a 5 resultados
+
+      setStudentSearchResults(results);
+    }
+  }, [searchTerm, students]);
+
+  // Calcular preview del saldo después de la transacción
+  const calculateBalancePreview = () => {
+    if (!selectedStudent || !formData.monto) {
+      return null;
+    }
+
+    const currentBalance = selectedStudent.saldoDunab || 0;
+    const amount = parseFloat(formData.monto) || 0;
+    const isDebit = formData.tipo === 'egreso' || formData.tipo === 'debito';
+
+    const newBalance = isDebit ? currentBalance - amount : currentBalance + amount;
+
+    return {
+      current: currentBalance,
+      change: isDebit ? -amount : amount,
+      new: newBalance,
+      insufficient: isDebit && newBalance < 0
+    };
+  };
+
+  const balancePreview = calculateBalancePreview();
 
   // Manejar cambios en los campos
   const handleChange = (e) => {
@@ -55,6 +102,18 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
         [name]: ''
       }));
     }
+  };
+
+  // Manejar selección de estudiante
+  const handleSelectStudent = (student) => {
+    setSelectedStudent(student);
+    setFormData(prev => ({
+      ...prev,
+      estudianteId: student.id || student.codigo
+    }));
+    setSearchTerm(student.nombre || student.codigo);
+    setShowStudentSearch(false);
+    setStudentSearchResults([]);
   };
 
   // Validar formulario
@@ -75,8 +134,19 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
       newErrors.monto = 'El monto debe ser mayor a 0';
     }
 
+    // Validar saldo suficiente para débitos
+    if (balancePreview && balancePreview.insufficient) {
+      newErrors.monto = 'Saldo insuficiente para esta transacción';
+    }
+
     if (!validateRequired(formData.descripcion)) {
       newErrors.descripcion = 'La descripción es requerida';
+    } else if (formData.descripcion.length < 10) {
+      newErrors.descripcion = 'La descripción debe tener al menos 10 caracteres';
+    }
+
+    if (!validateRequired(formData.categoria)) {
+      newErrors.categoria = 'La categoría es requerida';
     }
 
     setErrors(newErrors);
@@ -163,21 +233,76 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
         )}
 
         <div className="form-grid">
-          {/* ID del Estudiante */}
-          <div className="form-field">
-            <label htmlFor="estudianteId">
-              👤 ID del Estudiante <span className="required">*</span>
+          {/* Buscador de Estudiante */}
+          <div className="form-field form-field-full">
+            <label htmlFor="studentSearch">
+              👤 Buscar Estudiante <span className="required">*</span>
             </label>
-            <input
-              type="text"
-              id="estudianteId"
-              name="estudianteId"
-              value={formData.estudianteId}
-              onChange={handleChange}
-              placeholder="Ej: 123456"
-              className={errors.estudianteId ? 'error' : ''}
-              disabled={mode === 'edit'}
-            />
+            <div className="student-search-container">
+              <input
+                type="text"
+                id="studentSearch"
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setShowStudentSearch(true);
+                }}
+                onFocus={() => setShowStudentSearch(true)}
+                placeholder="Buscar por código, nombre o email..."
+                className={errors.estudianteId ? 'error' : ''}
+                disabled={mode === 'edit'}
+                autoComplete="off"
+              />
+
+              {/* Resultados de búsqueda */}
+              {showStudentSearch && studentSearchResults.length > 0 && (
+                <div className="student-search-results">
+                  {studentSearchResults.map((student) => (
+                    <div
+                      key={student.id || student.codigo}
+                      className="student-result-item"
+                      onClick={() => handleSelectStudent(student)}
+                    >
+                      <div className="student-info">
+                        <span className="student-name">
+                          {student.nombre || 'Sin nombre'}
+                        </span>
+                        <span className="student-code">
+                          Código: {student.codigo || 'N/A'}
+                        </span>
+                      </div>
+                      <div className="student-balance">
+                        {student.saldoDunab !== undefined ? (
+                          <span className="balance-amount">
+                            {student.saldoDunab.toFixed(2)} D
+                          </span>
+                        ) : (
+                          <span className="balance-unknown">N/A</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Mostrar estudiante seleccionado */}
+              {selectedStudent && (
+                <div className="selected-student-info">
+                  <div className="student-details">
+                    <span className="detail-label">Estudiante:</span>
+                    <span className="detail-value">
+                      {selectedStudent.nombre} ({selectedStudent.codigo})
+                    </span>
+                  </div>
+                  <div className="student-details">
+                    <span className="detail-label">Saldo actual:</span>
+                    <span className="detail-value balance">
+                      {(selectedStudent.saldoDunab || 0).toFixed(2)} DUNAB
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
             {errors.estudianteId && (
               <span className="field-error">{errors.estudianteId}</span>
             )}
@@ -229,13 +354,14 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Categoría */}
           <div className="form-field">
             <label htmlFor="categoria">
-              🏷️ Categoría
+              🏷️ Categoría <span className="required">*</span>
             </label>
             <select
               id="categoria"
               name="categoria"
               value={formData.categoria}
               onChange={handleChange}
+              className={errors.categoria ? 'error' : ''}
             >
               <option value="">Seleccionar categoría...</option>
               {categories && categories.map((cat) => (
@@ -244,7 +370,49 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
                 </option>
               ))}
             </select>
+            {errors.categoria && (
+              <span className="field-error">{errors.categoria}</span>
+            )}
           </div>
+
+          {/* Preview del saldo después de la transacción */}
+          {balancePreview && (
+            <div className="form-field form-field-full">
+              <div className={`balance-preview ${balancePreview.insufficient ? 'insufficient' : ''}`}>
+                <h4 className="preview-title">
+                  💡 Preview de Saldo
+                </h4>
+                <div className="preview-content">
+                  <div className="preview-row">
+                    <span className="preview-label">Saldo actual:</span>
+                    <span className="preview-value">
+                      {balancePreview.current.toFixed(2)} DUNAB
+                    </span>
+                  </div>
+                  <div className="preview-row">
+                    <span className="preview-label">
+                      {balancePreview.change >= 0 ? 'Se agregará:' : 'Se debitará:'}
+                    </span>
+                    <span className={`preview-value ${balancePreview.change >= 0 ? 'positive' : 'negative'}`}>
+                      {balancePreview.change >= 0 ? '+' : ''}
+                      {balancePreview.change.toFixed(2)} DUNAB
+                    </span>
+                  </div>
+                  <div className="preview-row preview-total">
+                    <span className="preview-label">Nuevo saldo:</span>
+                    <span className={`preview-value ${balancePreview.insufficient ? 'error' : 'success'}`}>
+                      {balancePreview.new.toFixed(2)} DUNAB
+                    </span>
+                  </div>
+                  {balancePreview.insufficient && (
+                    <div className="preview-warning">
+                      ⚠️ Saldo insuficiente para realizar esta transacción
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Descripción */}
           <div className="form-field form-field-full">

@@ -1,0 +1,647 @@
+/* ============================================
+   GRADUATION PATH COMPONENT
+   Camino visual hacia la graduación con timeline
+   ============================================ */
+
+.graduation-path {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+}
+
+/* ============================================
+   LOADING & ERROR STATES
+   ============================================ */
+
+.path-loading,
+.path-error,
+.path-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.path-loading .spinner {
+  width: 4rem;
+  height: 4rem;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spinner-rotation 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+@keyframes spinner-rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.path-loading p,
+.path-empty p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.path-error {
+  color: var(--danger-color);
+}
+
+.error-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.path-header {
+  margin-bottom: 2rem;
+}
+
+.path-title h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.path-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0 0 1.5rem 0;
+}
+
+/* Summary Cards */
+.path-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.summary-card {
+  background: var(--bg-secondary);
+  padding: 1.25rem;
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.summary-label {
+  display: block;
+  font-size: 0.813rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.summary-value {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.summary-value.primary {
+  color: var(--primary-color);
+}
+
+.summary-value.warning {
+  color: var(--warning-color);
+}
+
+.summary-value.success {
+  color: var(--success-color);
+}
+
+.summary-value.info {
+  color: var(--info-color);
+}
+
+/* ============================================
+   PROGRESS SECTION
+   ============================================ */
+
+.path-progress-section {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  padding: 1.5rem;
+  border-radius: var(--border-radius-lg);
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.progress-text,
+.progress-percentage-text {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.progress-percentage-text {
+  font-size: 1.5rem;
+}
+
+.progress-bar-wrapper {
+  width: 100%;
+  height: 2.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success-color), var(--success-light));
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 1rem;
+  transition: width 1.5s ease;
+  position: relative;
+}
+
+.progress-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: progress-shimmer 2s infinite;
+}
+
+@keyframes progress-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ============================================
+   TIMELINE & MILESTONES
+   ============================================ */
+
+.milestones-section {
+  margin-bottom: 2rem;
+}
+
+.milestones-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2rem 0;
+  text-align: center;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 3rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+/* Timeline Connector Line */
+.timeline-connector {
+  position: absolute;
+  left: 1.25rem;
+  top: 3rem;
+  width: 3px;
+  height: calc(100% + 1rem);
+  background: var(--border-color);
+  transition: background 0.3s ease;
+}
+
+.timeline-item.completed .timeline-connector {
+  background: var(--success-color);
+}
+
+.timeline-item.in-progress .timeline-connector {
+  background: linear-gradient(to bottom, var(--success-color), var(--warning-color));
+}
+
+/* Timeline Marker (Circle with Icon) */
+.timeline-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--card-bg);
+  border: 3px solid var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.timeline-item.completed .timeline-marker {
+  border-color: var(--success-color);
+  background: var(--success-light);
+}
+
+.timeline-item.in-progress .timeline-marker {
+  border-color: var(--warning-color);
+  background: var(--warning-light);
+  animation: pulse-marker 2s infinite;
+}
+
+.timeline-item.pending .timeline-marker {
+  border-color: var(--border-color);
+  background: var(--bg-secondary);
+}
+
+@keyframes pulse-marker {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--warning-color);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+.milestone-icon {
+  font-size: 1.25rem;
+}
+
+.milestone-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  border: 2px solid var(--warning-color);
+  animation: pulse-ring 2s infinite;
+  opacity: 0;
+}
+
+.timeline-item.in-progress .milestone-pulse {
+  display: block;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Timeline Content */
+.timeline-content {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-md);
+  border-left: 4px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.timeline-item.completed .timeline-content {
+  border-left-color: var(--success-color);
+}
+
+.timeline-item.in-progress .timeline-content {
+  border-left-color: var(--warning-color);
+  box-shadow: 0 0 0 4px var(--warning-light);
+}
+
+.timeline-content:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+.milestone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.milestone-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.milestone-semester {
+  font-size: 0.813rem;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-full);
+}
+
+.milestone-description {
+  font-size: 0.938rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+.milestone-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.milestone-date {
+  font-size: 0.813rem;
+  color: var(--text-secondary);
+}
+
+.milestone-badge {
+  padding: 0.375rem 0.875rem;
+  border-radius: var(--border-radius-full);
+  font-size: 0.813rem;
+  font-weight: 600;
+}
+
+.milestone-badge.completed {
+  background: var(--success-light);
+  color: var(--success-dark);
+}
+
+.milestone-badge.in-progress {
+  background: var(--warning-light);
+  color: var(--warning-dark);
+}
+
+.milestone-badge.pending {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   REQUIREMENTS SECTION
+   ============================================ */
+
+.pending-requirements-section {
+  margin-bottom: 2rem;
+}
+
+.requirements-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1.5rem 0;
+}
+
+.requirements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.requirement-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius-md);
+  border-left: 4px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.requirement-card.completed {
+  border-left-color: var(--success-color);
+  background: var(--success-light);
+}
+
+.requirement-card.pending {
+  border-left-color: var(--warning-color);
+}
+
+.requirement-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.requirement-icon-wrapper {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--border-radius-md);
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.requirement-card.completed .requirement-icon-wrapper {
+  background: var(--success-color);
+}
+
+.requirement-icon {
+  font-size: 1.5rem;
+}
+
+.requirement-content {
+  flex: 1;
+}
+
+.requirement-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.requirement-status {
+  font-size: 0.813rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.requirement-card.completed .requirement-status {
+  color: var(--success-dark);
+  font-weight: 600;
+}
+
+/* ============================================
+   MOTIVATIONAL MESSAGE
+   ============================================ */
+
+.motivational-message {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-lg);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: var(--shadow-lg);
+  animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.message-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1200px) {
+  .path-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .requirements-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .graduation-path {
+    padding: 1.5rem;
+  }
+
+  .path-title h2 {
+    font-size: 1.5rem;
+  }
+
+  .path-summary {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .summary-card {
+    padding: 1rem;
+  }
+
+  .summary-value {
+    font-size: 1.5rem;
+  }
+
+  .timeline {
+    padding-left: 2.5rem;
+  }
+
+  .timeline-marker {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .milestone-icon {
+    font-size: 1rem;
+  }
+
+  .timeline-content {
+    padding: 1rem;
+  }
+
+  .milestone-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .milestone-title {
+    font-size: 1rem;
+  }
+
+  .requirements-grid {
+    gap: 0.75rem;
+  }
+
+  .requirement-card {
+    padding: 1rem;
+  }
+
+  .requirement-icon-wrapper {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .requirement-icon {
+    font-size: 1.25rem;
+  }
+
+  .motivational-message {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .message-icon {
+    font-size: 1.5rem;
+  }
+
+  .message-text {
+    font-size: 0.938rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .path-title h2 {
+    font-size: 1.25rem;
+  }
+
+  .path-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .milestones-title {
+    font-size: 1.25rem;
+  }
+
+  .summary-value {
+    font-size: 1.25rem;
+  }
+
+  .summary-label {
+    font-size: 0.75rem;
+  }
+}

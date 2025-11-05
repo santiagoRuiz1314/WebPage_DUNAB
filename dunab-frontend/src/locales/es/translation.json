@@ -21,7 +21,9 @@
     "error": "Error",
     "success": "Éxito",
     "warning": "Advertencia",
-    "info": "Información"
+    "info": "Información",
+    "actions": "Acciones",
+    "current": "Actual"
   },
   "auth": {
     "login": "Iniciar Sesión",
@@ -174,7 +176,16 @@
     "studentInfo": "Información de Estudiante",
     "program": "Programa",
     "semester": "Semestre",
-    "credits": "Créditos"
+    "credits": "Créditos",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "role": "Rol",
+    "emailNotEditable": "El email no puede ser modificado",
+    "showPasswords": "Mostrar contraseñas",
+    "themeDescription": "Cambia entre modo claro y oscuro",
+    "languageDescription": "Selecciona tu idioma preferido",
+    "notificationsDescription": "Recibe notificaciones de movimientos DUNAB",
+    "emailNotificationsDescription": "Recibe notificaciones por correo electrónico"
   },
   "academic": {
     "title": "Académico",
@@ -214,7 +225,20 @@
     "totalUsers": "Total de Usuarios",
     "totalTransactions": "Total de Transacciones",
     "totalEvents": "Total de Eventos",
-    "systemHealth": "Estado del Sistema"
+    "systemHealth": "Estado del Sistema",
+    "userUpdated": "Usuario actualizado exitosamente",
+    "userCreated": "Usuario creado exitosamente",
+    "userDeleted": "Usuario eliminado exitosamente",
+    "confirmDeleteUser": "¿Está seguro de eliminar este usuario?",
+    "eventUpdated": "Evento actualizado exitosamente",
+    "eventCreated": "Evento creado exitosamente",
+    "eventDeleted": "Evento eliminado exitosamente",
+    "confirmDeleteEvent": "¿Está seguro de eliminar este evento?",
+    "reportType": "Tipo de Reporte",
+    "generateReport": "Generar Reporte",
+    "reportResults": "Resultados del Reporte",
+    "recentActivityPlaceholder": "Actividad reciente del sistema aparecerá aquí",
+    "quickActions": "Acciones Rápidas"
   },
   "notifications": {
     "title": "Notificaciones",

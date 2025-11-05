@@ -10,6 +10,7 @@ import Register from '../pages/Register';
 import Profile from '../pages/Profile';
 import Transactions from '../pages/Transactions';
 import Events from '../pages/Events';
+import Academic from '../pages/Academic';
 import AdminPanel from '../pages/AdminPanel';
 import NotFound from '../pages/NotFound';
 
@@ -58,6 +59,16 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <Events />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/academic"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Academic />
               </Layout>
             </ProtectedRoute>
           }

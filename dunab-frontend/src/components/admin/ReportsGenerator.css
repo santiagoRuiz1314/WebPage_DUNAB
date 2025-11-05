@@ -1,0 +1,68 @@
+.reports-generator {
+  padding: 20px;
+}
+
+.report-controls {
+  background: var(--card-background);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.report-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--input-background);
+  color: var(--text-primary);
+}
+
+.filters-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.action-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.report-results {
+  background: var(--card-background);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.report-content {
+  background: var(--background);
+  padding: 15px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.report-content pre {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: 'Courier New', monospace;
+}

@@ -25,6 +25,12 @@ const Sidebar = ({ isOpen }) => {
       roles: ['STUDENT', 'ADMIN', 'COORDINATOR'],
     },
     {
+      path: '/academic',
+      icon: '🎓',
+      label: 'Académico',
+      roles: ['STUDENT', 'ADMIN', 'COORDINATOR'],
+    },
+    {
       path: '/profile',
       icon: '👤',
       label: 'Mi Perfil',

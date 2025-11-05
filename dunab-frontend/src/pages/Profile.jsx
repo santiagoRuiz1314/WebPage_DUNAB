@@ -1,23 +1,67 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
+import { useDunab } from '../context/DunabContext';
+import ProfileForm from '../components/profile/ProfileForm';
+import PasswordChange from '../components/profile/PasswordChange';
+import PreferencesPanel from '../components/profile/PreferencesPanel';
+import StatCard from '../components/shared/StatCard';
+import DunabAmount from '../components/shared/DunabAmount';
+import './Profile.css';
 
 const Profile = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
+  const { balance } = useDunab();
 
   return (
     <div className="profile-page">
-      <h1>👤 Mi Perfil</h1>
-      <div className="dashboard-card">
-        <h3>Información Personal</h3>
-        <div style={{ marginTop: '20px' }}>
-          <p><strong>Nombre:</strong> {user?.firstName} {user?.lastName}</p>
-          <p><strong>Email:</strong> {user?.email}</p>
-          <p><strong>Código:</strong> {user?.studentCode}</p>
-          <p><strong>Rol:</strong> {user?.role}</p>
+      <div className="profile-header">
+        <div className="profile-avatar">
+          <div className="avatar-circle">
+            {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
+          </div>
         </div>
-        <p style={{ marginTop: '20px', color: 'var(--text-secondary)' }}>
-          Próximamente: Edición de perfil y configuración de cuenta
-        </p>
+        <div className="profile-header-info">
+          <h1>{user?.firstName} {user?.lastName}</h1>
+          <p className="user-email">{user?.email}</p>
+          <div className="user-badges">
+            <span className="badge-role">{user?.role}</span>
+            <span className="badge-code">{user?.studentCode}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="profile-stats">
+        <StatCard
+          title={t('dunab.currentBalance')}
+          value={<DunabAmount amount={balance?.current || 0} />}
+          icon="💰"
+        />
+        <StatCard
+          title={t('dunab.totalEarned')}
+          value={<DunabAmount amount={balance?.totalEarned || 0} />}
+          icon="📈"
+        />
+        <StatCard
+          title={t('dunab.totalSpent')}
+          value={<DunabAmount amount={balance?.totalSpent || 0} />}
+          icon="💸"
+        />
+      </div>
+
+      <div className="profile-content">
+        <div className="profile-section">
+          <ProfileForm />
+        </div>
+
+        <div className="profile-section">
+          <PasswordChange />
+        </div>
+
+        <div className="profile-section">
+          <PreferencesPanel />
+        </div>
       </div>
     </div>
   );

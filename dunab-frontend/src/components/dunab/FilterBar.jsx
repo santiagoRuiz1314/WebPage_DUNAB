@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './FilterBar.css';
 
 const FilterBar = ({
-  onFilter,
+  filters: externalFilters,
+  onFilterChange,
+  onClearFilters,
+  resultCount = 0,
   categories = [],
   showCategoryFilter = true,
   showTypeFilter = true,
@@ -10,82 +13,101 @@ const FilterBar = ({
   showStatusFilter = true,
   showSearchFilter = true
 }) => {
-  const [filters, setFilters] = useState({
-    searchTerm: '',
-    tipo: '',
-    categoria: '',
-    estado: '',
-    fechaInicio: '',
-    fechaFin: ''
-  });
-
   const [isExpanded, setIsExpanded] = useState(true);
+
+  // Usar filtros externos si se proporcionan
+  const filters = externalFilters || {
+    searchTerm: '',
+    type: 'all',
+    category: 'all',
+    status: 'all',
+    dateFrom: '',
+    dateTo: ''
+  };
 
   // Tipos de transacción
   const tipos = [
-    { value: '', label: 'Todos los tipos' },
+    { value: 'all', label: 'Todos los tipos' },
     { value: 'ingreso', label: 'Ingresos' },
-    { value: 'credito', label: 'Créditos' },
-    { value: 'egreso', label: 'Egresos' },
-    { value: 'debito', label: 'Débitos' }
+    { value: 'egreso', label: 'Egresos' }
   ];
 
   // Estados de transacción
   const estados = [
-    { value: '', label: 'Todos los estados' },
+    { value: 'all', label: 'Todos los estados' },
     { value: 'activa', label: 'Activa' },
     { value: 'completada', label: 'Completada' },
     { value: 'pendiente', label: 'Pendiente' },
     { value: 'anulada', label: 'Anulada' }
   ];
 
+  // Categorías predefinidas si no se proporcionan
+  const defaultCategories = [
+    'Académico',
+    'Evento',
+    'Servicio',
+    'Recompensa',
+    'Compra',
+    'Otro'
+  ];
+
+  const availableCategories = categories.length > 0 ? categories : defaultCategories;
+
   // Manejar cambios en los filtros
   const handleFilterChange = (field, value) => {
-    setFilters(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    if (onFilterChange) {
+      onFilterChange({ [field]: value });
+    }
   };
 
-  // Aplicar filtros cuando cambien
-  useEffect(() => {
-    if (onFilter) {
-      onFilter(filters);
-    }
-  }, [filters, onFilter]);
-
   // Limpiar todos los filtros
-  const handleClearFilters = () => {
-    const clearedFilters = {
-      searchTerm: '',
-      tipo: '',
-      categoria: '',
-      estado: '',
-      fechaInicio: '',
-      fechaFin: ''
-    };
-    setFilters(clearedFilters);
+  const handleClearAll = () => {
+    if (onClearFilters) {
+      onClearFilters();
+    }
   };
 
   // Verificar si hay filtros activos
-  const hasActiveFilters = Object.values(filters).some(value => value !== '');
+  const hasActiveFilters =
+    (filters.searchTerm && filters.searchTerm !== '') ||
+    (filters.type && filters.type !== 'all') ||
+    (filters.category && filters.category !== 'all') ||
+    (filters.status && filters.status !== 'all') ||
+    (filters.dateFrom && filters.dateFrom !== '') ||
+    (filters.dateTo && filters.dateTo !== '');
+
+  const activeFiltersCount = [
+    filters.searchTerm,
+    filters.type !== 'all' ? filters.type : '',
+    filters.category !== 'all' ? filters.category : '',
+    filters.status !== 'all' ? filters.status : '',
+    filters.dateFrom,
+    filters.dateTo
+  ].filter(v => v && v !== '' && v !== 'all').length;
 
   return (
     <div className="filter-bar">
       <div className="filter-header">
-        <h3 className="filter-title">
-          🔍 Filtros
-          {hasActiveFilters && (
-            <span className="active-filters-badge">
-              {Object.values(filters).filter(v => v !== '').length}
+        <div className="filter-title-section">
+          <h3 className="filter-title">
+            🔍 Filtros
+            {hasActiveFilters && (
+              <span className="active-filters-badge">
+                {activeFiltersCount}
+              </span>
+            )}
+          </h3>
+          {resultCount !== undefined && (
+            <span className="result-count">
+              {resultCount} resultado{resultCount !== 1 ? 's' : ''}
             </span>
           )}
-        </h3>
+        </div>
         <div className="filter-header-actions">
           {hasActiveFilters && (
             <button
               className="btn-clear-filters"
-              onClick={handleClearFilters}
+              onClick={handleClearAll}
               title="Limpiar filtros"
             >
               ✕ Limpiar
@@ -122,11 +144,11 @@ const FilterBar = ({
             {/* Filtro por tipo */}
             {showTypeFilter && (
               <div className="filter-field">
-                <label htmlFor="tipo">📊 Tipo</label>
+                <label htmlFor="type">📊 Tipo</label>
                 <select
-                  id="tipo"
-                  value={filters.tipo}
-                  onChange={(e) => handleFilterChange('tipo', e.target.value)}
+                  id="type"
+                  value={filters.type || 'all'}
+                  onChange={(e) => handleFilterChange('type', e.target.value)}
                   className="filter-select"
                 >
                   {tipos.map(tipo => (
@@ -141,15 +163,15 @@ const FilterBar = ({
             {/* Filtro por categoría */}
             {showCategoryFilter && (
               <div className="filter-field">
-                <label htmlFor="categoria">🏷️ Categoría</label>
+                <label htmlFor="category">🏷️ Categoría</label>
                 <select
-                  id="categoria"
-                  value={filters.categoria}
-                  onChange={(e) => handleFilterChange('categoria', e.target.value)}
+                  id="category"
+                  value={filters.category || 'all'}
+                  onChange={(e) => handleFilterChange('category', e.target.value)}
                   className="filter-select"
                 >
-                  <option value="">Todas las categorías</option>
-                  {categories.map(cat => (
+                  <option value="all">Todas las categorías</option>
+                  {availableCategories.map(cat => (
                     <option key={cat.id || cat} value={cat.nombre || cat}>
                       {cat.nombre || cat}
                     </option>
@@ -161,11 +183,11 @@ const FilterBar = ({
             {/* Filtro por estado */}
             {showStatusFilter && (
               <div className="filter-field">
-                <label htmlFor="estado">✅ Estado</label>
+                <label htmlFor="status">✅ Estado</label>
                 <select
-                  id="estado"
-                  value={filters.estado}
-                  onChange={(e) => handleFilterChange('estado', e.target.value)}
+                  id="status"
+                  value={filters.status || 'all'}
+                  onChange={(e) => handleFilterChange('status', e.target.value)}
                   className="filter-select"
                 >
                   {estados.map(estado => (
@@ -180,12 +202,12 @@ const FilterBar = ({
             {/* Filtro por fecha de inicio */}
             {showDateFilter && (
               <div className="filter-field">
-                <label htmlFor="fechaInicio">📅 Desde</label>
+                <label htmlFor="dateFrom">📅 Desde</label>
                 <input
                   type="date"
-                  id="fechaInicio"
-                  value={filters.fechaInicio}
-                  onChange={(e) => handleFilterChange('fechaInicio', e.target.value)}
+                  id="dateFrom"
+                  value={filters.dateFrom || ''}
+                  onChange={(e) => handleFilterChange('dateFrom', e.target.value)}
                   className="filter-input"
                 />
               </div>
@@ -194,14 +216,14 @@ const FilterBar = ({
             {/* Filtro por fecha fin */}
             {showDateFilter && (
               <div className="filter-field">
-                <label htmlFor="fechaFin">📅 Hasta</label>
+                <label htmlFor="dateTo">📅 Hasta</label>
                 <input
                   type="date"
-                  id="fechaFin"
-                  value={filters.fechaFin}
-                  onChange={(e) => handleFilterChange('fechaFin', e.target.value)}
+                  id="dateTo"
+                  value={filters.dateTo || ''}
+                  onChange={(e) => handleFilterChange('dateTo', e.target.value)}
                   className="filter-input"
-                  min={filters.fechaInicio}
+                  min={filters.dateFrom}
                 />
               </div>
             )}
@@ -218,61 +240,67 @@ const FilterBar = ({
                     <button
                       onClick={() => handleFilterChange('searchTerm', '')}
                       className="remove-filter"
+                      title="Quitar este filtro"
                     >
                       ✕
                     </button>
                   </span>
                 )}
-                {filters.tipo && (
+                {filters.type && filters.type !== 'all' && (
                   <span className="filter-tag">
-                    Tipo: {tipos.find(t => t.value === filters.tipo)?.label}
+                    Tipo: {tipos.find(t => t.value === filters.type)?.label}
                     <button
-                      onClick={() => handleFilterChange('tipo', '')}
+                      onClick={() => handleFilterChange('type', 'all')}
                       className="remove-filter"
+                      title="Quitar este filtro"
                     >
                       ✕
                     </button>
                   </span>
                 )}
-                {filters.categoria && (
+                {filters.category && filters.category !== 'all' && (
                   <span className="filter-tag">
-                    Categoría: {filters.categoria}
+                    Categoría: {filters.category}
                     <button
-                      onClick={() => handleFilterChange('categoria', '')}
+                      onClick={() => handleFilterChange('category', 'all')}
                       className="remove-filter"
+                      title="Quitar este filtro"
                     >
                       ✕
                     </button>
                   </span>
                 )}
-                {filters.estado && (
+                {filters.status && filters.status !== 'all' && (
                   <span className="filter-tag">
-                    Estado: {estados.find(e => e.value === filters.estado)?.label}
+                    Estado: {estados.find(e => e.value === filters.status)?.label}
                     <button
-                      onClick={() => handleFilterChange('estado', '')}
+                      onClick={() => handleFilterChange('status', 'all')}
                       className="remove-filter"
+                      title="Quitar este filtro"
                     >
                       ✕
                     </button>
                   </span>
                 )}
-                {filters.fechaInicio && (
+                {filters.dateFrom && (
                   <span className="filter-tag">
-                    Desde: {filters.fechaInicio}
+                    Desde: {filters.dateFrom}
                     <button
-                      onClick={() => handleFilterChange('fechaInicio', '')}
+                      onClick={() => handleFilterChange('dateFrom', '')}
                       className="remove-filter"
+                      title="Quitar este filtro"
                     >
                       ✕
                     </button>
                   </span>
                 )}
-                {filters.fechaFin && (
+                {filters.dateTo && (
                   <span className="filter-tag">
-                    Hasta: {filters.fechaFin}
+                    Hasta: {filters.dateTo}
                     <button
-                      onClick={() => handleFilterChange('fechaFin', '')}
+                      onClick={() => handleFilterChange('dateTo', '')}
                       className="remove-filter"
+                      title="Quitar este filtro"
                     >
                       ✕
                     </button>
