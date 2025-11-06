@@ -1,41 +1,41 @@
 import api from './api';
 
 const studentService = {
-  // TODO: Crear estudiante
+  // Crear estudiante
   createStudent: async (studentData) => {
-    // const response = await api.post('/students', studentData);
-    // return response.data;
+    const response = await api.post('/students', studentData);
+    return response;
   },
 
-  // TODO: Listar estudiantes
+  // Listar estudiantes
   getAllStudents: async (page = 0, size = 10) => {
-    // const response = await api.get('/students', { params: { page, size } });
-    // return response.data;
+    const response = await api.get('/students', { params: { page, size } });
+    return response;
   },
 
-  // TODO: Obtener estudiante por ID
+  // Obtener estudiante por ID
   getStudent: async (studentId) => {
-    // const response = await api.get(`/students/${studentId}`);
-    // return response.data;
+    const response = await api.get(`/students/${studentId}`);
+    return response;
   },
 
-  // TODO: Actualizar estudiante
+  // Actualizar estudiante
   updateStudent: async (studentId, studentData) => {
-    // const response = await api.put(`/students/${studentId}`, studentData);
-    // return response.data;
+    const response = await api.put(`/students/${studentId}`, studentData);
+    return response;
   },
 
-  // TODO: Eliminar estudiante
+  // Eliminar estudiante
   deleteStudent: async (studentId) => {
-    // const response = await api.delete(`/students/${studentId}`);
-    // return response.data;
+    const response = await api.delete(`/students/${studentId}`);
+    return response;
   },
 
   // Obtener progreso académico
   getAcademicProgress: async (studentId) => {
     try {
       const response = await api.get(`/students/${studentId}/progress`);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching academic progress:', error);
       // Datos mock para desarrollo

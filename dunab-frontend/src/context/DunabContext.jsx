@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import dunabService from '../services/dunabService';
+import categoryService from '../services/categoryService';
+import studentService from '../services/studentService';
 import { useAuth } from './AuthContext';
 import { MAX_RECENT_TRANSACTIONS } from '../utils/constants';
 
@@ -12,6 +14,7 @@ export const DunabProvider = ({ children }) => {
   const [recentTransactions, setRecentTransactions] = useState([]); // Stack - LIFO
   const [statistics, setStatistics] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -204,6 +207,67 @@ export const DunabProvider = ({ children }) => {
   };
 
   /**
+   * Cargar lista de estudiantes (para admin)
+   */
+  const loadStudents = async (page = 0, size = 50) => {
+    try {
+      const response = await studentService.getAllStudents(page, size);
+      const studentList = response.content || response || [];
+      setStudents(studentList);
+      return studentList;
+    } catch (err) {
+      console.error('Error loading students:', err);
+      return [];
+    }
+  };
+
+  /**
+   * Alias para compatibilidad - loadCategories
+   */
+  const loadCategories = fetchCategories;
+
+  /**
+   * Crear nueva categoría
+   */
+  const createCategory = async (categoryData) => {
+    try {
+      const newCategory = await categoryService.createCategory(categoryData);
+      await fetchCategories(); // Refrescar lista
+      return newCategory;
+    } catch (err) {
+      console.error('Error creating category:', err);
+      throw err;
+    }
+  };
+
+  /**
+   * Actualizar categoría existente
+   */
+  const updateCategory = async (categoryId, categoryData) => {
+    try {
+      const updated = await categoryService.updateCategory(categoryId, categoryData);
+      await fetchCategories(); // Refrescar lista
+      return updated;
+    } catch (err) {
+      console.error('Error updating category:', err);
+      throw err;
+    }
+  };
+
+  /**
+   * Eliminar categoría
+   */
+  const deleteCategory = async (categoryId) => {
+    try {
+      await categoryService.deleteCategory(categoryId);
+      await fetchCategories(); // Refrescar lista
+    } catch (err) {
+      console.error('Error deleting category:', err);
+      throw err;
+    }
+  };
+
+  /**
    * Refrescar todos los datos
    */
   const refreshAll = async () => {
@@ -228,6 +292,7 @@ export const DunabProvider = ({ children }) => {
     recentTransactions,
     statistics,
     categories,
+    students,
     loading,
     error,
     fetchBalance,
@@ -241,6 +306,13 @@ export const DunabProvider = ({ children }) => {
     popRecentTransaction,
     clearError,
     refreshAll,
+    // Funciones de estudiantes
+    loadStudents,
+    // Funciones de categorías
+    loadCategories,
+    createCategory,
+    updateCategory,
+    deleteCategory,
   };
 
   return <DunabContext.Provider value={value}>{children}</DunabContext.Provider>;

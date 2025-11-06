@@ -144,6 +144,25 @@ const authService = {
     const user = localStorage.getItem('dunab_user');
     return !!(token && user);
   },
+
+  /**
+   * Cambiar contraseña del usuario autenticado
+   * @param {string} currentPassword - Contraseña actual
+   * @param {string} newPassword - Nueva contraseña
+   * @returns {Promise<Object>} Confirmación del cambio
+   */
+  changePassword: async (currentPassword, newPassword) => {
+    try {
+      const response = await post('/auth/change-password', {
+        currentPassword,
+        newPassword,
+      });
+      return response;
+    } catch (error) {
+      console.error('Error changing password:', error);
+      throw error;
+    }
+  },
 };
 
 export default authService;

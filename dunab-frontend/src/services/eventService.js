@@ -14,7 +14,7 @@ const eventService = {
   createEvent: async (eventData) => {
     try {
       const response = await api.post('/events', eventData);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error creating event:', error);
       throw error;
@@ -37,7 +37,7 @@ const eventService = {
         ...filters // categoria, gratuito, search, sortBy, order
       };
       const response = await api.get('/events', { params });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching events:', error);
       // Datos mock para desarrollo cuando backend no está disponible
@@ -160,7 +160,7 @@ const eventService = {
   getUpcomingEvents: async (limit = 3) => {
     try {
       const response = await api.get('/events/upcoming', { params: { limit } });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching upcoming events:', error);
       // Retornar primeros N eventos del mock
@@ -177,7 +177,7 @@ const eventService = {
   getEvent: async (eventId) => {
     try {
       const response = await api.get(`/events/${eventId}`);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching event:', error);
       // Mock para desarrollo
@@ -197,7 +197,7 @@ const eventService = {
   updateEvent: async (eventId, eventData) => {
     try {
       const response = await api.put(`/events/${eventId}`, eventData);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error updating event:', error);
       throw error;
@@ -212,7 +212,7 @@ const eventService = {
   deleteEvent: async (eventId) => {
     try {
       const response = await api.delete(`/events/${eventId}`);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error deleting event:', error);
       throw error;
@@ -230,7 +230,7 @@ const eventService = {
     try {
       const payload = studentId ? { studentId } : {};
       const response = await api.post(`/events/${eventId}/register`, payload);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error registering to event:', error);
       throw error;
@@ -247,7 +247,7 @@ const eventService = {
   cancelRegistration: async (eventId, registrationId) => {
     try {
       const response = await api.delete(`/events/${eventId}/register/${registrationId}`);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error canceling registration:', error);
       throw error;
@@ -264,7 +264,7 @@ const eventService = {
   confirmAttendance: async (eventId, studentId) => {
     try {
       const response = await api.post(`/events/${eventId}/confirm`, { studentId });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error confirming attendance:', error);
       throw error;
@@ -279,7 +279,7 @@ const eventService = {
   getStudentRegistrations: async (studentId) => {
     try {
       const response = await api.get(`/events/registrations/student/${studentId}`);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching student registrations:', error);
       return [];
@@ -294,7 +294,7 @@ const eventService = {
   getParticipationHistory: async (studentId) => {
     try {
       const response = await api.get(`/events/history/student/${studentId}`);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching participation history:', error);
       return [];
@@ -312,7 +312,7 @@ const eventService = {
       const response = await api.get(`/events/${eventId}/is-registered`, {
         params: { studentId }
       });
-      return response.data.isRegistered || false;
+      return response.isRegistered || false;
     } catch (error) {
       console.error('Error checking registration:', error);
       return false;
@@ -326,7 +326,7 @@ const eventService = {
   getEventCategories: async () => {
     try {
       const response = await api.get('/events/categories');
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching event categories:', error);
       // Categorías por defecto
@@ -353,7 +353,7 @@ const eventService = {
     try {
       // Delegar TODA la lógica de filtrado al backend
       const response = await api.get('/events/filter', { params: filters });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error filtering events:', error);
 

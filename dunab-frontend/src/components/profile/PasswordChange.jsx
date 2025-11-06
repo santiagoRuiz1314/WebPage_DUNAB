@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import authService from '../../services/authService';
 import './PasswordChange.css';
 
 const PasswordChange = () => {
@@ -30,7 +31,8 @@ const PasswordChange = () => {
     }
 
     try {
-      // TODO: Implement password change API call
+      // Llamar al servicio de cambio de contraseña
+      await authService.changePassword(formData.currentPassword, formData.newPassword);
       alert(t('profile.passwordChanged'));
       setFormData({
         currentPassword: '',
@@ -39,7 +41,8 @@ const PasswordChange = () => {
       });
     } catch (error) {
       console.error('Error changing password:', error);
-      alert(t('errors.serverError'));
+      const errorMessage = error.message || t('errors.serverError');
+      alert(errorMessage);
     }
   };
 
