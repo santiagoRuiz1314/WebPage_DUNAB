@@ -10,10 +10,17 @@ import {
 } from '../utils/validators';
 import '../styles/auth.css';
 
+console.log('📄 REGISTER.JSX FILE LOADED - TOP LEVEL');
+
 const Register = () => {
+  console.log('🏁 REGISTER COMPONENT LOADED');
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { register, isAuthenticated } = useAuth();
+
+  console.log('🔧 Register function from useAuth:', register);
+  console.log('🔒 isAuthenticated:', isAuthenticated);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -33,6 +40,7 @@ const Register = () => {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
+      console.log('➡️ Register: User already authenticated, redirecting to dashboard...');
       navigate('/');
     }
   }, [isAuthenticated, navigate]);
@@ -65,36 +73,42 @@ const Register = () => {
    * Validate form
    */
   const validateForm = () => {
+    console.log('🔎 Starting validation with formData:', formData);
     const newErrors = {};
 
     // First name validation
-    const firstNameError = validateName(formData.firstName, 'Nombre');
-    if (firstNameError) {
-      newErrors.firstName = firstNameError;
+    const firstNameValidation = validateName(formData.firstName);
+    console.log('✔️ First name validation:', firstNameValidation);
+    if (!firstNameValidation.valid) {
+      newErrors.firstName = firstNameValidation.error;
     }
 
     // Last name validation
-    const lastNameError = validateName(formData.lastName, 'Apellido');
-    if (lastNameError) {
-      newErrors.lastName = lastNameError;
+    const lastNameValidation = validateName(formData.lastName);
+    console.log('✔️ Last name validation:', lastNameValidation);
+    if (!lastNameValidation.valid) {
+      newErrors.lastName = lastNameValidation.error;
     }
 
     // Email validation
-    const emailError = validateEmail(formData.email);
-    if (emailError) {
-      newErrors.email = emailError;
+    const emailValidation = validateEmail(formData.email);
+    console.log('✔️ Email validation:', emailValidation);
+    if (!emailValidation.valid) {
+      newErrors.email = emailValidation.error;
     }
 
     // Student code validation
-    const studentCodeError = validateStudentCode(formData.studentCode);
-    if (studentCodeError) {
-      newErrors.studentCode = studentCodeError;
+    const studentCodeValidation = validateStudentCode(formData.studentCode);
+    console.log('✔️ Student code validation:', studentCodeValidation);
+    if (!studentCodeValidation.valid) {
+      newErrors.studentCode = studentCodeValidation.error;
     }
 
     // Password validation
-    const passwordError = validatePassword(formData.password);
-    if (passwordError) {
-      newErrors.password = passwordError;
+    const passwordValidation = validatePassword(formData.password);
+    console.log('✔️ Password validation:', passwordValidation);
+    if (!passwordValidation.valid) {
+      newErrors.password = passwordValidation.error;
     }
 
     // Confirm password validation
@@ -104,8 +118,13 @@ const Register = () => {
       newErrors.confirmPassword = 'Las contraseñas no coinciden';
     }
 
+    console.log('📝 New errors object:', newErrors);
+    console.log('📏 Number of errors:', Object.keys(newErrors).length);
+
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    const isValid = Object.keys(newErrors).length === 0;
+    console.log('✅ Is form valid?', isValid);
+    return isValid;
   };
 
   /**
@@ -113,14 +132,22 @@ const Register = () => {
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('🎯 FORM SUBMIT TRIGGERED');
+    console.log('📋 Form Data:', formData);
+
     setServerError('');
 
     // Validate form
-    if (!validateForm()) {
+    console.log('🔍 Validating form...');
+    const isValid = validateForm();
+    if (!isValid) {
+      console.log('❌ Validation failed - check logs above for details');
       return;
     }
+    console.log('✅ Validation passed - proceeding with registration');
 
     setLoading(true);
+    console.log('⏳ Loading state set to true');
 
     try {
       // Prepare user data
@@ -132,10 +159,18 @@ const Register = () => {
         password: formData.password,
       };
 
+      console.log('📤 Calling register with userData:', userData);
       await register(userData);
-      // Navigation will happen automatically via useEffect
+      console.log('✅ Register completed successfully');
+      // Redirect to login page after successful registration
+      console.log('➡️ Redirecting to login page...');
+      navigate('/login', {
+        state: {
+          message: 'Registro exitoso. Por favor, inicia sesión con tus credenciales.'
+        }
+      });
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('❌ Registration error:', error);
 
       // Handle different error types
       if (error.response) {
@@ -333,6 +368,11 @@ const Register = () => {
               type="submit"
               className="btn btn-primary btn-block"
               disabled={loading}
+              onClick={(e) => {
+                console.log('🖱️ BUTTON CLICKED');
+                console.log('Button type:', e.currentTarget.type);
+                console.log('Form element:', e.currentTarget.form);
+              }}
             >
               {loading ? t('common.loading') : t('auth.register')}
             </button>

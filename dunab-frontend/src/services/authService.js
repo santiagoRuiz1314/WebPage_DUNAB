@@ -68,33 +68,35 @@ const authService = {
    */
   register: async (userData) => {
     try {
-      const response = await api.post(API_ENDPOINTS.REGISTER, userData);
+      console.log('📝 Intentando registro con:', userData);
+
+      // Mapear campos del formulario al formato esperado por el backend
+      const registerData = {
+        email: userData.email,
+        password: userData.password,
+        nombre: userData.firstName,
+        apellido: userData.lastName,
+        codigoEstudiante: userData.studentCode,
+      };
+
+      console.log('📤 Datos enviados al backend:', registerData);
+      const response = await api.post(API_ENDPOINTS.REGISTER, registerData);
+
+      console.log('📦 Response completo:', response);
 
       // El interceptor ya retorna response.data (ApiResponse)
       // Necesitamos extraer la propiedad 'data' de ApiResponse
       const authData = response.data || response;
 
-      // Auto-login después del registro
-      if (authData.token) {
-        setAuthToken(authData.token);
-      }
-      if (authData.refreshToken) {
-        setRefreshToken(authData.refreshToken);
-      }
+      console.log('✅ authData extraído:', authData);
 
-      // Construir objeto user a partir de authData
-      const user = {
-        id: authData.id,
-        email: authData.email,
-        nombre: authData.nombre,
-        apellido: authData.apellido,
-        rol: authData.rol,
-      };
-      setUser(user);
+      // Don't auto-login after registration
+      // User should manually login with their credentials
+      console.log('✅ Registro exitoso - usuario debe iniciar sesión manualmente');
 
       return authData;
     } catch (error) {
-      console.error('Error en registro:', error);
+      console.error('❌ Error en registro:', error);
       throw error;
     }
   },

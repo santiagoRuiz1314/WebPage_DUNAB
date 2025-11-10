@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { validateEmail, validatePassword } from '../utils/validators';
@@ -8,6 +8,7 @@ import '../styles/auth.css';
 const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, isAuthenticated } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -18,7 +19,17 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  // Check for success message from registration
+  useEffect(() => {
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message);
+      // Clear the message from location state
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -60,15 +71,15 @@ const Login = () => {
     const newErrors = {};
 
     // Email validation
-    const emailError = validateEmail(formData.email);
-    if (emailError) {
-      newErrors.email = emailError;
+    const emailValidation = validateEmail(formData.email);
+    if (!emailValidation.valid) {
+      newErrors.email = emailValidation.error;
     }
 
     // Password validation
-    const passwordError = validatePassword(formData.password);
-    if (passwordError) {
-      newErrors.password = passwordError;
+    const passwordValidation = validatePassword(formData.password);
+    if (!passwordValidation.valid) {
+      newErrors.password = passwordValidation.error;
     }
 
     setErrors(newErrors);
@@ -138,6 +149,12 @@ const Login = () => {
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <h2 className="auth-title">{t('auth.login')}</h2>
+
+          {successMessage && (
+            <div className="alert alert-success" role="alert">
+              {successMessage}
+            </div>
+          )}
 
           {serverError && (
             <div className="alert alert-error" role="alert">

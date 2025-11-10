@@ -80,28 +80,24 @@ export const AuthProvider = ({ children }) => {
    */
   const register = async (userData) => {
     try {
+      console.log('🚀 AuthContext: Iniciando registro...');
+      console.log('📥 AuthContext: userData recibido:', userData);
+
       const authData = await authService.register(userData);
 
-      if (authData.token) {
-        // authService ya guardó el token y user en localStorage
-        // Solo actualizar state
-        setToken(authData.token);
-        const user = {
-          id: authData.id,
-          email: authData.email,
-          nombre: authData.nombre,
-          apellido: authData.apellido,
-          rol: authData.rol,
-        };
-        setUser(user);
-        setIsAuthenticated(true);
+      console.log('📦 AuthContext: authData recibido:', authData);
 
-        return authData;
-      } else {
-        throw new Error('Invalid response from server');
-      }
+      // After successful registration, don't authenticate automatically
+      // User should login manually
+      console.log('✅ AuthContext: Registro exitoso! Usuario debe iniciar sesión');
+
+      // Clear any tokens that might have been saved
+      removeToken();
+      removeUser();
+
+      return authData;
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('❌ AuthContext: Registration error:', error);
       // Ensure clean state on registration failure
       logout();
       throw error;

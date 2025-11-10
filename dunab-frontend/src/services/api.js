@@ -25,14 +25,26 @@ const api = axios.create({
  */
 api.interceptors.request.use(
   (config) => {
+    console.log('🚀 REQUEST INTERCEPTOR:', {
+      method: config.method,
+      url: config.url,
+      baseURL: config.baseURL,
+      fullURL: `${config.baseURL}${config.url}`,
+      data: config.data,
+      headers: config.headers
+    });
+
     const token = getAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log('🔐 Token agregado al request');
+    } else {
+      console.log('⚠️ No hay token disponible');
     }
     return config;
   },
   (error) => {
-    console.error('Error en request interceptor:', error);
+    console.error('❌ Error en request interceptor:', error);
     return Promise.reject(error);
   }
 );

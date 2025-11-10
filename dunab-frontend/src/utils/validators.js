@@ -183,10 +183,10 @@ export const validateStudentCode = (code) => {
     return { valid: false, error: 'El código de estudiante es requerido' };
   }
 
-  // Formato típico: U00000000
-  const codeRegex = /^U\d{8}$/;
+  // Formato requerido: U00XXXXXX (U00 seguido de exactamente 6 dígitos)
+  const codeRegex = /^U00\d{6}$/;
   if (!codeRegex.test(code)) {
-    return { valid: false, error: 'El código debe tener el formato U00000000' };
+    return { valid: false, error: 'El código debe tener el formato U00XXXXXX (U00 seguido de 6 dígitos)' };
   }
 
   return { valid: true, error: null };
