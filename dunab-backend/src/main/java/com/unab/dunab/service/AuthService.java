@@ -148,4 +148,58 @@ public class AuthService {
                 .rol(usuario.getRol())
                 .build();
     }
+
+    /**
+     * Verifica si el token actual es válido y retorna información del usuario
+     */
+    @Transactional(readOnly = true)
+    public AuthResponse verificarToken(String token) {
+        if (!tokenProvider.validateToken(token)) {
+            throw new RuntimeException("Token inválido o expirado");
+        }
+
+        String email = tokenProvider.getEmailFromToken(token);
+        User usuario = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (!usuario.getActivo()) {
+            throw new RuntimeException("Usuario inactivo");
+        }
+
+        return AuthResponse.builder()
+                .token(token)
+                .tipo("Bearer")
+                .id(usuario.getId())
+                .email(usuario.getEmail())
+                .nombre(usuario.getNombre())
+                .apellido(usuario.getApellido())
+                .rol(usuario.getRol())
+                .build();
+    }
+
+    /**
+     * Cierra la sesión del usuario (limpia el contexto de seguridad)
+     */
+    public void logout() {
+        SecurityContextHolder.clearContext();
+        log.info("Usuario cerró sesión exitosamente");
+    }
+
+    /**
+     * Obtiene información del usuario por su email
+     */
+    @Transactional(readOnly = true)
+    public AuthResponse obtenerUsuarioPorEmail(String email) {
+        User usuario = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        return AuthResponse.builder()
+                .id(usuario.getId())
+                .email(usuario.getEmail())
+                .nombre(usuario.getNombre())
+                .apellido(usuario.getApellido())
+                .rol(usuario.getRol())
+                .tipo("Bearer")
+                .build();
+    }
 }

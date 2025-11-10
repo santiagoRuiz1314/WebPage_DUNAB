@@ -1,0 +1,50 @@
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker volumes
+postgres_data/
+pgadmin_data/
+
+# Logs
+*.log
+logs/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+
+# Build outputs (backend)
+dunab-backend/target/
+dunab-backend/.mvn/wrapper/maven-wrapper.jar
+
+# Build outputs (frontend)
+dunab-frontend/dist/
+dunab-frontend/node_modules/
+dunab-frontend/.vite/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Documentation (generated)
+docs/_build/
+site/

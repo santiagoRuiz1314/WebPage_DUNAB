@@ -22,7 +22,9 @@ const Login = () => {
 
   // Redirect if already authenticated
   useEffect(() => {
+    console.log('🔄 Login: isAuthenticated cambió a:', isAuthenticated);
     if (isAuthenticated) {
+      console.log('➡️ Login: Redirigiendo a Dashboard...');
       navigate('/');
     }
   }, [isAuthenticated, navigate]);
@@ -80,18 +82,23 @@ const Login = () => {
     e.preventDefault();
     setServerError('');
 
+    console.log('📝 Login: Formulario enviado');
+
     // Validate form
     if (!validateForm()) {
+      console.log('⚠️ Login: Validación de formulario falló');
       return;
     }
 
+    console.log('✅ Login: Validación OK, iniciando login...');
     setLoading(true);
 
     try {
       await login(formData.email, formData.password);
+      console.log('✨ Login: login() completado exitosamente');
       // Navigation will happen automatically via useEffect
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('❌ Login: Error capturado:', error);
 
       // Handle different error types
       if (error.response) {

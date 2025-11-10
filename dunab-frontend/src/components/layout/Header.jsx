@@ -55,18 +55,18 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
             aria-label="User Menu"
           >
             <div className="user-avatar">
-              {user?.firstName?.[0]}{user?.lastName?.[0]}
+              {user?.nombre?.[0]}{user?.apellido?.[0]}
             </div>
-            <span className="user-name">{user?.firstName} {user?.lastName}</span>
+            <span className="user-name">{user?.nombre} {user?.apellido}</span>
             <span className="dropdown-arrow">{dropdownOpen ? '▲' : '▼'}</span>
           </button>
 
           {dropdownOpen && (
             <div className="user-dropdown">
               <div className="dropdown-header">
-                <p className="user-full-name">{user?.firstName} {user?.lastName}</p>
+                <p className="user-full-name">{user?.nombre} {user?.apellido}</p>
                 <p className="user-email">{user?.email}</p>
-                <p className="user-role">{user?.role}</p>
+                <p className="user-role">{user?.rol}</p>
               </div>
               <div className="dropdown-divider"></div>
               <button

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createEvent, updateEvent, deleteEvent } from '../../services/adminService';
-import { getAllEvents } from '../../services/eventService';
+import eventService from '../../services/eventService';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import './EventManagement.css';
 
@@ -32,8 +32,8 @@ const EventManagement = () => {
   const loadEvents = async () => {
     try {
       setLoading(true);
-      const data = await getAllEvents();
-      setEvents(data);
+      const data = await eventService.getAllEvents();
+      setEvents(data.content || []);
     } catch (error) {
       console.error('Error loading events:', error);
     } finally {

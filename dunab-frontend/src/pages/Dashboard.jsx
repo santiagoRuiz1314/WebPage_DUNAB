@@ -42,7 +42,7 @@ const Dashboard = () => {
       <div className="dashboard-header">
         <div className="dashboard-welcome">
           <h1 className="dashboard-title">
-            {getGreeting()}, {user?.firstName || user?.name || 'Estudiante'}! 👋
+            {getGreeting()}, {user?.nombre || 'Estudiante'}! 👋
           </h1>
           <p className="dashboard-subtitle">
             Aquí tienes un resumen de tu actividad en DUNAB
@@ -98,7 +98,7 @@ const Dashboard = () => {
                 <span className="action-icon">👤</span>
                 <span className="action-label">Mi Perfil</span>
               </a>
-              {user?.role === 'ADMIN' && (
+              {user?.rol === 'ADMINISTRADOR' && (
                 <a href="/admin" className="quick-action-btn">
                   <span className="action-icon">⚙️</span>
                   <span className="action-label">Panel Admin</span>

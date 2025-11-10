@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import authService from '../services/authService';
-import { getToken, saveToken, removeToken, getUser, saveUser, removeUser } from '../utils/storage';
+import { getToken, saveToken, removeToken, getUser, saveUser, removeUser, getRefreshToken } from '../utils/storage';
 
 const AuthContext = createContext(null);
 
@@ -18,24 +18,34 @@ export const AuthProvider = ({ children }) => {
    */
   const login = async (email, password) => {
     try {
-      const response = await authService.login(email, password);
+      console.log('🚀 AuthContext: Iniciando login...');
+      const authData = await authService.login(email, password);
 
-      if (response.token && response.user) {
-        // Save to localStorage
-        saveToken(response.token);
-        saveUser(response.user);
+      console.log('📥 AuthContext: authData recibido:', authData);
 
-        // Update state
-        setToken(response.token);
-        setUser(response.user);
+      if (authData.token) {
+        console.log('✅ AuthContext: Token válido encontrado');
+        // authService ya guardó el token y user en localStorage
+        // Solo actualizar state
+        setToken(authData.token);
+        const userData = {
+          id: authData.id,
+          email: authData.email,
+          nombre: authData.nombre,
+          apellido: authData.apellido,
+          rol: authData.rol,
+        };
+        setUser(userData);
         setIsAuthenticated(true);
 
-        return response;
+        console.log('🎉 AuthContext: Login exitoso! Usuario autenticado:', userData);
+        return authData;
       } else {
+        console.error('❌ AuthContext: No se encontró token en la respuesta');
         throw new Error('Invalid response from server');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('❌ AuthContext: Login error:', error);
       // Ensure user is logged out on failure
       logout();
       throw error;
@@ -70,18 +80,23 @@ export const AuthProvider = ({ children }) => {
    */
   const register = async (userData) => {
     try {
-      const response = await authService.register(userData);
+      const authData = await authService.register(userData);
 
-      if (response.token && response.user) {
-        // Auto-login after registration
-        saveToken(response.token);
-        saveUser(response.user);
-
-        setToken(response.token);
-        setUser(response.user);
+      if (authData.token) {
+        // authService ya guardó el token y user en localStorage
+        // Solo actualizar state
+        setToken(authData.token);
+        const user = {
+          id: authData.id,
+          email: authData.email,
+          nombre: authData.nombre,
+          apellido: authData.apellido,
+          rol: authData.rol,
+        };
+        setUser(user);
         setIsAuthenticated(true);
 
-        return response;
+        return authData;
       } else {
         throw new Error('Invalid response from server');
       }
@@ -98,17 +113,17 @@ export const AuthProvider = ({ children }) => {
    */
   const refreshToken = async () => {
     try {
-      const currentToken = getToken();
-      if (!currentToken) {
-        throw new Error('No token available');
+      const currentRefreshToken = getRefreshToken();
+      if (!currentRefreshToken) {
+        throw new Error('No refresh token available');
       }
 
-      const response = await authService.refreshToken(currentToken);
+      const newToken = await authService.refreshToken(currentRefreshToken);
 
-      if (response.token) {
-        saveToken(response.token);
-        setToken(response.token);
-        return response.token;
+      if (newToken) {
+        saveToken(newToken);
+        setToken(newToken);
+        return newToken;
       }
     } catch (error) {
       console.error('Token refresh error:', error);
@@ -133,7 +148,7 @@ export const AuthProvider = ({ children }) => {
    * @returns {boolean}
    */
   const hasRole = (role) => {
-    return user?.role === role;
+    return user?.rol === role;
   };
 
   /**
@@ -141,7 +156,7 @@ export const AuthProvider = ({ children }) => {
    * @returns {boolean}
    */
   const isAdmin = () => {
-    return hasRole('ADMIN');
+    return hasRole('ADMINISTRADOR');
   };
 
   // Verify and restore session on mount
@@ -154,7 +169,7 @@ export const AuthProvider = ({ children }) => {
         if (storedToken && storedUser) {
           // Verify token is still valid
           try {
-            await authService.verifyToken(storedToken);
+            await authService.verifyToken();
 
             setToken(storedToken);
             setUser(storedUser);

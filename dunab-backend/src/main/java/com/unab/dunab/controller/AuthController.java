@@ -4,11 +4,14 @@ import com.unab.dunab.dto.request.LoginRequest;
 import com.unab.dunab.dto.request.RegisterRequest;
 import com.unab.dunab.dto.response.ApiResponse;
 import com.unab.dunab.dto.response.AuthResponse;
+import com.unab.dunab.security.UserPrincipal;
 import com.unab.dunab.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -48,5 +51,33 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponse>> refrescarToken(@RequestParam String refreshToken) {
         AuthResponse response = authService.refrescarToken(refreshToken);
         return ResponseEntity.ok(ApiResponse.success(response, "Token refrescado exitosamente"));
+    }
+
+    /**
+     * GET /api/auth/verify - Verificar token y obtener información del usuario autenticado
+     */
+    @GetMapping("/verify")
+    public ResponseEntity<ApiResponse<AuthResponse>> verificarToken() {
+        // Obtener el usuario autenticado del SecurityContext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated() ||
+            authentication.getPrincipal().equals("anonymousUser")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ApiResponse.error("No autenticado"));
+        }
+
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        AuthResponse response = authService.obtenerUsuarioPorEmail(userPrincipal.getEmail());
+        return ResponseEntity.ok(ApiResponse.success(response, "Token válido"));
+    }
+
+    /**
+     * POST /api/auth/logout - Cerrar sesión
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout() {
+        authService.logout();
+        return ResponseEntity.ok(ApiResponse.success(null, "Sesión cerrada exitosamente"));
     }
 }

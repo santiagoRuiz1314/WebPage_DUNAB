@@ -21,22 +21,42 @@ const authService = {
    */
   login: async (email, password) => {
     try {
+      console.log('🔑 Intentando login con:', email);
       const response = await api.post(API_ENDPOINTS.LOGIN, { email, password });
 
+      console.log('📦 Response completo:', response);
+
+      // El interceptor ya retorna response.data (ApiResponse)
+      // Necesitamos extraer la propiedad 'data' de ApiResponse
+      const authData = response.data || response;
+
+      console.log('✅ authData extraído:', authData);
+      console.log('🔐 Token encontrado:', authData.token ? 'SÍ' : 'NO');
+
       // Guardar tokens y datos del usuario en localStorage
-      if (response.token) {
-        setAuthToken(response.token);
+      if (authData.token) {
+        setAuthToken(authData.token);
+        console.log('💾 Token guardado en localStorage');
       }
-      if (response.refreshToken) {
-        setRefreshToken(response.refreshToken);
-      }
-      if (response.user) {
-        setUser(response.user);
+      if (authData.refreshToken) {
+        setRefreshToken(authData.refreshToken);
+        console.log('💾 Refresh token guardado en localStorage');
       }
 
-      return response;
+      // Construir objeto user a partir de authData
+      const user = {
+        id: authData.id,
+        email: authData.email,
+        nombre: authData.nombre,
+        apellido: authData.apellido,
+        rol: authData.rol,
+      };
+      setUser(user);
+      console.log('👤 Usuario guardado:', user);
+
+      return authData;
     } catch (error) {
-      console.error('Error en login:', error);
+      console.error('❌ Error en login:', error);
       throw error;
     }
   },
@@ -50,18 +70,29 @@ const authService = {
     try {
       const response = await api.post(API_ENDPOINTS.REGISTER, userData);
 
-      // Opcionalmente, auto-login después del registro
-      if (response.token) {
-        setAuthToken(response.token);
+      // El interceptor ya retorna response.data (ApiResponse)
+      // Necesitamos extraer la propiedad 'data' de ApiResponse
+      const authData = response.data || response;
+
+      // Auto-login después del registro
+      if (authData.token) {
+        setAuthToken(authData.token);
       }
-      if (response.refreshToken) {
-        setRefreshToken(response.refreshToken);
-      }
-      if (response.user) {
-        setUser(response.user);
+      if (authData.refreshToken) {
+        setRefreshToken(authData.refreshToken);
       }
 
-      return response;
+      // Construir objeto user a partir de authData
+      const user = {
+        id: authData.id,
+        email: authData.email,
+        nombre: authData.nombre,
+        apellido: authData.apellido,
+        rol: authData.rol,
+      };
+      setUser(user);
+
+      return authData;
     } catch (error) {
       console.error('Error en registro:', error);
       throw error;
@@ -85,17 +116,22 @@ const authService = {
 
   /**
    * Refrescar token de acceso
+   * @param {string} refreshToken - Refresh token
    * @returns {Promise<string>} Nuevo token de acceso
    */
-  refreshToken: async () => {
+  refreshToken: async (refreshToken) => {
     try {
-      const response = await api.post(API_ENDPOINTS.REFRESH);
+      const response = await api.post(`${API_ENDPOINTS.REFRESH}?refreshToken=${refreshToken}`);
 
-      if (response.token) {
-        setAuthToken(response.token);
+      // El interceptor ya retorna response.data (ApiResponse)
+      // Necesitamos extraer la propiedad 'data' de ApiResponse
+      const authData = response.data || response;
+
+      if (authData.token) {
+        setAuthToken(authData.token);
       }
 
-      return response.token;
+      return authData.token;
     } catch (error) {
       console.error('Error refrescando token:', error);
       // Si falla el refresh, limpiar sesión
@@ -111,7 +147,21 @@ const authService = {
   verifyToken: async () => {
     try {
       const response = await api.get(API_ENDPOINTS.VERIFY);
-      return response;
+
+      // El interceptor ya retorna response.data (ApiResponse)
+      // Necesitamos extraer la propiedad 'data' de ApiResponse
+      const authData = response.data || response;
+
+      // Construir objeto user a partir de authData
+      const user = {
+        id: authData.id,
+        email: authData.email,
+        nombre: authData.nombre,
+        apellido: authData.apellido,
+        rol: authData.rol,
+      };
+
+      return authData;
     } catch (error) {
       console.error('Error verificando token:', error);
       throw error;
@@ -125,10 +175,22 @@ const authService = {
   getCurrentUser: async () => {
     try {
       const response = await api.get(API_ENDPOINTS.VERIFY);
-      if (response.user) {
-        setUser(response.user);
-      }
-      return response.user;
+
+      // El interceptor ya retorna response.data (ApiResponse)
+      // Necesitamos extraer la propiedad 'data' de ApiResponse
+      const authData = response.data || response;
+
+      // Construir objeto user a partir de authData
+      const user = {
+        id: authData.id,
+        email: authData.email,
+        nombre: authData.nombre,
+        apellido: authData.apellido,
+        rol: authData.rol,
+      };
+      setUser(user);
+
+      return user;
     } catch (error) {
       console.error('Error obteniendo usuario actual:', error);
       throw error;

@@ -29,14 +29,14 @@ const ProtectedRoute = ({ children, requiredRole, allowedRoles = [] }) => {
   }
 
   // Check single required role
-  if (requiredRole && user?.role !== requiredRole) {
-    console.warn(`Access denied: User role '${user?.role}' does not match required role '${requiredRole}'`);
+  if (requiredRole && user?.rol !== requiredRole) {
+    console.warn(`Access denied: User rol '${user?.rol}' does not match required role '${requiredRole}'`);
     return <Navigate to="/" replace />;
   }
 
   // Check multiple allowed roles
-  if (allowedRoles.length > 0 && !allowedRoles.includes(user?.role)) {
-    console.warn(`Access denied: User role '${user?.role}' not in allowed roles [${allowedRoles.join(', ')}]`);
+  if (allowedRoles.length > 0 && !allowedRoles.includes(user?.rol)) {
+    console.warn(`Access denied: User rol '${user?.rol}' not in allowed roles [${allowedRoles.join(', ')}]`);
     return <Navigate to="/" replace />;
   }
 
