@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +34,6 @@ public class TransactionController {
      * POST /api/dunab/transactions - Crear transacción
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'COORDINADOR')")
     public ResponseEntity<ApiResponse<TransaccionResponse>> crearTransaccion(
             @Valid @RequestBody TransaccionRequest request,
             @AuthenticationPrincipal UserPrincipal currentUser) {
@@ -113,7 +111,6 @@ public class TransactionController {
      * DELETE /api/dunab/transactions/{id}/anular - Anular transacción
      */
     @DeleteMapping("/{id}/anular")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<ApiResponse<TransaccionResponse>> anularTransaccion(
             @PathVariable Long id,
             @RequestParam String justificacion,
@@ -146,7 +143,6 @@ public class TransactionController {
      * GET /api/dunab/transactions/stack/stats - Estadísticas del Stack
      */
     @GetMapping("/stack/stats")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<ApiResponse<String>> getEstadisticasStack() {
         String stats = transactionService.getEstadisticasStack();
         return ResponseEntity.ok(ApiResponse.success(stats, "Estadísticas del Stack de transacciones"));

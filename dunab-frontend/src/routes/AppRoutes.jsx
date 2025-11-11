@@ -74,11 +74,11 @@ const AppRoutes = () => {
           }
         />
 
-        {/* Admin Only Route */}
+        {/* Admin Panel Route */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute requiredRole="ADMINISTRADOR">
+            <ProtectedRoute>
               <Layout>
                 <AdminPanel />
               </Layout>

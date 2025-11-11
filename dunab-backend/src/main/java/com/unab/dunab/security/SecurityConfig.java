@@ -59,22 +59,7 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
 
-                        // Endpoints de DUNAB
-                        .requestMatchers("/api/dunab/accounts/**").hasAnyRole("ESTUDIANTE", "ADMINISTRADOR", "COORDINADOR")
-                        .requestMatchers("/api/dunab/transactions/**").hasAnyRole("ESTUDIANTE", "ADMINISTRADOR", "COORDINADOR")
-                        .requestMatchers("/api/dunab/statistics/**").hasAnyRole("ADMINISTRADOR", "COORDINADOR")
-                        .requestMatchers("/api/dunab/categories/**").hasRole("ADMINISTRADOR")
-
-                        // Endpoints de notificaciones
-                        .requestMatchers("/api/notifications/**").hasAnyRole("ESTUDIANTE", "ADMINISTRADOR", "COORDINADOR")
-
-                        // Endpoints de eventos
-                        .requestMatchers("/api/events/**").hasAnyRole("ESTUDIANTE", "ADMINISTRADOR", "COORDINADOR")
-
-                        // Endpoints de usuarios
-                        .requestMatchers("/api/users/**").hasRole("ADMINISTRADOR")
-
-                        // Cualquier otra petición requiere autenticación
+                        // Todos los demás endpoints requieren autenticación
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

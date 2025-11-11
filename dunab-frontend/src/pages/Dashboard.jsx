@@ -98,12 +98,10 @@ const Dashboard = () => {
                 <span className="action-icon">👤</span>
                 <span className="action-label">Mi Perfil</span>
               </a>
-              {user?.rol === 'ADMINISTRADOR' && (
-                <a href="/admin" className="quick-action-btn">
-                  <span className="action-icon">⚙️</span>
-                  <span className="action-label">Panel Admin</span>
-                </a>
-              )}
+              <a href="/admin" className="quick-action-btn">
+                <span className="action-icon">⚙️</span>
+                <span className="action-label">Panel Admin</span>
+              </a>
             </div>
           </div>
         </section>

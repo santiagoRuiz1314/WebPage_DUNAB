@@ -16,11 +16,9 @@ export const TRANSACTION_STATUS = {
   CANCELLED: 'CANCELLED',
 };
 
-// Roles de usuario
+// Rol de usuario
 export const USER_ROLES = {
-  STUDENT: 'STUDENT',
-  ADMIN: 'ADMIN',
-  COORDINATOR: 'COORDINATOR',
+  USER: 'USER',
 };
 
 // Recompensas de DUNAB

@@ -165,8 +165,8 @@ const Transactions = () => {
     document.body.removeChild(link);
   };
 
-  // Verificar si el usuario es admin
-  const isAdmin = user?.role === 'admin' || user?.rol === 'admin' || user?.role === 'ADMIN';
+  // Todos los usuarios autenticados tienen acceso completo
+  const isAdmin = true;
 
   return (
     <div className="transactions-page">

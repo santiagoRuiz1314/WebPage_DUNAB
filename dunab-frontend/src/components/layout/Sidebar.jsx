@@ -3,56 +3,46 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = ({ isOpen }) => {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
 
   const navItems = [
     {
       path: '/',
       icon: '📊',
       label: 'Dashboard',
-      roles: ['STUDENT', 'ADMIN', 'COORDINATOR'],
     },
     {
       path: '/transactions',
       icon: '💳',
       label: 'Transacciones',
-      roles: ['STUDENT', 'ADMIN', 'COORDINATOR'],
     },
     {
       path: '/events',
       icon: '🎉',
       label: 'Eventos',
-      roles: ['STUDENT', 'ADMIN', 'COORDINATOR'],
     },
     {
       path: '/academic',
       icon: '🎓',
       label: 'Académico',
-      roles: ['STUDENT', 'ADMIN', 'COORDINATOR'],
     },
     {
       path: '/profile',
       icon: '👤',
       label: 'Mi Perfil',
-      roles: ['STUDENT', 'ADMIN', 'COORDINATOR'],
     },
     {
       path: '/admin',
       icon: '⚙️',
       label: 'Panel Admin',
-      roles: ['ADMIN'],
     },
   ];
-
-  const filteredNavItems = navItems.filter((item) =>
-    item.roles.includes(user?.role)
-  );
 
   return (
     <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <nav className="sidebar-nav">
         <ul className="nav-list">
-          {filteredNavItems.map((item) => (
+          {navItems.map((item) => (
             <li key={item.path} className="nav-item">
               <NavLink
                 to={item.path}
@@ -78,7 +68,7 @@ const Sidebar = ({ isOpen }) => {
                 <p className="user-name-small">
                   {user?.firstName} {user?.lastName}
                 </p>
-                <p className="user-role-small">{user?.role}</p>
+                <p className="user-role-small">Usuario</p>
               </div>
             </div>
           </div>

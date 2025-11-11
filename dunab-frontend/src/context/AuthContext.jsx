@@ -138,22 +138,6 @@ export const AuthProvider = ({ children }) => {
     saveUser(updatedUser);
   };
 
-  /**
-   * Check if user has a specific role
-   * @param {string} role - Role to check
-   * @returns {boolean}
-   */
-  const hasRole = (role) => {
-    return user?.rol === role;
-  };
-
-  /**
-   * Check if user is admin
-   * @returns {boolean}
-   */
-  const isAdmin = () => {
-    return hasRole('ADMINISTRADOR');
-  };
 
   // Verify and restore session on mount
   useEffect(() => {
@@ -197,8 +181,6 @@ export const AuthProvider = ({ children }) => {
     register,
     refreshToken,
     updateUser,
-    hasRole,
-    isAdmin,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -31,5 +31,5 @@ public class RegisterRequest {
 
     private String codigoEstudiante;
 
-    private Role rol = Role.ESTUDIANTE;
+    private Role rol = Role.USER;
 }
