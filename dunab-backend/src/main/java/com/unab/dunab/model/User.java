@@ -62,6 +62,7 @@ public class User {
     private LocalDateTime fechaActualizacion;
 
     @OneToOne(mappedBy = "estudiante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private CuentaDunab cuentaDunab;
 
     public String getNombreCompleto() {

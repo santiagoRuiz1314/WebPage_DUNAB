@@ -52,6 +52,16 @@ public class NotificationController {
     }
 
     /**
+     * GET /api/notifications/unread-count - Contar notificaciones no leídas (alias para compatibilidad)
+     */
+    @GetMapping("/unread-count")
+    public ResponseEntity<ApiResponse<Long>> contarNoLeidasAlias(
+            @AuthenticationPrincipal UserPrincipal currentUser) {
+        Long count = notificationService.contarNoLeidas(currentUser.getId());
+        return ResponseEntity.ok(ApiResponse.success(count));
+    }
+
+    /**
      * PUT /api/notifications/{id}/read - Marcar como leída
      */
     @PutMapping("/{id}/read")

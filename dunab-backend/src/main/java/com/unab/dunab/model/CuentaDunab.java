@@ -28,6 +28,7 @@ public class CuentaDunab {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estudiante_id", nullable = false, unique = true)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private User estudiante;
 
     @Min(value = 0, message = "El saldo actual no puede ser negativo")
@@ -55,6 +56,7 @@ public class CuentaDunab {
     private LocalDateTime fechaActualizacion;
 
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Transaccion> transacciones = new ArrayList<>();
 
     /**
