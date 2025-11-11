@@ -33,7 +33,11 @@ export const NotificationProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await notificationService.getNotifications();
-      const notifs = response.content || response || [];
+
+      // Asegurarse de que siempre sea un array
+      const notifs = Array.isArray(response) ? response :
+                     Array.isArray(response?.data) ? response.data :
+                     Array.isArray(response?.content) ? response.content : [];
 
       // Implementar Queue: Ordenar por fecha (las más antiguas primero - FIFO)
       const sortedNotifs = notifs.sort(
@@ -44,6 +48,7 @@ export const NotificationProvider = ({ children }) => {
       setUnreadCount(calculateUnreadCount(sortedNotifs));
     } catch (error) {
       console.error('Error fetching notifications:', error);
+      setNotifications([]); // Asegurar que siempre sea un array
     } finally {
       setLoading(false);
     }

@@ -23,7 +23,10 @@ export const API_ENDPOINTS = {
   // DUNAB Transactions
   DUNAB_TRANSACTIONS: '/dunab/transactions',
   DUNAB_TRANSACTION: (id) => `/dunab/transactions/${id}`,
-  DUNAB_STUDENT_TRANSACTIONS: (id) => `/dunab/transactions/student/${id}`,
+  DUNAB_USER_TRANSACTIONS: (userId) => `/dunab/transactions/user/${userId}`,
+  DUNAB_ACCOUNT_TRANSACTIONS: (cuentaId) => `/dunab/transactions/cuenta/${cuentaId}`,
+  DUNAB_ACCOUNT_TRANSACTIONS_PAGINATED: (cuentaId) => `/dunab/transactions/cuenta/${cuentaId}/paginado`,
+  DUNAB_ACCOUNT_TRANSACTIONS_RECENT: (cuentaId) => `/dunab/transactions/cuenta/${cuentaId}/recientes`,
   DUNAB_TRANSACTIONS_FILTER: '/dunab/transactions/filter',
 
   // DUNAB Statistics

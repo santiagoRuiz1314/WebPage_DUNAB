@@ -24,12 +24,18 @@ const UpcomingEvents = ({ limit = 3 }) => {
 
         // EL BACKEND debe tener un endpoint específico para eventos próximos
         // GET /api/events/upcoming?limit=3
-        const upcoming = await eventService.getUpcomingEvents(limit);
+        const response = await eventService.getUpcomingEvents(limit);
 
-        setEvents(upcoming || []);
+        // Asegurarse de que siempre sea un array
+        const upcoming = Array.isArray(response) ? response :
+                         Array.isArray(response?.data) ? response.data :
+                         Array.isArray(response?.content) ? response.content : [];
+
+        setEvents(upcoming);
       } catch (err) {
         console.error('Error fetching upcoming events:', err);
         setError('No se pudieron cargar los eventos');
+        setEvents([]); // Asegurar que events sea un array incluso en caso de error
       } finally {
         setLoading(false);
       }

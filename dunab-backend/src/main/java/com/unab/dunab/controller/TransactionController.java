@@ -147,4 +147,16 @@ public class TransactionController {
         String stats = transactionService.getEstadisticasStack();
         return ResponseEntity.ok(ApiResponse.success(stats, "Estadísticas del Stack de transacciones"));
     }
+
+    /**
+     * GET /api/dunab/transactions/user/{userId} - Obtener transacciones por usuario
+     */
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse<List<TransaccionResponse>>> getTransaccionesByUserId(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        List<TransaccionResponse> transacciones = transactionService.getTransaccionesByUserId(userId, page, size);
+        return ResponseEntity.ok(ApiResponse.success(transacciones));
+    }
 }

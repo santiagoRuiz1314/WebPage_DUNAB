@@ -140,20 +140,20 @@ const dunabService = {
   },
 
   /**
-   * Obtener historial de transacciones de un estudiante
-   * @param {number|string} studentId - ID del estudiante
+   * Obtener historial de transacciones de un usuario
+   * @param {number|string} userId - ID del usuario
    * @param {number} page - Número de página
    * @param {number} size - Tamaño de página
-   * @returns {Promise<object>} Lista de transacciones del estudiante
+   * @returns {Promise<object>} Lista de transacciones del usuario
    */
-  getStudentTransactions: async (studentId, page = 0, size = 10) => {
+  getUserTransactions: async (userId, page = 0, size = 10) => {
     try {
-      const response = await api.get(API_ENDPOINTS.DUNAB_STUDENT_TRANSACTIONS(studentId), {
+      const response = await api.get(API_ENDPOINTS.DUNAB_USER_TRANSACTIONS(userId), {
         params: { page, size },
       });
       return response;
     } catch (error) {
-      console.error('Error obteniendo transacciones del estudiante:', error);
+      console.error('Error obteniendo transacciones del usuario:', error);
       throw error;
     }
   },

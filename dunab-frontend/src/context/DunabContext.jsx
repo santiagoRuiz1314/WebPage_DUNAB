@@ -51,16 +51,16 @@ export const DunabProvider = ({ children }) => {
       if (Object.keys(filters).length > 0) {
         response = await dunabService.filterTransactions(filters);
       } else {
-        response = await dunabService.getStudentTransactions(user.id);
+        response = await dunabService.getUserTransactions(user.id);
       }
 
-      const txData = response.content || response || [];
+      const txData = response.data || response.content || response || [];
       setTransactions(txData);
 
       // Actualizar transacciones recientes usando Stack (LIFO - Last In First Out)
       // Las más recientes al principio
       const recent = txData
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .sort((a, b) => new Date(b.fechaCreacion || b.date) - new Date(a.fechaCreacion || a.date))
         .slice(0, MAX_RECENT_TRANSACTIONS);
       setRecentTransactions(recent);
 

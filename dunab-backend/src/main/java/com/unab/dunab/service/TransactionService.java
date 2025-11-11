@@ -251,6 +251,19 @@ public class TransactionService {
     }
 
     /**
+     * Obtiene transacciones por ID de usuario
+     */
+    @Transactional(readOnly = true)
+    public List<TransaccionResponse> getTransaccionesByUserId(Long userId, int page, int size) {
+        // Buscar la cuenta DUNAB del usuario
+        CuentaDunab cuenta = cuentaDunabRepository.findByEstudianteId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cuenta DUNAB", "usuario_id", userId));
+
+        // Obtener transacciones de la cuenta
+        return getTransaccionesByCuenta(cuenta.getId());
+    }
+
+    /**
      * Mapea Transaccion a TransaccionResponse
      */
     private TransaccionResponse mapToResponse(Transaccion transaccion) {
