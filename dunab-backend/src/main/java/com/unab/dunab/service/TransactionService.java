@@ -278,11 +278,16 @@ public class TransactionService {
         }
 
         // Buscar la cuenta DUNAB del usuario
-        CuentaDunab cuenta = cuentaDunabRepository.findByEstudianteId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cuenta DUNAB", "usuario_id", userId));
+        var cuentaOpt = cuentaDunabRepository.findByEstudianteId(userId);
+
+        // Si no tiene cuenta, retornar lista vacía
+        if (cuentaOpt.isEmpty()) {
+            log.info("Usuario {} no tiene cuenta DUNAB aún. Retornando lista vacía.", userId);
+            return List.of();
+        }
 
         // Obtener transacciones de la cuenta
-        return getTransaccionesByCuenta(cuenta.getId(), currentUserId);
+        return getTransaccionesByCuenta(cuentaOpt.get().getId(), currentUserId);
     }
 
     /**
@@ -291,11 +296,16 @@ public class TransactionService {
     @Transactional(readOnly = true)
     public Page<TransaccionResponse> getMisTransaccionesPaginadas(Long userId, Pageable pageable) {
         // Buscar la cuenta DUNAB del usuario
-        CuentaDunab cuenta = cuentaDunabRepository.findByEstudianteId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cuenta DUNAB", "usuario_id", userId));
+        var cuentaOpt = cuentaDunabRepository.findByEstudianteId(userId);
+
+        // Si no tiene cuenta, retornar página vacía
+        if (cuentaOpt.isEmpty()) {
+            log.info("Usuario {} no tiene cuenta DUNAB aún. Retornando página vacía.", userId);
+            return Page.empty(pageable);
+        }
 
         // Obtener transacciones paginadas
-        Page<Transaccion> transacciones = transaccionRepository.findByCuentaId(cuenta.getId(), pageable);
+        Page<Transaccion> transacciones = transaccionRepository.findByCuentaId(cuentaOpt.get().getId(), pageable);
         return transacciones.map(this::mapToResponse);
     }
 
@@ -305,8 +315,23 @@ public class TransactionService {
     @Transactional(readOnly = true)
     public EstadisticasTransaccionResponse getEstadisticasUsuario(Long userId) {
         // Buscar la cuenta DUNAB del usuario
-        CuentaDunab cuenta = cuentaDunabRepository.findByEstudianteId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cuenta DUNAB", "usuario_id", userId));
+        var cuentaOpt = cuentaDunabRepository.findByEstudianteId(userId);
+
+        // Si no tiene cuenta, retornar estadísticas vacías
+        if (cuentaOpt.isEmpty()) {
+            log.info("Usuario {} no tiene cuenta DUNAB aún. Retornando estadísticas en cero.", userId);
+            return EstadisticasTransaccionResponse.builder()
+                    .cuentaId(null)
+                    .saldoActual(BigDecimal.ZERO)
+                    .totalGanado(BigDecimal.ZERO)
+                    .totalGastado(BigDecimal.ZERO)
+                    .totalCreditos(BigDecimal.ZERO)
+                    .totalDebitos(BigDecimal.ZERO)
+                    .totalTransacciones(0L)
+                    .build();
+        }
+
+        CuentaDunab cuenta = cuentaOpt.get();
 
         // Calcular estadísticas
         BigDecimal totalCreditos = getTotalByTipo(cuenta.getId(), TransactionType.CREDITO);
@@ -330,11 +355,16 @@ public class TransactionService {
     @Transactional(readOnly = true)
     public List<TransaccionResponse> getTransaccionesByCategoria(Long userId, Long categoriaId) {
         // Buscar la cuenta DUNAB del usuario
-        CuentaDunab cuenta = cuentaDunabRepository.findByEstudianteId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cuenta DUNAB", "usuario_id", userId));
+        var cuentaOpt = cuentaDunabRepository.findByEstudianteId(userId);
+
+        // Si no tiene cuenta, retornar lista vacía
+        if (cuentaOpt.isEmpty()) {
+            log.info("Usuario {} no tiene cuenta DUNAB aún. Retornando lista vacía para categoría {}.", userId, categoriaId);
+            return List.of();
+        }
 
         // Obtener transacciones por categoría
-        List<Transaccion> transacciones = transaccionRepository.findByCuentaIdAndCategoriaId(cuenta.getId(), categoriaId);
+        List<Transaccion> transacciones = transaccionRepository.findByCuentaIdAndCategoriaId(cuentaOpt.get().getId(), categoriaId);
         return transacciones.stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -345,14 +375,29 @@ public class TransactionService {
      */
     @Transactional(readOnly = true)
     public Object getResumenMensual(Long userId, Integer mes, Integer anio) {
-        // Buscar la cuenta DUNAB del usuario
-        CuentaDunab cuenta = cuentaDunabRepository.findByEstudianteId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cuenta DUNAB", "usuario_id", userId));
-
         // Si no se proporciona mes y año, usar el mes actual
         LocalDateTime now = LocalDateTime.now();
         int mesActual = mes != null ? mes : now.getMonthValue();
         int anioActual = anio != null ? anio : now.getYear();
+
+        // Buscar la cuenta DUNAB del usuario
+        var cuentaOpt = cuentaDunabRepository.findByEstudianteId(userId);
+
+        // Si no tiene cuenta, retornar resumen vacío
+        if (cuentaOpt.isEmpty()) {
+            log.info("Usuario {} no tiene cuenta DUNAB aún. Retornando resumen mensual vacío.", userId);
+            return new java.util.HashMap<String, Object>() {{
+                put("mes", mesActual);
+                put("anio", anioActual);
+                put("totalCreditos", BigDecimal.ZERO);
+                put("totalDebitos", BigDecimal.ZERO);
+                put("diferencia", BigDecimal.ZERO);
+                put("cantidadTransacciones", 0L);
+                put("saldoActual", BigDecimal.ZERO);
+            }};
+        }
+
+        CuentaDunab cuenta = cuentaOpt.get();
 
         // Calcular fechas de inicio y fin del mes
         LocalDateTime fechaInicio = LocalDateTime.of(anioActual, mesActual, 1, 0, 0, 0);

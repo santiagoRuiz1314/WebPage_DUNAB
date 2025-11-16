@@ -5,26 +5,19 @@ import TransactionTable from '../components/dunab/TransactionTable';
 import FilterBar from '../components/dunab/FilterBar';
 import CreateTransaction from '../components/dunab/CreateTransaction';
 import TransactionCard from '../components/shared/TransactionCard';
-import { useMockTransactions, useMockCategories } from '../hooks/useMockData';
 import './Transactions.css';
 
 const Transactions = () => {
   const {
-    transactions: contextTransactions,
+    transactions,
     fetchTransactions,
     deleteTransaction,
-    categories: contextCategories,
+    categories,
     loadCategories,
     statistics,
     fetchStatistics
   } = useDunab();
   const { user } = useAuth();
-
-  // USAR DATOS MOCK SI NO HAY BACKEND
-  const mockTransactions = useMockTransactions();
-  const mockCategories = useMockCategories();
-  const transactions = contextTransactions && contextTransactions.length > 0 ? contextTransactions : mockTransactions;
-  const categories = contextCategories && contextCategories.length > 0 ? contextCategories : mockCategories;
 
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({});
@@ -296,7 +289,20 @@ const Transactions = () => {
               <div className="empty-state">
                 <div className="empty-icon">📭</div>
                 <h3>No hay transacciones</h3>
-                <p>No se encontraron transacciones con los filtros aplicados</p>
+                <p>
+                  {Object.keys(filters).length > 0
+                    ? 'No se encontraron transacciones con los filtros aplicados'
+                    : 'Aún no tienes transacciones. Empieza a ganar DUNAB completando tareas y participando en actividades.'}
+                </p>
+                {Object.keys(filters).length === 0 && isAdmin && (
+                  <button
+                    className="btn-create"
+                    onClick={() => setShowCreateModal(true)}
+                    style={{ marginTop: '1rem' }}
+                  >
+                    ➕ Crear Primera Transacción
+                  </button>
+                )}
               </div>
             )}
           </div>
