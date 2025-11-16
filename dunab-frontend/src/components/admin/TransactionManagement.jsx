@@ -38,10 +38,17 @@ const TransactionManagement = () => {
     reference: '',
   });
 
+  // Cargar transacciones cuando cambian los filtros
   useEffect(() => {
     loadTransactions();
-    loadCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
+
+  // Cargar categorías solo una vez
+  useEffect(() => {
+    loadCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const loadTransactions = async () => {
     try {

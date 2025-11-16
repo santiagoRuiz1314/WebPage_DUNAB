@@ -31,12 +31,13 @@ const CategoryManagement = () => {
   const [loading, setLoading] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
 
-  // Cargar categorías al montar
+  // Cargar categorías al montar (solo una vez)
   useEffect(() => {
     if (loadCategories) {
       loadCategories();
     }
-  }, [loadCategories]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Array vacío: solo se ejecuta al montar el componente
 
   // Iconos predefinidos
   const availableIcons = [

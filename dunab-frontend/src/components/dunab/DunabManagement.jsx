@@ -38,7 +38,7 @@ const DunabManagement = () => {
   const [editingTransaction, setEditingTransaction] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
 
-  // Cargar datos al montar
+  // Cargar datos al montar (solo una vez)
   useEffect(() => {
     if (fetchTransactions) {
       fetchTransactions();
@@ -46,7 +46,8 @@ const DunabManagement = () => {
     if (fetchStatistics) {
       fetchStatistics();
     }
-  }, [fetchTransactions, fetchStatistics]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Array vacío: solo se ejecuta al montar el componente
 
   // Configuración de tabs
   const tabs = [

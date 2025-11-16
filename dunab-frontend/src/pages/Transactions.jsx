@@ -20,12 +20,19 @@ const Transactions = () => {
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    searchTerm: '',
+    type: 'all',
+    category: 'all',
+    status: 'all',
+    dateFrom: '',
+    dateTo: ''
+  });
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [viewMode, setViewMode] = useState('table'); // 'table' or 'cards'
 
-  // Cargar datos iniciales
+  // Cargar datos iniciales solo una vez al montar el componente
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -43,7 +50,8 @@ const Transactions = () => {
     };
 
     fetchData();
-  }, [fetchTransactions, loadCategories, fetchStatistics]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Array vacío: solo se ejecuta al montar el componente
 
   // Aplicar filtros a las transacciones
   const filteredTransactions = useMemo(() => {
@@ -63,31 +71,31 @@ const Transactions = () => {
       }
 
       // Filtro por tipo
-      if (filters.tipo && transaction.tipo?.toLowerCase() !== filters.tipo.toLowerCase()) {
+      if (filters.type && filters.type !== 'all' && transaction.tipo?.toLowerCase() !== filters.type.toLowerCase()) {
         return false;
       }
 
       // Filtro por categoría
-      if (filters.categoria && transaction.categoria !== filters.categoria) {
+      if (filters.category && filters.category !== 'all' && transaction.categoria !== filters.category) {
         return false;
       }
 
       // Filtro por estado
-      if (filters.estado && transaction.estado?.toLowerCase() !== filters.estado.toLowerCase()) {
+      if (filters.status && filters.status !== 'all' && transaction.estado?.toLowerCase() !== filters.status.toLowerCase()) {
         return false;
       }
 
       // Filtro por fecha de inicio
-      if (filters.fechaInicio) {
+      if (filters.dateFrom) {
         const transactionDate = new Date(transaction.fecha);
-        const startDate = new Date(filters.fechaInicio);
+        const startDate = new Date(filters.dateFrom);
         if (transactionDate < startDate) return false;
       }
 
       // Filtro por fecha fin
-      if (filters.fechaFin) {
+      if (filters.dateTo) {
         const transactionDate = new Date(transaction.fecha);
-        const endDate = new Date(filters.fechaFin);
+        const endDate = new Date(filters.dateTo);
         endDate.setHours(23, 59, 59, 999); // Final del día
         if (transactionDate > endDate) return false;
       }
@@ -98,7 +106,22 @@ const Transactions = () => {
 
   // Manejar cambios de filtros
   const handleFilterChange = useCallback((newFilters) => {
-    setFilters(newFilters);
+    setFilters(prev => ({
+      ...prev,
+      ...newFilters
+    }));
+  }, []);
+
+  // Manejar limpieza de filtros
+  const handleClearFilters = useCallback(() => {
+    setFilters({
+      searchTerm: '',
+      type: 'all',
+      category: 'all',
+      status: 'all',
+      dateFrom: '',
+      dateTo: ''
+    });
   }, []);
 
   // Manejar click en transacción
@@ -226,8 +249,11 @@ const Transactions = () => {
 
       {/* Filtros */}
       <FilterBar
-        onFilter={handleFilterChange}
+        filters={filters}
+        onFilterChange={handleFilterChange}
+        onClearFilters={handleClearFilters}
         categories={categories}
+        resultCount={filteredTransactions?.length || 0}
       />
 
       {/* Estadísticas rápidas */}
@@ -290,11 +316,13 @@ const Transactions = () => {
                 <div className="empty-icon">📭</div>
                 <h3>No hay transacciones</h3>
                 <p>
-                  {Object.keys(filters).length > 0
-                    ? 'No se encontraron transacciones con los filtros aplicados'
+                  {(filters.searchTerm || filters.type !== 'all' || filters.category !== 'all' ||
+                    filters.status !== 'all' || filters.dateFrom || filters.dateTo)
+                    ? 'No se encontraron transacciones con los filtros aplicados. Intenta ajustar tus criterios de búsqueda.'
                     : 'Aún no tienes transacciones. Empieza a ganar DUNAB completando tareas y participando en actividades.'}
                 </p>
-                {Object.keys(filters).length === 0 && isAdmin && (
+                {!(filters.searchTerm || filters.type !== 'all' || filters.category !== 'all' ||
+                   filters.status !== 'all' || filters.dateFrom || filters.dateTo) && isAdmin && (
                   <button
                     className="btn-create"
                     onClick={() => setShowCreateModal(true)}

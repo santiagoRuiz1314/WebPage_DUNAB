@@ -62,7 +62,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
     }
   }, [mode, initialData]);
 
-  // Cargar categorías y estudiantes al montar
+  // Cargar categorías y estudiantes al montar (solo una vez)
   useEffect(() => {
     if (loadCategories) {
       loadCategories();
@@ -70,7 +70,8 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
     if (loadStudents) {
       loadStudents();
     }
-  }, [loadCategories, loadStudents]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Array vacío: solo se ejecuta al montar el componente
 
   // Buscar estudiantes cuando cambia el término de búsqueda
   useEffect(() => {

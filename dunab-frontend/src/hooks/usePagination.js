@@ -1,132 +1,68 @@
-import { useState, useMemo } from 'react';
-import { PAGINATION } from '../utils/constants';
+import { useState, useMemo, useEffect } from 'react';
 
 /**
  * Hook personalizado para manejar la paginación de datos
  *
- * @param {number} initialPage - Página inicial (default: 0)
- * @param {number} initialPageSize - Tamaño de página inicial (default: 10)
+ * @param {Array} items - Array de datos a paginar
+ * @param {number} itemsPerPage - Cantidad de items por página
  * @returns {object} Objeto con estado y funciones de paginación
  *
  * @example
- * const { page, pageSize, handlePageChange, handlePageSizeChange, getPaginatedData, totalPages } = usePagination();
- *
- * const paginatedTransactions = getPaginatedData(transactions);
+ * const { currentPage, totalPages, currentItems, goToPage, nextPage, previousPage } = usePagination(data, 10);
  */
-const usePagination = (
-  initialPage = 0,
-  initialPageSize = PAGINATION.DEFAULT_PAGE_SIZE
-) => {
-  const [page, setPage] = useState(initialPage);
-  const [pageSize, setPageSize] = useState(initialPageSize);
+const usePagination = (items = [], itemsPerPage = 10) => {
+  const [currentPage, setCurrentPage] = useState(1);
 
-  /**
-   * Cambia a una nueva página
-   * @param {number} newPage - Número de página
-   */
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
+  // Calcular total de páginas
+  const totalPages = useMemo(() => {
+    if (!items || items.length === 0) return 0;
+    return Math.ceil(items.length / itemsPerPage);
+  }, [items, itemsPerPage]);
+
+  // Obtener items de la página actual
+  const currentItems = useMemo(() => {
+    if (!items || items.length === 0) return [];
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    return items.slice(indexOfFirstItem, indexOfLastItem);
+  }, [items, currentPage, itemsPerPage]);
+
+  // Ir a una página específica
+  const goToPage = (pageNumber) => {
+    const pageNum = Math.max(1, Math.min(pageNumber, totalPages));
+    setCurrentPage(pageNum);
   };
 
-  /**
-   * Cambia el tamaño de página y resetea a la primera página
-   * @param {number} newPageSize - Nuevo tamaño de página
-   */
-  const handlePageSizeChange = (newPageSize) => {
-    setPageSize(newPageSize);
-    setPage(0); // Reset to first page
-  };
-
-  /**
-   * Avanza a la siguiente página
-   */
+  // Ir a la siguiente página
   const nextPage = () => {
-    setPage((prev) => prev + 1);
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
-  /**
-   * Retrocede a la página anterior
-   */
-  const prevPage = () => {
-    setPage((prev) => Math.max(0, prev - 1));
+  // Ir a la página anterior
+  const previousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
-  /**
-   * Ir a la primera página
-   */
-  const firstPage = () => {
-    setPage(0);
-  };
+  // Verificar si se puede ir a la siguiente página
+  const canGoNext = currentPage < totalPages;
 
-  /**
-   * Ir a la última página
-   * @param {number} total - Total de items
-   */
-  const lastPage = (total) => {
-    const totalPages = Math.ceil(total / pageSize);
-    setPage(Math.max(0, totalPages - 1));
-  };
+  // Verificar si se puede ir a la página anterior
+  const canGoPrevious = currentPage > 1;
 
-  /**
-   * Resetea la paginación a los valores iniciales
-   */
-  const reset = () => {
-    setPage(initialPage);
-    setPageSize(initialPageSize);
-  };
-
-  /**
-   * Obtiene los datos paginados de un array
-   * @param {Array} data - Array de datos
-   * @returns {Array} Datos paginados
-   */
-  const getPaginatedData = (data) => {
-    if (!data || !Array.isArray(data)) return [];
-    const start = page * pageSize;
-    const end = start + pageSize;
-    return data.slice(start, end);
-  };
-
-  /**
-   * Calcula el número total de páginas
-   * @param {number} total - Total de items
-   * @returns {number} Número total de páginas
-   */
-  const getTotalPages = (total) => {
-    return Math.ceil(total / pageSize);
-  };
-
-  /**
-   * Verifica si hay página siguiente
-   * @param {number} total - Total de items
-   * @returns {boolean}
-   */
-  const hasNextPage = (total) => {
-    return page < getTotalPages(total) - 1;
-  };
-
-  /**
-   * Verifica si hay página anterior
-   * @returns {boolean}
-   */
-  const hasPrevPage = () => {
-    return page > 0;
-  };
+  // Resetear a la primera página cuando cambian los items
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [items]);
 
   return {
-    page,
-    pageSize,
-    handlePageChange,
-    handlePageSizeChange,
+    currentPage,
+    totalPages,
+    currentItems,
+    goToPage,
     nextPage,
-    prevPage,
-    firstPage,
-    lastPage,
-    reset,
-    getPaginatedData,
-    getTotalPages,
-    hasNextPage,
-    hasPrevPage,
+    previousPage,
+    canGoNext,
+    canGoPrevious,
   };
 };
 

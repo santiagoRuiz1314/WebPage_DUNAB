@@ -19,6 +19,14 @@ export const DunabProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Guards para evitar llamadas simultáneas
+  const loadingRef = useState({
+    transactions: false,
+    categories: false,
+    statistics: false,
+    balance: false
+  })[0];
+
   /**
    * Obtener saldo del usuario actual
    */
@@ -44,7 +52,14 @@ export const DunabProvider = ({ children }) => {
   const fetchTransactions = async (page = 0, size = 100) => {
     if (!user?.id) return;
 
+    // Guard: evitar llamadas simultáneas
+    if (loadingRef.transactions) {
+      console.log('⚠️ fetchTransactions ya está en progreso, ignorando llamada duplicada');
+      return;
+    }
+
     try {
+      loadingRef.transactions = true;
       setLoading(true);
       setError(null);
 
@@ -67,6 +82,7 @@ export const DunabProvider = ({ children }) => {
       return [];
     } finally {
       setLoading(false);
+      loadingRef.transactions = false;
     }
   };
 
@@ -76,7 +92,14 @@ export const DunabProvider = ({ children }) => {
   const fetchStatistics = async () => {
     if (!user?.id) return;
 
+    // Guard: evitar llamadas simultáneas
+    if (loadingRef.statistics) {
+      console.log('⚠️ fetchStatistics ya está en progreso, ignorando llamada duplicada');
+      return;
+    }
+
     try {
+      loadingRef.statistics = true;
       setLoading(true);
       setError(null);
       // Usar el nuevo endpoint de estadísticas de transacciones
@@ -88,6 +111,7 @@ export const DunabProvider = ({ children }) => {
       setError(err.message || 'Error al obtener las estadísticas');
     } finally {
       setLoading(false);
+      loadingRef.statistics = false;
     }
   };
 
@@ -95,12 +119,21 @@ export const DunabProvider = ({ children }) => {
    * Obtener categorías de transacciones
    */
   const fetchCategories = async () => {
+    // Guard: evitar llamadas simultáneas
+    if (loadingRef.categories) {
+      console.log('⚠️ fetchCategories ya está en progreso, ignorando llamada duplicada');
+      return;
+    }
+
     try {
+      loadingRef.categories = true;
       const cats = await dunabService.getCategories();
       setCategories(cats || []);
       return cats;
     } catch (err) {
       console.error('Error fetching categories:', err);
+    } finally {
+      loadingRef.categories = false;
     }
   };
 
@@ -326,12 +359,13 @@ export const DunabProvider = ({ children }) => {
     ]);
   };
 
-  // Cargar datos iniciales cuando el usuario está autenticado
-  useEffect(() => {
-    if (isAuthenticated && user?.id) {
-      refreshAll();
-    }
-  }, [isAuthenticated, user?.id]);
+  // Los datos se cargan bajo demanda cuando los componentes los necesitan
+  // No cargamos automáticamente para evitar bucles infinitos
+  // useEffect(() => {
+  //   if (isAuthenticated && user?.id) {
+  //     refreshAll();
+  //   }
+  // }, [isAuthenticated, user?.id]);
 
   const value = {
     balance,
