@@ -98,28 +98,6 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-
-      <div className="quick-actions">
-        <h3>{t('admin.quickActions')}</h3>
-        <div className="actions-grid">
-          <button className="action-btn">
-            <span className="action-icon">➕</span>
-            <span>{t('admin.createUser')}</span>
-          </button>
-          <button className="action-btn">
-            <span className="action-icon">💳</span>
-            <span>{t('transactions.create')}</span>
-          </button>
-          <button className="action-btn">
-            <span className="action-icon">📅</span>
-            <span>{t('admin.createEvent')}</span>
-          </button>
-          <button className="action-btn">
-            <span className="action-icon">📊</span>
-            <span>{t('admin.generateReport')}</span>
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

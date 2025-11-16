@@ -80,31 +80,6 @@ const Dashboard = () => {
             </div>
           </div>
         </section>
-
-        {/* Sección de Acciones Rápidas (opcional) */}
-        <section className="dashboard-section quick-actions-section">
-          <div className="quick-actions-card">
-            <h3 className="quick-actions-title">⚡ Acciones Rápidas</h3>
-            <div className="quick-actions-grid">
-              <a href="/transactions" className="quick-action-btn">
-                <span className="action-icon">💳</span>
-                <span className="action-label">Historial Completo</span>
-              </a>
-              <a href="/events" className="quick-action-btn">
-                <span className="action-icon">🎉</span>
-                <span className="action-label">Ver Eventos</span>
-              </a>
-              <a href="/profile" className="quick-action-btn">
-                <span className="action-icon">👤</span>
-                <span className="action-label">Mi Perfil</span>
-              </a>
-              <a href="/admin" className="quick-action-btn">
-                <span className="action-icon">⚙️</span>
-                <span className="action-label">Panel Admin</span>
-              </a>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   );
