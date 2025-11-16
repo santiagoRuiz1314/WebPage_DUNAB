@@ -47,10 +47,6 @@ public class User {
     @Column(unique = true, length = 20)
     private String codigoEstudiante;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private Role rol = Role.USER;
-
     @Column(nullable = false)
     private Boolean activo = true;
 

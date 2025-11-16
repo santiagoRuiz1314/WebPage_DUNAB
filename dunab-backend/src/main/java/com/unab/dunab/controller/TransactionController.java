@@ -2,6 +2,7 @@ package com.unab.dunab.controller;
 
 import com.unab.dunab.dto.request.TransaccionRequest;
 import com.unab.dunab.dto.response.ApiResponse;
+import com.unab.dunab.dto.response.EstadisticasTransaccionResponse;
 import com.unab.dunab.dto.response.TransaccionResponse;
 import com.unab.dunab.model.TransactionType;
 import com.unab.dunab.security.UserPrincipal;
@@ -57,8 +58,9 @@ public class TransactionController {
      */
     @GetMapping("/cuenta/{cuentaId}")
     public ResponseEntity<ApiResponse<List<TransaccionResponse>>> getTransaccionesByCuenta(
-            @PathVariable Long cuentaId) {
-        List<TransaccionResponse> transacciones = transactionService.getTransaccionesByCuenta(cuentaId);
+            @PathVariable Long cuentaId,
+            @AuthenticationPrincipal UserPrincipal currentUser) {
+        List<TransaccionResponse> transacciones = transactionService.getTransaccionesByCuenta(cuentaId, currentUser.getId());
         return ResponseEntity.ok(ApiResponse.success(transacciones));
     }
 
@@ -68,8 +70,9 @@ public class TransactionController {
     @GetMapping("/cuenta/{cuentaId}/paginado")
     public ResponseEntity<ApiResponse<Page<TransaccionResponse>>> getTransaccionesPaginadas(
             @PathVariable Long cuentaId,
-            Pageable pageable) {
-        Page<TransaccionResponse> transacciones = transactionService.getTransaccionesByCuentaPaginado(cuentaId, pageable);
+            Pageable pageable,
+            @AuthenticationPrincipal UserPrincipal currentUser) {
+        Page<TransaccionResponse> transacciones = transactionService.getTransaccionesByCuentaPaginado(cuentaId, pageable, currentUser.getId());
         return ResponseEntity.ok(ApiResponse.success(transacciones));
     }
 
@@ -155,8 +158,65 @@ public class TransactionController {
     public ResponseEntity<ApiResponse<List<TransaccionResponse>>> getTransaccionesByUserId(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        List<TransaccionResponse> transacciones = transactionService.getTransaccionesByUserId(userId, page, size);
+            @RequestParam(defaultValue = "10") int size,
+            @AuthenticationPrincipal UserPrincipal currentUser) {
+        List<TransaccionResponse> transacciones = transactionService.getTransaccionesByUserId(userId, page, size, currentUser.getId());
         return ResponseEntity.ok(ApiResponse.success(transacciones));
+    }
+
+    /**
+     * GET /api/dunab/transactions/mis-transacciones - Obtener transacciones del usuario autenticado
+     */
+    @GetMapping("/mis-transacciones")
+    public ResponseEntity<ApiResponse<List<TransaccionResponse>>> getMisTransacciones(
+            @AuthenticationPrincipal UserPrincipal currentUser,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        List<TransaccionResponse> transacciones = transactionService.getTransaccionesByUserId(currentUser.getId(), page, size, currentUser.getId());
+        return ResponseEntity.ok(ApiResponse.success(transacciones));
+    }
+
+    /**
+     * GET /api/dunab/transactions/mis-transacciones/paginado - Obtener transacciones del usuario autenticado (paginado)
+     */
+    @GetMapping("/mis-transacciones/paginado")
+    public ResponseEntity<ApiResponse<Page<TransaccionResponse>>> getMisTransaccionesPaginadas(
+            @AuthenticationPrincipal UserPrincipal currentUser,
+            Pageable pageable) {
+        Page<TransaccionResponse> transacciones = transactionService.getMisTransaccionesPaginadas(currentUser.getId(), pageable);
+        return ResponseEntity.ok(ApiResponse.success(transacciones));
+    }
+
+    /**
+     * GET /api/dunab/transactions/estadisticas - Obtener estadísticas de transacciones del usuario
+     */
+    @GetMapping("/estadisticas")
+    public ResponseEntity<ApiResponse<EstadisticasTransaccionResponse>> getEstadisticas(
+            @AuthenticationPrincipal UserPrincipal currentUser) {
+        EstadisticasTransaccionResponse estadisticas = transactionService.getEstadisticasUsuario(currentUser.getId());
+        return ResponseEntity.ok(ApiResponse.success(estadisticas, "Estadísticas obtenidas exitosamente"));
+    }
+
+    /**
+     * GET /api/dunab/transactions/mis-transacciones/categoria/{categoriaId} - Obtener transacciones por categoría
+     */
+    @GetMapping("/mis-transacciones/categoria/{categoriaId}")
+    public ResponseEntity<ApiResponse<List<TransaccionResponse>>> getTransaccionesByCategoria(
+            @PathVariable Long categoriaId,
+            @AuthenticationPrincipal UserPrincipal currentUser) {
+        List<TransaccionResponse> transacciones = transactionService.getTransaccionesByCategoria(currentUser.getId(), categoriaId);
+        return ResponseEntity.ok(ApiResponse.success(transacciones, "Transacciones por categoría obtenidas exitosamente"));
+    }
+
+    /**
+     * GET /api/dunab/transactions/resumen-mensual - Obtener resumen de transacciones del mes actual
+     */
+    @GetMapping("/resumen-mensual")
+    public ResponseEntity<ApiResponse<Object>> getResumenMensual(
+            @AuthenticationPrincipal UserPrincipal currentUser,
+            @RequestParam(required = false) Integer mes,
+            @RequestParam(required = false) Integer anio) {
+        Object resumen = transactionService.getResumenMensual(currentUser.getId(), mes, anio);
+        return ResponseEntity.ok(ApiResponse.success(resumen, "Resumen mensual obtenido exitosamente"));
     }
 }

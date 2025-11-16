@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import dunabService from '../services/dunabService';
+import transactionService from '../services/transactionService';
 import categoryService from '../services/categoryService';
 import studentService from '../services/studentService';
 import { useAuth } from './AuthContext';
@@ -40,20 +41,15 @@ export const DunabProvider = ({ children }) => {
   /**
    * Obtener transacciones del usuario (con filtros opcionales)
    */
-  const fetchTransactions = async (filters = {}) => {
+  const fetchTransactions = async (page = 0, size = 100) => {
     if (!user?.id) return;
 
     try {
       setLoading(true);
       setError(null);
 
-      let response;
-      if (Object.keys(filters).length > 0) {
-        response = await dunabService.filterTransactions(filters);
-      } else {
-        response = await dunabService.getUserTransactions(user.id);
-      }
-
+      // Usar el nuevo servicio de transacciones
+      const response = await transactionService.getMyTransactions(page, size);
       const txData = response.data || response.content || response || [];
       setTransactions(txData);
 
@@ -83,7 +79,8 @@ export const DunabProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      const stats = await dunabService.getStudentStatistics(user.id);
+      // Usar el nuevo endpoint de estadísticas de transacciones
+      const stats = await transactionService.getStatistics();
       setStatistics(stats);
       return stats;
     } catch (err) {
@@ -115,11 +112,13 @@ export const DunabProvider = ({ children }) => {
       setLoading(true);
       setError(null);
 
-      const newTransaction = await dunabService.createTransaction(transactionData);
+      // Usar el nuevo servicio de transacciones
+      const newTransaction = await transactionService.createTransaction(transactionData);
 
       // Actualizar el balance y las transacciones localmente
       await fetchBalance();
       await fetchTransactions();
+      await fetchStatistics();
 
       return newTransaction;
     } catch (err) {
@@ -158,16 +157,18 @@ export const DunabProvider = ({ children }) => {
   /**
    * Eliminar/anular una transacción
    */
-  const deleteTransaction = async (transactionId, reason = '') => {
+  const deleteTransaction = async (transactionId, justificacion = 'Anulación solicitada por el usuario') => {
     try {
       setLoading(true);
       setError(null);
 
-      await dunabService.deleteTransaction(transactionId, reason);
+      // Usar el nuevo servicio de transacciones con el método correcto
+      await transactionService.cancelTransaction(transactionId, justificacion);
 
       // Refrescar datos
       await fetchBalance();
       await fetchTransactions();
+      await fetchStatistics();
     } catch (err) {
       console.error('Error deleting transaction:', err);
       setError(err.message || 'Error al eliminar la transacción');
@@ -268,6 +269,52 @@ export const DunabProvider = ({ children }) => {
   };
 
   /**
+   * Obtener transacciones con paginación
+   */
+  const fetchTransactionsPaginated = async (page = 0, size = 10, sort = 'fechaCreacion,desc') => {
+    if (!user?.id) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await transactionService.getMyTransactionsPaginated(page, size, sort);
+      return response;
+    } catch (err) {
+      console.error('Error fetching paginated transactions:', err);
+      setError(err.message || 'Error al obtener las transacciones');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Obtener resumen mensual
+   */
+  const getMonthlySummary = async (mes = null, anio = null) => {
+    try {
+      const response = await transactionService.getMonthlySummary(mes, anio);
+      return response;
+    } catch (err) {
+      console.error('Error fetching monthly summary:', err);
+      throw err;
+    }
+  };
+
+  /**
+   * Filtrar transacciones por categoría
+   */
+  const getTransactionsByCategory = async (categoriaId) => {
+    try {
+      const response = await transactionService.getByCategory(categoriaId);
+      return response;
+    } catch (err) {
+      console.error('Error fetching transactions by category:', err);
+      throw err;
+    }
+  };
+
+  /**
    * Refrescar todos los datos
    */
   const refreshAll = async () => {
@@ -297,6 +344,7 @@ export const DunabProvider = ({ children }) => {
     error,
     fetchBalance,
     fetchTransactions,
+    fetchTransactionsPaginated,
     fetchStatistics,
     fetchCategories,
     createTransaction,
@@ -304,6 +352,8 @@ export const DunabProvider = ({ children }) => {
     deleteTransaction,
     pushRecentTransaction,
     popRecentTransaction,
+    getMonthlySummary,
+    getTransactionsByCategory,
     clearError,
     refreshAll,
     // Funciones de estudiantes

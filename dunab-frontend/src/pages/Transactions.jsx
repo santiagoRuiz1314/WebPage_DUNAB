@@ -9,7 +9,15 @@ import { useMockTransactions, useMockCategories } from '../hooks/useMockData';
 import './Transactions.css';
 
 const Transactions = () => {
-  const { transactions: contextTransactions, loadTransactions, deleteTransaction, categories: contextCategories, loadCategories } = useDunab();
+  const {
+    transactions: contextTransactions,
+    fetchTransactions,
+    deleteTransaction,
+    categories: contextCategories,
+    loadCategories,
+    statistics,
+    fetchStatistics
+  } = useDunab();
   const { user } = useAuth();
 
   // USAR DATOS MOCK SI NO HAY BACKEND
@@ -30,8 +38,9 @@ const Transactions = () => {
       setLoading(true);
       try {
         await Promise.all([
-          loadTransactions(),
-          loadCategories && loadCategories()
+          fetchTransactions(),
+          loadCategories && loadCategories(),
+          fetchStatistics && fetchStatistics()
         ]);
       } catch (error) {
         console.error('Error loading data:', error);
@@ -41,7 +50,7 @@ const Transactions = () => {
     };
 
     fetchData();
-  }, [loadTransactions, loadCategories]);
+  }, [fetchTransactions, loadCategories, fetchStatistics]);
 
   // Aplicar filtros a las transacciones
   const filteredTransactions = useMemo(() => {
@@ -118,7 +127,10 @@ const Transactions = () => {
 
     try {
       await deleteTransaction(transaction.id);
-      await loadTransactions(); // Recargar lista
+      await fetchTransactions(); // Recargar lista
+      if (fetchStatistics) {
+        await fetchStatistics(); // Recargar estadísticas
+      }
     } catch (error) {
       alert('Error al anular la transacción: ' + (error.response?.data?.message || error.message));
     }
@@ -128,7 +140,10 @@ const Transactions = () => {
   const handleTransactionSuccess = async () => {
     setShowCreateModal(false);
     setSelectedTransaction(null);
-    await loadTransactions(); // Recargar lista
+    await fetchTransactions(); // Recargar lista
+    if (fetchStatistics) {
+      await fetchStatistics(); // Recargar estadísticas
+    }
   };
 
   // Exportar transacciones a CSV
@@ -226,22 +241,24 @@ const Transactions = () => {
       <div className="quick-stats">
         <div className="stat-card">
           <span className="stat-label">Total Transacciones</span>
-          <span className="stat-value">{filteredTransactions?.length || 0}</span>
+          <span className="stat-value">{statistics?.totalTransacciones || filteredTransactions?.length || 0}</span>
         </div>
         <div className="stat-card income">
-          <span className="stat-label">Ingresos</span>
+          <span className="stat-label">Total Ganado</span>
           <span className="stat-value">
-            {filteredTransactions?.filter(t =>
-              t.tipo?.toLowerCase() === 'ingreso' || t.tipo?.toLowerCase() === 'credito'
-            ).length || 0}
+            {statistics?.totalGanado?.toFixed(2) || '0.00'} D
           </span>
         </div>
         <div className="stat-card expense">
-          <span className="stat-label">Egresos</span>
+          <span className="stat-label">Total Gastado</span>
           <span className="stat-value">
-            {filteredTransactions?.filter(t =>
-              t.tipo?.toLowerCase() === 'egreso' || t.tipo?.toLowerCase() === 'debito'
-            ).length || 0}
+            {statistics?.totalGastado?.toFixed(2) || '0.00'} D
+          </span>
+        </div>
+        <div className="stat-card balance">
+          <span className="stat-label">Saldo Actual</span>
+          <span className="stat-value">
+            {statistics?.saldoActual?.toFixed(2) || '0.00'} D
           </span>
         </div>
       </div>

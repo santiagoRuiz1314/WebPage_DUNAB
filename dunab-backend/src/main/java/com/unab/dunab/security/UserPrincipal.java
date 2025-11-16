@@ -28,8 +28,9 @@ public class UserPrincipal implements UserDetails {
     private boolean activo;
 
     public static UserPrincipal create(User user) {
+        // Todos los usuarios autenticados tienen el rol USER por defecto
         Collection<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_" + user.getRol().name())
+                new SimpleGrantedAuthority("ROLE_USER")
         );
 
         return new UserPrincipal(

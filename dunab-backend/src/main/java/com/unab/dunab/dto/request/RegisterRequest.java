@@ -1,6 +1,5 @@
 package com.unab.dunab.dto.request;
 
-import com.unab.dunab.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -30,6 +29,4 @@ public class RegisterRequest {
     private String password;
 
     private String codigoEstudiante;
-
-    private Role rol = Role.USER;
 }

@@ -1,6 +1,5 @@
 package com.unab.dunab.dto.response;
 
-import com.unab.dunab.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +17,4 @@ public class AuthResponse {
     private String email;
     private String nombre;
     private String apellido;
-    private Role rol;
 }

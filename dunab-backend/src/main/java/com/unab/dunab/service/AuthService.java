@@ -54,7 +54,6 @@ public class AuthService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .codigoEstudiante(request.getCodigoEstudiante())
-                .rol(request.getRol())
                 .activo(true)
                 .build();
 
@@ -82,7 +81,6 @@ public class AuthService {
                 .email(usuario.getEmail())
                 .nombre(usuario.getNombre())
                 .apellido(usuario.getApellido())
-                .rol(usuario.getRol())
                 .build();
     }
 
@@ -119,7 +117,6 @@ public class AuthService {
                 .email(usuario.getEmail())
                 .nombre(usuario.getNombre())
                 .apellido(usuario.getApellido())
-                .rol(usuario.getRol())
                 .build();
     }
 
@@ -145,7 +142,6 @@ public class AuthService {
                 .email(usuario.getEmail())
                 .nombre(usuario.getNombre())
                 .apellido(usuario.getApellido())
-                .rol(usuario.getRol())
                 .build();
     }
 
@@ -173,7 +169,6 @@ public class AuthService {
                 .email(usuario.getEmail())
                 .nombre(usuario.getNombre())
                 .apellido(usuario.getApellido())
-                .rol(usuario.getRol())
                 .build();
     }
 
@@ -198,7 +193,6 @@ public class AuthService {
                 .email(usuario.getEmail())
                 .nombre(usuario.getNombre())
                 .apellido(usuario.getApellido())
-                .rol(usuario.getRol())
                 .tipo("Bearer")
                 .build();
     }
