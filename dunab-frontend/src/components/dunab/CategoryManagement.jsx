@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDunab } from '../../context/DunabContext';
+import {
+  FiTag, FiPlus, FiEdit3, FiTrash2, FiAlertTriangle,
+  FiSave, FiX
+} from 'react-icons/fi';
+import { MdCategory } from 'react-icons/md';
 import './CategoryManagement.css';
 
 /**
@@ -181,7 +186,7 @@ const CategoryManagement = () => {
       {/* Header */}
       <div className="category-header">
         <div className="header-info">
-          <h3>🏷️ Categorías de Transacciones</h3>
+          <h3><MdCategory /> Categorías de Transacciones</h3>
           <p className="header-subtitle">
             {categories?.length || 0} categorías registradas
           </p>
@@ -191,7 +196,7 @@ const CategoryManagement = () => {
             className="btn-add-category"
             onClick={() => setShowForm(true)}
           >
-            ➕ Nueva Categoría
+            <FiPlus /> Nueva Categoría
           </button>
         )}
       </div>
@@ -200,7 +205,7 @@ const CategoryManagement = () => {
       {showForm && (
         <div className="category-form-container">
           <form onSubmit={handleSubmit} className="category-form">
-            <h4>{editingCategory ? '✏️ Editar Categoría' : '➕ Nueva Categoría'}</h4>
+            <h4>{editingCategory ? <><FiEdit3 /> Editar Categoría</> : <><FiPlus /> Nueva Categoría</>}</h4>
 
             {errors.submit && (
               <div className="form-error">{errors.submit}</div>
@@ -285,7 +290,7 @@ const CategoryManagement = () => {
                 className="btn-save"
                 disabled={loading}
               >
-                {loading ? 'Guardando...' : editingCategory ? '💾 Guardar Cambios' : '➕ Crear Categoría'}
+                {loading ? 'Guardando...' : editingCategory ? <><FiSave /> Guardar Cambios</> : <><FiPlus /> Crear Categoría</>}
               </button>
             </div>
           </form>
@@ -321,7 +326,7 @@ const CategoryManagement = () => {
                     onClick={() => handleEdit(category)}
                     title="Editar"
                   >
-                    ✏️
+                    <FiEdit3 />
                   </button>
                   {!systemCategories.includes(category.nombre) && (
                     <button
@@ -329,7 +334,7 @@ const CategoryManagement = () => {
                       onClick={() => setDeleteConfirm(category)}
                       title="Eliminar"
                     >
-                      🗑️
+                      <FiTrash2 />
                     </button>
                   )}
                 </div>
@@ -350,14 +355,14 @@ const CategoryManagement = () => {
       {deleteConfirm && (
         <div className="modal-overlay" onClick={() => setDeleteConfirm(null)}>
           <div className="modal-content modal-confirm" onClick={(e) => e.stopPropagation()}>
-            <h3>⚠️ Confirmar Eliminación</h3>
+            <h3><FiAlertTriangle /> Confirmar Eliminación</h3>
             <p>¿Estás seguro de que deseas eliminar esta categoría?</p>
             <div className="category-to-delete">
               <span className="icon">{deleteConfirm.icono}</span>
               <strong>{deleteConfirm.nombre}</strong>
             </div>
             {errors.delete && (
-              <div className="delete-error">⚠️ {errors.delete}</div>
+              <div className="delete-error"><FiAlertTriangle /> {errors.delete}</div>
             )}
             <p className="warning-text">
               Esta acción no se puede deshacer. Solo se pueden eliminar categorías sin transacciones asociadas.

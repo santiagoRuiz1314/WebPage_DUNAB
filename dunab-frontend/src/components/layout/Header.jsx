@@ -5,6 +5,9 @@ import DunabBalance from '../dunab/DunabBalance';
 import NotificationBell from '../notifications/NotificationBell';
 import LanguageSelector from '../shared/LanguageSelector';
 import ThemeToggle from '../shared/ThemeToggle';
+import { HiMenu, HiX } from 'react-icons/hi';
+import { MdAttachMoney, MdPerson, MdAccountBalanceWallet, MdLogout } from 'react-icons/md';
+import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 
 const Header = ({ toggleSidebar, sidebarOpen }) => {
   const { user, logout } = useAuth();
@@ -29,12 +32,14 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
           aria-label="Toggle Sidebar"
         >
           <span className="hamburger-icon">
-            {sidebarOpen ? '✕' : '☰'}
+            {sidebarOpen ? <HiX size={24} /> : <HiMenu size={24} />}
           </span>
         </button>
 
         <div className="header-logo">
-          <span className="logo-icon">💰</span>
+          <span className="logo-icon">
+            <MdAttachMoney size={28} />
+          </span>
           <h1 className="logo-text">DUNAB</h1>
         </div>
       </div>
@@ -58,7 +63,9 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
               {user?.nombre?.[0]}{user?.apellido?.[0]}
             </div>
             <span className="user-name">{user?.nombre} {user?.apellido}</span>
-            <span className="dropdown-arrow">{dropdownOpen ? '▲' : '▼'}</span>
+            <span className="dropdown-arrow">
+              {dropdownOpen ? <IoChevronUp size={16} /> : <IoChevronDown size={16} />}
+            </span>
           </button>
 
           {dropdownOpen && (
@@ -76,7 +83,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
                   setDropdownOpen(false);
                 }}
               >
-                👤 Mi Perfil
+                <MdPerson size={18} /> Mi Perfil
               </button>
               <button
                 className="dropdown-item"
@@ -85,14 +92,14 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
                   setDropdownOpen(false);
                 }}
               >
-                💳 Mis Transacciones
+                <MdAccountBalanceWallet size={18} /> Mis Transacciones
               </button>
               <div className="dropdown-divider"></div>
               <button
                 className="dropdown-item logout-btn"
                 onClick={handleLogout}
               >
-                🚪 Cerrar Sesión
+                <MdLogout size={18} /> Cerrar Sesión
               </button>
             </div>
           )}

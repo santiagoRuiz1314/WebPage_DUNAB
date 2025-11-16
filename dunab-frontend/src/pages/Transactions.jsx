@@ -5,6 +5,10 @@ import TransactionTable from '../components/dunab/TransactionTable';
 import FilterBar from '../components/dunab/FilterBar';
 import CreateTransaction from '../components/dunab/CreateTransaction';
 import TransactionCard from '../components/shared/TransactionCard';
+import {
+  FiCreditCard, FiPlus, FiDownload, FiTable, FiGrid, FiX
+} from 'react-icons/fi';
+import { MdAccountBalance } from 'react-icons/md';
 import './Transactions.css';
 
 const Transactions = () => {
@@ -204,7 +208,7 @@ const Transactions = () => {
       {/* Header */}
       <div className="page-header">
         <div className="header-content">
-          <h1>💳 Mis Transacciones</h1>
+          <h1><FiCreditCard /> Mis Transacciones</h1>
           <p className="page-subtitle">
             Historial completo de tus movimientos DUNAB
           </p>
@@ -218,7 +222,7 @@ const Transactions = () => {
                 setShowCreateModal(true);
               }}
             >
-              ➕ Nueva Transacción
+              <FiPlus /> Nueva Transacción
             </button>
           )}
           <button
@@ -226,7 +230,7 @@ const Transactions = () => {
             onClick={handleExport}
             disabled={!filteredTransactions || filteredTransactions.length === 0}
           >
-            📥 Exportar
+            <FiDownload /> Exportar
           </button>
           <div className="view-toggle">
             <button
@@ -234,14 +238,14 @@ const Transactions = () => {
               onClick={() => setViewMode('table')}
               title="Vista de tabla"
             >
-              📊
+              <FiTable />
             </button>
             <button
               className={`toggle-btn ${viewMode === 'cards' ? 'active' : ''}`}
               onClick={() => setViewMode('cards')}
               title="Vista de tarjetas"
             >
-              🗂️
+              <FiGrid />
             </button>
           </div>
         </div>
@@ -345,7 +349,7 @@ const Transactions = () => {
               className="modal-close"
               onClick={() => setShowCreateModal(false)}
             >
-              ✕
+              <FiX />
             </button>
             <CreateTransaction
               onSuccess={handleTransactionSuccess}

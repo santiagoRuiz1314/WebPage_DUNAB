@@ -8,6 +8,7 @@ import {
   validateName,
   validateStudentCode,
 } from '../utils/validators';
+import { MdAttachMoney, MdVisibility, MdVisibilityOff, MdSchool } from 'react-icons/md';
 import '../styles/auth.css';
 
 console.log('📄 REGISTER.JSX FILE LOADED - TOP LEVEL');
@@ -202,7 +203,9 @@ const Register = () => {
       <div className="auth-card">
         <div className="auth-header">
           <div className="auth-logo">
-            <span className="logo-icon">💰</span>
+            <span className="logo-icon">
+              <MdAttachMoney size={40} />
+            </span>
             <h1>DUNAB</h1>
           </div>
           <p className="auth-subtitle">Sistema de Gestión de Dinero UNAB</p>
@@ -325,7 +328,7 @@ const Register = () => {
                 tabIndex="-1"
                 disabled={loading}
               >
-                {showPassword ? '👁️' : '👁️‍🗨️'}
+                {showPassword ? <MdVisibilityOff size={20} /> : <MdVisibility size={20} />}
               </button>
             </div>
             {errors.password && <span className="error-message">{errors.password}</span>}
@@ -357,7 +360,7 @@ const Register = () => {
                 tabIndex="-1"
                 disabled={loading}
               >
-                {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
+                {showConfirmPassword ? <MdVisibilityOff size={20} /> : <MdVisibility size={20} />}
               </button>
             </div>
             {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
@@ -390,7 +393,7 @@ const Register = () => {
 
         <div className="auth-info">
           <p className="info-text">
-            🎓 Solo estudiantes de UNAB pueden registrarse
+            <MdSchool size={16} /> Solo estudiantes de UNAB pueden registrarse
           </p>
         </div>
       </div>

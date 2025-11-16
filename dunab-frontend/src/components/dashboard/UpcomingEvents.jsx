@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import eventService from '../../services/eventService';
 import { formatDate, formatCurrency } from '../../utils/formatters';
+import { MdEvent, MdMic, MdConstruction, MdSportsBasketball, MdTheaterComedy, MdSchool, MdCelebration } from 'react-icons/md';
 import './UpcomingEvents.css';
 
 /**
@@ -50,13 +51,13 @@ const UpcomingEvents = ({ limit = 3 }) => {
   const getEventIcon = (event) => {
     const category = (event.categoria || event.category || '').toLowerCase();
     const icons = {
-      'conferencia': '🎤',
-      'taller': '🛠️',
-      'deportivo': '⚽',
-      'cultural': '🎭',
-      'académico': '📚',
-      'social': '🎉',
-      'default': '🎉'
+      'conferencia': MdMic,
+      'taller': MdConstruction,
+      'deportivo': MdSportsBasketball,
+      'cultural': MdTheaterComedy,
+      'académico': MdSchool,
+      'social': MdCelebration,
+      'default': MdEvent
     };
     return icons[category] || icons.default;
   };
@@ -75,7 +76,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
     return (
       <div className="upcoming-events">
         <div className="events-header">
-          <h3>🎉 Eventos Próximos</h3>
+          <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Próximos</h3>
         </div>
         <div className="events-loading">
           {[1, 2, 3].map(i => (
@@ -96,7 +97,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
     return (
       <div className="upcoming-events">
         <div className="events-header">
-          <h3>🎉 Eventos Próximos</h3>
+          <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Próximos</h3>
         </div>
         <div className="events-error">
           <p>{error}</p>
@@ -109,7 +110,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
     return (
       <div className="upcoming-events">
         <div className="events-header">
-          <h3>🎉 Eventos Próximos</h3>
+          <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Próximos</h3>
           <Link to="/events" className="view-all-link">
             Ver todos →
           </Link>
@@ -126,7 +127,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
   return (
     <div className="upcoming-events">
       <div className="events-header">
-        <h3>🎉 Eventos Próximos</h3>
+        <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Próximos</h3>
         <Link to="/events" className="view-all-link">
           Ver todos →
         </Link>
@@ -134,7 +135,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
 
       <div className="events-list">
         {events.map((event) => {
-          const icon = getEventIcon(event);
+          const IconComponent = getEventIcon(event);
           const cost = event.costoDunab || event.cost || 0;
           const reward = event.recompensaDunab || event.reward || 0;
           const costBadgeColor = getCostBadgeColor(cost);
@@ -146,7 +147,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
               className="event-item"
             >
               <div className="event-icon">
-                {icon}
+                <IconComponent size={32} />
               </div>
 
               <div className="event-details">
@@ -154,7 +155,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
                   {event.nombre || event.name}
                 </h4>
                 <p className="event-date">
-                  📅 {formatDate(event.fecha || event.date)}
+                  <MdEvent size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} />{formatDate(event.fecha || event.date)}
                 </p>
                 {event.descripcion && (
                   <p className="event-description">

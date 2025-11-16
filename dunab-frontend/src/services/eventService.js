@@ -331,13 +331,13 @@ const eventService = {
       console.error('Error fetching event categories:', error);
       // Categorías por defecto
       return [
-        { id: 'académico', nombre: 'Académico', icono: '📚' },
-        { id: 'taller', nombre: 'Taller', icono: '🛠️' },
-        { id: 'deportivo', nombre: 'Deportivo', icono: '⚽' },
-        { id: 'competencia', nombre: 'Competencia', icono: '🏆' },
-        { id: 'conferencia', nombre: 'Conferencia', icono: '🎤' },
-        { id: 'cultural', nombre: 'Cultural', icono: '🎭' },
-        { id: 'social', nombre: 'Social', icono: '🤝' }
+        { id: 'académico', nombre: 'Académico', icono: 'school' },
+        { id: 'taller', nombre: 'Taller', icono: 'construction' },
+        { id: 'deportivo', nombre: 'Deportivo', icono: 'sports' },
+        { id: 'competencia', nombre: 'Competencia', icono: 'trophy' },
+        { id: 'conferencia', nombre: 'Conferencia', icono: 'mic' },
+        { id: 'cultural', nombre: 'Cultural', icono: 'theater' },
+        { id: 'social', nombre: 'Social', icono: 'handshake' }
       ];
     }
   },

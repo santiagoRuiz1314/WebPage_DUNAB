@@ -1,6 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { formatCurrency, formatDate } from '../../utils/formatters';
 import usePagination from '../../hooks/usePagination';
+import {
+  FiArrowUp, FiArrowDown, FiEdit3, FiTrash2, FiChevronsUp,
+  FiChevronsDown, FiChevronLeft, FiChevronRight
+} from 'react-icons/fi';
 import './TransactionTable.css';
 
 const TransactionTable = ({
@@ -77,8 +81,8 @@ const TransactionTable = ({
 
   // Obtener icono de ordenamiento
   const getSortIcon = (key) => {
-    if (sortConfig.key !== key) return '⇅';
-    return sortConfig.direction === 'asc' ? '↑' : '↓';
+    if (sortConfig.key !== key) return <FiChevronsUp style={{ opacity: 0.3 }} />;
+    return sortConfig.direction === 'asc' ? <FiArrowUp /> : <FiArrowDown />;
   };
 
   // Obtener clase de tipo de transacción
@@ -91,8 +95,8 @@ const TransactionTable = ({
   // Obtener icono de tipo
   const getTransactionIcon = (tipo) => {
     return tipo?.toLowerCase() === 'ingreso' || tipo?.toLowerCase() === 'credito'
-      ? '↑'
-      : '↓';
+      ? <FiArrowUp />
+      : <FiArrowDown />;
   };
 
   // Renderizar estado de carga
@@ -196,7 +200,7 @@ const TransactionTable = ({
                       }}
                       title="Editar"
                     >
-                      ✏️
+                      <FiEdit3 />
                     </button>
                     <button
                       className="btn-icon btn-delete"
@@ -206,7 +210,7 @@ const TransactionTable = ({
                       }}
                       title="Anular"
                     >
-                      🗑️
+                      <FiTrash2 />
                     </button>
                   </td>
                 )}
@@ -224,7 +228,7 @@ const TransactionTable = ({
             disabled={!canGoPrevious}
             className="pagination-btn"
           >
-            ← Anterior
+            <FiChevronLeft /> Anterior
           </button>
 
           <div className="pagination-info">
@@ -244,7 +248,7 @@ const TransactionTable = ({
             disabled={!canGoNext}
             className="pagination-btn"
           >
-            Siguiente →
+            Siguiente <FiChevronRight />
           </button>
         </div>
       )}

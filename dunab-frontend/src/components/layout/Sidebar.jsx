@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { MdDashboard, MdAccountBalanceWallet, MdEvent, MdSchool, MdPerson } from 'react-icons/md';
 
 const Sidebar = ({ isOpen }) => {
   const { user } = useAuth();
@@ -8,27 +9,27 @@ const Sidebar = ({ isOpen }) => {
   const navItems = [
     {
       path: '/',
-      icon: '📊',
+      icon: MdDashboard,
       label: 'Dashboard',
     },
     {
       path: '/transactions',
-      icon: '💳',
+      icon: MdAccountBalanceWallet,
       label: 'Transacciones',
     },
     {
       path: '/events',
-      icon: '🎉',
+      icon: MdEvent,
       label: 'Eventos',
     },
     {
       path: '/academic',
-      icon: '🎓',
+      icon: MdSchool,
       label: 'Académico',
     },
     {
       path: '/profile',
-      icon: '👤',
+      icon: MdPerson,
       label: 'Mi Perfil',
     },
   ];
@@ -37,20 +38,25 @@ const Sidebar = ({ isOpen }) => {
     <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <nav className="sidebar-nav">
         <ul className="nav-list">
-          {navItems.map((item) => (
-            <li key={item.path} className="nav-item">
-              <NavLink
-                to={item.path}
-                className={({ isActive }) =>
-                  `nav-link ${isActive ? 'active' : ''}`
-                }
-                end={item.path === '/'}
-              >
-                <span className="nav-icon">{item.icon}</span>
-                {isOpen && <span className="nav-label">{item.label}</span>}
-              </NavLink>
-            </li>
-          ))}
+          {navItems.map((item) => {
+            const IconComponent = item.icon;
+            return (
+              <li key={item.path} className="nav-item">
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `nav-link ${isActive ? 'active' : ''}`
+                  }
+                  end={item.path === '/'}
+                >
+                  <span className="nav-icon">
+                    <IconComponent size={20} />
+                  </span>
+                  {isOpen && <span className="nav-label">{item.label}</span>}
+                </NavLink>
+              </li>
+            );
+          })}
         </ul>
 
         {isOpen && (

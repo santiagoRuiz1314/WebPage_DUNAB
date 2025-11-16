@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { MdCheckCircle, MdMenuBook, MdSchedule, MdRadioButtonUnchecked } from 'react-icons/md';
 import './CourseList.css';
 
 /**
@@ -153,13 +154,13 @@ const CourseList = ({ courses = [], compact = false }) => {
   const getStatusIcon = (status) => {
     switch (status) {
       case 'completed':
-        return '✅';
+        return <MdCheckCircle size={20} />;
       case 'in-progress':
-        return '📖';
+        return <MdMenuBook size={20} />;
       case 'pending':
-        return '⏳';
+        return <MdSchedule size={20} />;
       default:
-        return '○';
+        return <MdRadioButtonUnchecked size={20} />;
     }
   };
 

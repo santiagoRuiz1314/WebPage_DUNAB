@@ -3,6 +3,7 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { validateEmail, validatePassword } from '../utils/validators';
+import { MdAttachMoney, MdVisibility, MdVisibilityOff, MdLock } from 'react-icons/md';
 import '../styles/auth.css';
 
 const Login = () => {
@@ -141,7 +142,9 @@ const Login = () => {
       <div className="auth-card">
         <div className="auth-header">
           <div className="auth-logo">
-            <span className="logo-icon">💰</span>
+            <span className="logo-icon">
+              <MdAttachMoney size={40} />
+            </span>
             <h1>DUNAB</h1>
           </div>
           <p className="auth-subtitle">Sistema de Gestión de Dinero UNAB</p>
@@ -207,7 +210,7 @@ const Login = () => {
                 tabIndex="-1"
                 disabled={loading}
               >
-                {showPassword ? '👁️' : '👁️‍🗨️'}
+                {showPassword ? <MdVisibilityOff size={20} /> : <MdVisibility size={20} />}
               </button>
             </div>
             {errors.password && <span className="error-message">{errors.password}</span>}
@@ -235,7 +238,7 @@ const Login = () => {
 
         <div className="auth-info">
           <p className="info-text">
-            🔒 Tus datos están protegidos con encriptación de extremo a extremo
+            <MdLock size={16} /> Tus datos están protegidos con encriptación de extremo a extremo
           </p>
         </div>
       </div>

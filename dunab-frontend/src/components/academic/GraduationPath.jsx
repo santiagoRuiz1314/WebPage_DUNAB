@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import studentService from '../../services/studentService';
+import { MdSchool, MdMenuBook, MdFlag, MdWork, MdEdit, MdCheckCircle, MdCelebration } from 'react-icons/md';
 import './GraduationPath.css';
+
+/**
+ * Mapeo de iconos para hitos
+ */
+const iconMap = {
+  'school': MdSchool,
+  'book': MdMenuBook,
+  'flag': MdFlag,
+  'work': MdWork,
+  'edit': MdEdit,
+  'check': MdCheckCircle,
+  'celebration': MdCelebration,
+};
 
 /**
  * Componente que muestra el camino visual hacia la graduación
@@ -79,7 +93,7 @@ const GraduationPath = () => {
         title: 'Inicio del Programa',
         description: 'Bienvenida e introducción a la carrera',
         status: 'completed',
-        icon: '🎓',
+        icon: 'school',
         date: '2021-08',
       },
       {
@@ -88,7 +102,7 @@ const GraduationPath = () => {
         title: 'Fundamentos Completados',
         description: 'Materias básicas del programa',
         status: 'completed',
-        icon: '📚',
+        icon: 'book',
         date: '2022-01',
       },
       {
@@ -97,7 +111,7 @@ const GraduationPath = () => {
         title: 'Electivas Profesionales',
         description: 'Inicio de especialización',
         status: currentSemester >= 4 ? 'completed' : 'pending',
-        icon: '🎯',
+        icon: 'flag',
         date: '2023-01',
       },
       {
@@ -106,7 +120,7 @@ const GraduationPath = () => {
         title: 'Prácticas Profesionales',
         description: 'Experiencia laboral supervisada',
         status: progress.requirements?.internship ? 'completed' : currentSemester >= 6 ? 'in-progress' : 'pending',
-        icon: '💼',
+        icon: 'work',
         date: currentSemester >= 6 ? '2024-01' : 'Pendiente',
       },
       {
@@ -115,7 +129,7 @@ const GraduationPath = () => {
         title: 'Proyecto de Grado',
         description: 'Trabajo de investigación final',
         status: progress.requirements?.thesis ? 'completed' : currentSemester >= 8 ? 'in-progress' : 'pending',
-        icon: '📝',
+        icon: 'edit',
         date: currentSemester >= 8 ? '2025-01' : 'Pendiente',
       },
       {
@@ -126,7 +140,7 @@ const GraduationPath = () => {
         status: (progress.requirements?.socialService && progress.requirements?.englishTest)
           ? 'completed'
           : currentSemester >= 9 ? 'in-progress' : 'pending',
-        icon: '✅',
+        icon: 'check',
         date: 'Pendiente',
       },
       {
@@ -135,7 +149,7 @@ const GraduationPath = () => {
         title: 'Graduación',
         description: 'Ceremonia de grado',
         status: progress.completionPercentage >= 100 ? 'completed' : 'pending',
-        icon: '🎉',
+        icon: 'celebration',
         date: 'Por definir',
       },
     ];
@@ -164,7 +178,7 @@ const GraduationPath = () => {
           title: 'Inicio del Programa',
           description: 'Bienvenida e introducción a la carrera',
           status: 'completed',
-          icon: '🎓',
+          icon: 'school',
           date: '2021-08',
         },
         {
@@ -173,7 +187,7 @@ const GraduationPath = () => {
           title: 'Fundamentos Completados',
           description: 'Materias básicas del programa',
           status: 'completed',
-          icon: '📚',
+          icon: 'book',
           date: '2022-01',
         },
         {
@@ -182,7 +196,7 @@ const GraduationPath = () => {
           title: 'Electivas Profesionales',
           description: 'Inicio de especialización',
           status: 'completed',
-          icon: '🎯',
+          icon: 'flag',
           date: '2023-01',
         },
         {
@@ -191,7 +205,7 @@ const GraduationPath = () => {
           title: 'Prácticas Profesionales',
           description: 'Experiencia laboral supervisada',
           status: 'completed',
-          icon: '💼',
+          icon: 'work',
           date: '2024-01',
         },
         {
@@ -200,7 +214,7 @@ const GraduationPath = () => {
           title: 'Proyecto de Grado',
           description: 'Trabajo de investigación final',
           status: 'in-progress',
-          icon: '📝',
+          icon: 'edit',
           date: '2025-01',
         },
         {
@@ -209,7 +223,7 @@ const GraduationPath = () => {
           title: 'Requisitos Adicionales',
           description: 'Servicio social, examen de inglés',
           status: 'pending',
-          icon: '✅',
+          icon: 'check',
           date: 'Pendiente',
         },
         {
@@ -218,7 +232,7 @@ const GraduationPath = () => {
           title: 'Graduación',
           description: 'Ceremonia de grado',
           status: 'pending',
-          icon: '🎉',
+          icon: 'celebration',
           date: 'Por definir',
         },
       ],
@@ -374,7 +388,9 @@ const GraduationPath = () => {
 
               {/* Icono del hito */}
               <div className="timeline-marker">
-                <span className="milestone-icon">{milestone.icon}</span>
+                <span className="milestone-icon">
+                  {React.createElement(iconMap[milestone.icon] || MdSchool, { size: 24 })}
+                </span>
                 <span className="milestone-pulse"></span>
               </div>
 

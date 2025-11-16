@@ -7,6 +7,7 @@ import PasswordChange from '../components/profile/PasswordChange';
 import PreferencesPanel from '../components/profile/PreferencesPanel';
 import StatCard from '../components/shared/StatCard';
 import DunabAmount from '../components/shared/DunabAmount';
+import { MdAccountBalanceWallet, MdTrendingUp, MdAttachMoney } from 'react-icons/md';
 import './Profile.css';
 
 const Profile = () => {
@@ -36,17 +37,17 @@ const Profile = () => {
         <StatCard
           title={t('dunab.currentBalance')}
           value={<DunabAmount amount={balance?.current || 0} />}
-          icon="💰"
+          icon={<MdAccountBalanceWallet size={28} />}
         />
         <StatCard
           title={t('dunab.totalEarned')}
           value={<DunabAmount amount={balance?.totalEarned || 0} />}
-          icon="📈"
+          icon={<MdTrendingUp size={28} />}
         />
         <StatCard
           title={t('dunab.totalSpent')}
           value={<DunabAmount amount={balance?.totalSpent || 0} />}
-          icon="💸"
+          icon={<MdAttachMoney size={28} />}
         />
       </div>
 

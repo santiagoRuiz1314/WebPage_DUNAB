@@ -5,6 +5,13 @@ import TransactionTable from './TransactionTable';
 import CategoryManagement from './CategoryManagement';
 import StatCard from '../shared/StatCard';
 import { formatCurrency } from '../../utils/formatters';
+import {
+  FiBarChart2, FiCreditCard, FiTag, FiTrendingUp, FiPlus,
+  FiRefreshCw, FiAlertTriangle, FiUsers
+} from 'react-icons/fi';
+import { MdDashboard, MdCategory, MdAssessment } from 'react-icons/md';
+import { BiMoney } from 'react-icons/bi';
+import { BsCalendar2Day } from 'react-icons/bs';
 import './DunabManagement.css';
 
 /**
@@ -51,10 +58,10 @@ const DunabManagement = () => {
 
   // Configuración de tabs
   const tabs = [
-    { id: 'dashboard', label: '📊 Dashboard', icon: '📊' },
-    { id: 'transactions', label: '💳 Transacciones', icon: '💳' },
-    { id: 'categories', label: '🏷️ Categorías', icon: '🏷️' },
-    { id: 'reports', label: '📈 Reportes', icon: '📈' }
+    { id: 'dashboard', label: 'Dashboard', icon: <MdDashboard /> },
+    { id: 'transactions', label: 'Transacciones', icon: <FiCreditCard /> },
+    { id: 'categories', label: 'Categorías', icon: <MdCategory /> },
+    { id: 'reports', label: 'Reportes', icon: <MdAssessment /> }
   ];
 
   // Calcular estadísticas del sistema
@@ -107,7 +114,7 @@ const DunabManagement = () => {
   const renderDashboard = () => (
     <div className="management-dashboard">
       <div className="dashboard-header">
-        <h3>📊 Visión General del Sistema</h3>
+        <h3><FiBarChart2 /> Visión General del Sistema</h3>
         <button
           className="btn-refresh"
           onClick={() => {
@@ -116,7 +123,7 @@ const DunabManagement = () => {
           }}
           disabled={loading}
         >
-          🔄 Actualizar
+          <FiRefreshCw /> Actualizar
         </button>
       </div>
 
@@ -125,28 +132,28 @@ const DunabManagement = () => {
         <StatCard
           label="Transacciones Totales"
           value={systemStats.totalTransactions}
-          icon="💳"
+          icon={<FiCreditCard />}
           color="primary"
           loading={loading}
         />
         <StatCard
           label="Estudiantes Activos"
           value={systemStats.totalStudents}
-          icon="👥"
+          icon={<FiUsers />}
           color="info"
           loading={loading}
         />
         <StatCard
           label="DUNAB en Circulación"
           value={formatCurrency(systemStats.dunabInCirculation, false)}
-          icon="💰"
+          icon={<BiMoney />}
           color="warning"
           loading={loading}
         />
         <StatCard
           label="Transacciones Hoy"
           value={systemStats.todayTransactions}
-          icon="📅"
+          icon={<BsCalendar2Day />}
           color="success"
           loading={loading}
         />
@@ -154,10 +161,10 @@ const DunabManagement = () => {
 
       {/* Resumen financiero */}
       <div className="financial-summary">
-        <h4>💵 Resumen Financiero</h4>
+        <h4><BiMoney /> Resumen Financiero</h4>
         <div className="summary-cards">
           <div className="summary-card income">
-            <div className="card-icon">📈</div>
+            <div className="card-icon"><FiTrendingUp /></div>
             <div className="card-content">
               <span className="card-label">Total Ingresos</span>
               <span className="card-value">
@@ -166,7 +173,7 @@ const DunabManagement = () => {
             </div>
           </div>
           <div className="summary-card expense">
-            <div className="card-icon">📉</div>
+            <div className="card-icon"><FiBarChart2 /></div>
             <div className="card-content">
               <span className="card-label">Total Egresos</span>
               <span className="card-value">
@@ -175,7 +182,7 @@ const DunabManagement = () => {
             </div>
           </div>
           <div className="summary-card net">
-            <div className="card-icon">⚖️</div>
+            <div className="card-icon"><BiMoney /></div>
             <div className="card-content">
               <span className="card-label">Balance Neto</span>
               <span className="card-value">
@@ -229,7 +236,7 @@ const DunabManagement = () => {
   const renderTransactions = () => (
     <div className="management-transactions">
       <div className="transactions-header">
-        <h3>💳 Gestión de Transacciones</h3>
+        <h3><FiCreditCard /> Gestión de Transacciones</h3>
         <button
           className="btn-create"
           onClick={() => {
@@ -237,7 +244,7 @@ const DunabManagement = () => {
             setShowCreateModal(true);
           }}
         >
-          ➕ Nueva Transacción
+          <FiPlus /> Nueva Transacción
         </button>
       </div>
 
@@ -254,7 +261,7 @@ const DunabManagement = () => {
   // Renderizar Categorías
   const renderCategories = () => (
     <div className="management-categories">
-      <h3>🏷️ Gestión de Categorías</h3>
+      <h3><MdCategory /> Gestión de Categorías</h3>
       <CategoryManagement />
     </div>
   );
@@ -262,7 +269,7 @@ const DunabManagement = () => {
   // Renderizar Reportes
   const renderReports = () => (
     <div className="management-reports">
-      <h3>📈 Reportes y Exportación</h3>
+      <h3><MdAssessment /> Reportes y Exportación</h3>
       <div className="reports-content">
         <div className="report-card">
           <h4>📊 Reporte de Movimientos DUNAB</h4>
@@ -342,7 +349,7 @@ const DunabManagement = () => {
       {showDeleteConfirm && (
         <div className="modal-overlay" onClick={() => setShowDeleteConfirm(null)}>
           <div className="modal-content modal-confirm" onClick={(e) => e.stopPropagation()}>
-            <h3>⚠️ Confirmar Anulación</h3>
+            <h3><FiAlertTriangle /> Confirmar Anulación</h3>
             <p>¿Estás seguro de que deseas anular esta transacción?</p>
             <div className="transaction-details">
               <p><strong>Descripción:</strong> {showDeleteConfirm.descripcion}</p>

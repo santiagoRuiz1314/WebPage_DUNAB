@@ -3,6 +3,12 @@ import { useDunab } from '../../context/DunabContext';
 import { useAuth } from '../../context/AuthContext';
 import dunabService from '../../services/dunabService';
 import { validateTransactionAmount, validateRequired } from '../../utils/validators';
+import {
+  FiEdit3, FiPlus, FiAlertTriangle, FiUser, FiTrendingUp,
+  FiTrendingDown, FiDollarSign, FiTag, FiFileText, FiLink,
+  FiSave, FiX, FiAlertCircle
+} from 'react-icons/fi';
+import { BiMoney } from 'react-icons/bi';
 import './CreateTransaction.css';
 
 const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'create' }) => {
@@ -254,7 +260,9 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
   return (
     <div className="create-transaction">
       <div className="form-header">
-        <h2>{mode === 'edit' ? '✏️ Editar Transacción' : '➕ Crear Nueva Transacción'}</h2>
+        <h2>
+          {mode === 'edit' ? <><FiEdit3 /> Editar Transacción</> : <><FiPlus /> Crear Nueva Transacción</>}
+        </h2>
         <p className="form-subtitle">
           {mode === 'edit'
             ? 'Modifica los detalles de la transacción'
@@ -266,7 +274,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
         {/* Error general */}
         {errors.submit && (
           <div className="form-error-banner">
-            ⚠️ {errors.submit}
+            <FiAlertTriangle /> {errors.submit}
           </div>
         )}
 
@@ -274,7 +282,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Información de la Cuenta */}
           <div className="form-field form-field-full">
             <label>
-              👤 Cuenta
+              <FiUser /> Cuenta
             </label>
             {currentUserAccount ? (
               <div className="selected-student-info">
@@ -302,7 +310,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {false && (
             <div className="form-field form-field-full">
               <label htmlFor="studentSearch">
-                👤 Buscar Estudiante <span className="required">*</span>
+                <FiUser /> Buscar Estudiante <span className="required">*</span>
               </label>
               <div className="student-search-container">
                 <input
@@ -378,7 +386,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Tipo de Transacción */}
           <div className="form-field">
             <label htmlFor="tipo">
-              📊 Tipo de Transacción <span className="required">*</span>
+              <BiMoney /> Tipo de Transacción <span className="required">*</span>
             </label>
             <select
               id="tipo"
@@ -387,10 +395,10 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
               onChange={handleChange}
               className={errors.tipo ? 'error' : ''}
             >
-              <option value="CREDITO">⬆️ Crédito (Recibir DUNAB)</option>
-              <option value="DEBITO">⬇️ Débito (Gastar DUNAB)</option>
-              <option value="INGRESO">💰 Ingreso</option>
-              <option value="EGRESO">💸 Egreso</option>
+              <option value="CREDITO">Crédito (Recibir DUNAB)</option>
+              <option value="DEBITO">Débito (Gastar DUNAB)</option>
+              <option value="INGRESO">Ingreso</option>
+              <option value="EGRESO">Egreso</option>
             </select>
             {errors.tipo && (
               <span className="field-error">{errors.tipo}</span>
@@ -400,7 +408,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Monto */}
           <div className="form-field">
             <label htmlFor="monto">
-              💵 Monto (DUNAB) <span className="required">*</span>
+              <FiDollarSign /> Monto (DUNAB) <span className="required">*</span>
             </label>
             <input
               type="number"
@@ -421,7 +429,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Categoría */}
           <div className="form-field">
             <label htmlFor="categoriaId">
-              🏷️ Categoría <span className="required">*</span>
+              <FiTag /> Categoría <span className="required">*</span>
             </label>
             <select
               id="categoriaId"
@@ -447,7 +455,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
             <div className="form-field form-field-full">
               <div className={`balance-preview ${balancePreview.insufficient ? 'insufficient' : ''}`}>
                 <h4 className="preview-title">
-                  💡 Preview de Saldo
+                  <FiAlertCircle /> Preview de Saldo
                 </h4>
                 <div className="preview-content">
                   <div className="preview-row">
@@ -473,7 +481,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
                   </div>
                   {balancePreview.insufficient && (
                     <div className="preview-warning">
-                      ⚠️ Saldo insuficiente para realizar esta transacción
+                      <FiAlertTriangle /> Saldo insuficiente para realizar esta transacción
                     </div>
                   )}
                 </div>
@@ -484,7 +492,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Descripción */}
           <div className="form-field form-field-full">
             <label htmlFor="descripcion">
-              📝 Descripción <span className="required">*</span>
+              <FiFileText /> Descripción <span className="required">*</span>
             </label>
             <textarea
               id="descripcion"
@@ -503,7 +511,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Referencia */}
           <div className="form-field form-field-full">
             <label htmlFor="referencia">
-              🔗 Referencia (Opcional)
+              <FiLink /> Referencia (Opcional)
             </label>
             <input
               type="text"
@@ -537,7 +545,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
                 Procesando...
               </>
             ) : (
-              mode === 'edit' ? '💾 Guardar Cambios' : '➕ Crear Transacción'
+              mode === 'edit' ? <><FiSave /> Guardar Cambios</> : <><FiPlus /> Crear Transacción</>
             )}
           </button>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDunab } from '../../context/DunabContext';
 import { formatCurrency } from '../../utils/formatters';
+import { MdAccountBalanceWallet, MdTrendingUp, MdTrendingDown, MdCreditCard, MdBarChart } from 'react-icons/md';
 import './StatisticsWidget.css';
 
 /**
@@ -13,7 +14,7 @@ const StatisticsWidget = () => {
   const stats = [
     {
       id: 'balance',
-      icon: '💰',
+      icon: MdAccountBalanceWallet,
       label: 'Saldo Actual',
       value: formatCurrency(balance || 0),
       suffix: 'D',
@@ -22,7 +23,7 @@ const StatisticsWidget = () => {
     },
     {
       id: 'earned',
-      icon: '📈',
+      icon: MdTrendingUp,
       label: 'Total Ganado',
       value: formatCurrency(statistics?.totalEarned || 0),
       suffix: 'D',
@@ -31,7 +32,7 @@ const StatisticsWidget = () => {
     },
     {
       id: 'spent',
-      icon: '📉',
+      icon: MdTrendingDown,
       label: 'Total Gastado',
       value: formatCurrency(statistics?.totalSpent || 0),
       suffix: 'D',
@@ -40,7 +41,7 @@ const StatisticsWidget = () => {
     },
     {
       id: 'transactions',
-      icon: '💳',
+      icon: MdCreditCard,
       label: 'Transacciones',
       value: statistics?.totalTransactions || 0,
       suffix: '',
@@ -53,7 +54,7 @@ const StatisticsWidget = () => {
     return (
       <div className="statistics-widget">
         <div className="widget-header">
-          <h3>📊 Estadísticas</h3>
+          <h3><MdBarChart size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Estadísticas</h3>
         </div>
         <div className="stats-grid loading">
           {[1, 2, 3, 4].map(i => (
@@ -70,14 +71,16 @@ const StatisticsWidget = () => {
   return (
     <div className="statistics-widget">
       <div className="widget-header">
-        <h3>📊 Estadísticas</h3>
+        <h3><MdBarChart size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Estadísticas</h3>
         <span className="widget-subtitle">Resumen de tu actividad DUNAB</span>
       </div>
 
       <div className="stats-grid">
-        {stats.map(stat => (
-          <div key={stat.id} className={`stat-card stat-${stat.color}`}>
-            <div className="stat-icon">{stat.icon}</div>
+        {stats.map(stat => {
+          const IconComponent = stat.icon;
+          return (
+            <div key={stat.id} className={`stat-card stat-${stat.color}`}>
+              <div className="stat-icon"><IconComponent size={28} /></div>
             <div className="stat-content">
               <p className="stat-label">{stat.label}</p>
               <div className="stat-value-container">
@@ -93,7 +96,8 @@ const StatisticsWidget = () => {
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

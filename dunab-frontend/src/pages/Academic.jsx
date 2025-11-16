@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AcademicProgress from '../components/academic/AcademicProgress';
 import GraduationPath from '../components/academic/GraduationPath';
 import CourseList from '../components/academic/CourseList';
+import { MdSchool, MdAssessment, MdBook, MdFlag } from 'react-icons/md';
 import './Academic.css';
 
 /**
@@ -16,7 +17,7 @@ const Academic = () => {
       {/* Page Header */}
       <div className="page-header">
         <div className="header-content">
-          <h1 className="page-title">🎓 Módulo Académico</h1>
+          <h1 className="page-title"><MdSchool /> Módulo Académico</h1>
           <p className="page-subtitle">
             Gestiona tu progreso académico y visualiza tu camino hacia la graduación
           </p>
@@ -29,7 +30,7 @@ const Academic = () => {
           className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          <span className="tab-icon">📊</span>
+          <span className="tab-icon"><MdAssessment /></span>
           <span className="tab-label">Resumen</span>
         </button>
 
@@ -37,7 +38,7 @@ const Academic = () => {
           className={`tab-button ${activeTab === 'courses' ? 'active' : ''}`}
           onClick={() => setActiveTab('courses')}
         >
-          <span className="tab-icon">📚</span>
+          <span className="tab-icon"><MdBook /></span>
           <span className="tab-label">Materias</span>
         </button>
 
@@ -45,7 +46,7 @@ const Academic = () => {
           className={`tab-button ${activeTab === 'path' ? 'active' : ''}`}
           onClick={() => setActiveTab('path')}
         >
-          <span className="tab-icon">🎯</span>
+          <span className="tab-icon"><MdFlag /></span>
           <span className="tab-label">Camino a Graduación</span>
         </button>
       </div>

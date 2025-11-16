@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FiSearch, FiFilter, FiX, FiChevronDown, FiChevronUp, FiTag, FiCheckCircle } from 'react-icons/fi';
+import { BiMoney, BiCalendar } from 'react-icons/bi';
 import './FilterBar.css';
 
 const FilterBar = ({
@@ -90,7 +92,7 @@ const FilterBar = ({
       <div className="filter-header">
         <div className="filter-title-section">
           <h3 className="filter-title">
-            🔍 Filtros
+            <FiFilter /> Filtros
             {hasActiveFilters && (
               <span className="active-filters-badge">
                 {activeFiltersCount}
@@ -110,7 +112,7 @@ const FilterBar = ({
               onClick={handleClearAll}
               title="Limpiar filtros"
             >
-              ✕ Limpiar
+              <FiX /> Limpiar
             </button>
           )}
           <button
@@ -118,7 +120,7 @@ const FilterBar = ({
             onClick={() => setIsExpanded(!isExpanded)}
             title={isExpanded ? 'Ocultar filtros' : 'Mostrar filtros'}
           >
-            {isExpanded ? '▲' : '▼'}
+            {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
           </button>
         </div>
       </div>
@@ -129,7 +131,7 @@ const FilterBar = ({
             {/* Búsqueda por texto */}
             {showSearchFilter && (
               <div className="filter-field filter-field-full">
-                <label htmlFor="searchTerm">🔎 Buscar</label>
+                <label htmlFor="searchTerm"><FiSearch /> Buscar</label>
                 <input
                   type="text"
                   id="searchTerm"
@@ -144,7 +146,7 @@ const FilterBar = ({
             {/* Filtro por tipo */}
             {showTypeFilter && (
               <div className="filter-field">
-                <label htmlFor="type">📊 Tipo</label>
+                <label htmlFor="type"><BiMoney /> Tipo</label>
                 <select
                   id="type"
                   value={filters.type || 'all'}
@@ -163,7 +165,7 @@ const FilterBar = ({
             {/* Filtro por categoría */}
             {showCategoryFilter && (
               <div className="filter-field">
-                <label htmlFor="category">🏷️ Categoría</label>
+                <label htmlFor="category"><FiTag /> Categoría</label>
                 <select
                   id="category"
                   value={filters.category || 'all'}
@@ -183,7 +185,7 @@ const FilterBar = ({
             {/* Filtro por estado */}
             {showStatusFilter && (
               <div className="filter-field">
-                <label htmlFor="status">✅ Estado</label>
+                <label htmlFor="status"><FiCheckCircle /> Estado</label>
                 <select
                   id="status"
                   value={filters.status || 'all'}
@@ -202,7 +204,7 @@ const FilterBar = ({
             {/* Filtro por fecha de inicio */}
             {showDateFilter && (
               <div className="filter-field">
-                <label htmlFor="dateFrom">📅 Desde</label>
+                <label htmlFor="dateFrom"><BiCalendar /> Desde</label>
                 <input
                   type="date"
                   id="dateFrom"
@@ -216,7 +218,7 @@ const FilterBar = ({
             {/* Filtro por fecha fin */}
             {showDateFilter && (
               <div className="filter-field">
-                <label htmlFor="dateTo">📅 Hasta</label>
+                <label htmlFor="dateTo"><BiCalendar /> Hasta</label>
                 <input
                   type="date"
                   id="dateTo"
@@ -242,7 +244,7 @@ const FilterBar = ({
                       className="remove-filter"
                       title="Quitar este filtro"
                     >
-                      ✕
+                      <FiX />
                     </button>
                   </span>
                 )}
@@ -254,7 +256,7 @@ const FilterBar = ({
                       className="remove-filter"
                       title="Quitar este filtro"
                     >
-                      ✕
+                      <FiX />
                     </button>
                   </span>
                 )}
@@ -266,7 +268,7 @@ const FilterBar = ({
                       className="remove-filter"
                       title="Quitar este filtro"
                     >
-                      ✕
+                      <FiX />
                     </button>
                   </span>
                 )}
@@ -278,7 +280,7 @@ const FilterBar = ({
                       className="remove-filter"
                       title="Quitar este filtro"
                     >
-                      ✕
+                      <FiX />
                     </button>
                   </span>
                 )}
@@ -290,7 +292,7 @@ const FilterBar = ({
                       className="remove-filter"
                       title="Quitar este filtro"
                     >
-                      ✕
+                      <FiX />
                     </button>
                   </span>
                 )}
@@ -302,7 +304,7 @@ const FilterBar = ({
                       className="remove-filter"
                       title="Quitar este filtro"
                     >
-                      ✕
+                      <FiX />
                     </button>
                   </span>
                 )}

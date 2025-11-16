@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { MdTrendingUp, MdTrendingDown } from 'react-icons/md';
 import './StatCard.css';
 
 /**
@@ -28,11 +29,11 @@ const StatCard = ({
     if (!trend) return null;
 
     const trendClasses = `stat-trend stat-trend--${trend.direction}`;
-    const trendIcon = trend.direction === 'up' ? '↑' : '↓';
+    const TrendIcon = trend.direction === 'up' ? MdTrendingUp : MdTrendingDown;
 
     return (
       <span className={trendClasses}>
-        {trendIcon} {Math.abs(trend.value)}%
+        <TrendIcon size={16} /> {Math.abs(trend.value)}%
       </span>
     );
   };

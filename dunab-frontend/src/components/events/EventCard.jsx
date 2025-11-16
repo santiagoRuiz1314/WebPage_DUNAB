@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatDate, formatCurrency } from '../../utils/formatters';
+import { MdSchool, MdConstruction, MdSportsBasketball, MdEmojiEvents, MdMic, MdTheaterComedy, MdHandshake, MdCalendarToday } from 'react-icons/md';
 import './EventCard.css';
 
 /**
@@ -36,16 +37,16 @@ const EventCard = ({ event, onClick }) => {
 
   // Iconos por categoría
   const categoriaIconos = {
-    'académico': '📚',
-    'taller': '🛠️',
-    'deportivo': '⚽',
-    'competencia': '🏆',
-    'conferencia': '🎤',
-    'cultural': '🎭',
-    'social': '🤝'
+    'académico': MdSchool,
+    'taller': MdConstruction,
+    'deportivo': MdSportsBasketball,
+    'competencia': MdEmojiEvents,
+    'conferencia': MdMic,
+    'cultural': MdTheaterComedy,
+    'social': MdHandshake
   };
 
-  const categoriaIcon = categoriaIconos[categoria] || '📅';
+  const CategoriaIconComponent = categoriaIconos[categoria] || MdCalendarToday;
 
   // Determinar si el evento es gratuito
   const esGratuito = costoDunab === 0;
@@ -63,7 +64,9 @@ const EventCard = ({ event, onClick }) => {
           <img src={imagen} alt={nombre} />
         ) : (
           <div className="event-card__image-placeholder">
-            <span className="event-card__image-icon">{categoriaIcon}</span>
+            <span className="event-card__image-icon">
+              <CategoriaIconComponent size={48} />
+            </span>
           </div>
         )}
 
@@ -89,7 +92,9 @@ const EventCard = ({ event, onClick }) => {
       <div className="event-card__content">
         {/* Categoría */}
         <div className="event-card__category">
-          <span className="event-card__category-icon">{categoriaIcon}</span>
+          <span className="event-card__category-icon">
+            <CategoriaIconComponent size={18} />
+          </span>
           <span className="event-card__category-text">{categoria}</span>
         </div>
 

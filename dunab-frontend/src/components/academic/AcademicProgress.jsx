@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import studentService from '../../services/studentService';
 import { useAuth } from '../../context/AuthContext';
+import { MdCheckCircle, MdSchedule } from 'react-icons/md';
 import './AcademicProgress.css';
 
 /**
@@ -194,28 +195,28 @@ const AcademicProgress = () => {
           <div className="requirements-list">
             <div className={`requirement-item ${progress.requirements.thesis ? 'completed' : 'pending'}`}>
               <span className="requirement-icon">
-                {progress.requirements.thesis ? '✅' : '⏳'}
+                {progress.requirements.thesis ? <MdCheckCircle size={20} /> : <MdSchedule size={20} />}
               </span>
               <span className="requirement-label">Proyecto de Grado</span>
             </div>
 
             <div className={`requirement-item ${progress.requirements.internship ? 'completed' : 'pending'}`}>
               <span className="requirement-icon">
-                {progress.requirements.internship ? '✅' : '⏳'}
+                {progress.requirements.internship ? <MdCheckCircle size={20} /> : <MdSchedule size={20} />}
               </span>
               <span className="requirement-label">Prácticas Profesionales</span>
             </div>
 
             <div className={`requirement-item ${progress.requirements.socialService ? 'completed' : 'pending'}`}>
               <span className="requirement-icon">
-                {progress.requirements.socialService ? '✅' : '⏳'}
+                {progress.requirements.socialService ? <MdCheckCircle size={20} /> : <MdSchedule size={20} />}
               </span>
               <span className="requirement-label">Servicio Social</span>
             </div>
 
             <div className={`requirement-item ${progress.requirements.englishTest ? 'completed' : 'pending'}`}>
               <span className="requirement-icon">
-                {progress.requirements.englishTest ? '✅' : '⏳'}
+                {progress.requirements.englishTest ? <MdCheckCircle size={20} /> : <MdSchedule size={20} />}
               </span>
               <span className="requirement-label">Examen de Inglés</span>
             </div>

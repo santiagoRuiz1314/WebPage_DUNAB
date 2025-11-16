@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { MdLanguage } from 'react-icons/md';
 
 const LanguageSelector = () => {
   const { i18n } = useTranslation();
@@ -10,14 +11,15 @@ const LanguageSelector = () => {
 
   return (
     <div className="language-selector">
+      <MdLanguage size={18} style={{ marginRight: '4px' }} />
       <select
         value={i18n.language}
         onChange={changeLanguage}
         className="language-select"
         aria-label="Select Language"
       >
-        <option value="es">🇪🇸 ES</option>
-        <option value="en">🇺🇸 EN</option>
+        <option value="es">ES</option>
+        <option value="en">EN</option>
       </select>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatCurrency, formatDate } from '../../utils/formatters';
+import { MdArrowUpward, MdArrowDownward, MdCalendarToday, MdAssessment, MdLabel, MdLink, MdCheckCircle, MdEdit, MdDelete } from 'react-icons/md';
 import './TransactionCard.css';
 
 const TransactionCard = ({
@@ -39,7 +40,7 @@ const TransactionCard = ({
       {/* Header */}
       <div className="card-header">
         <div className="transaction-icon">
-          {isIncome ? '↑' : '↓'}
+          {isIncome ? <MdArrowUpward size={24} /> : <MdArrowDownward size={24} />}
         </div>
         <div className="transaction-info">
           <h4 className="transaction-description">
@@ -58,11 +59,11 @@ const TransactionCard = ({
         <div className="card-details">
           <div className="detail-row">
             <div className="detail-item">
-              <span className="detail-label">📅 Fecha</span>
+              <span className="detail-label"><MdCalendarToday size={16} /> Fecha</span>
               <span className="detail-value">{formatDate(transaction.fecha)}</span>
             </div>
             <div className="detail-item">
-              <span className="detail-label">📊 Tipo</span>
+              <span className="detail-label"><MdAssessment size={16} /> Tipo</span>
               <span className="detail-value">{transaction.tipo}</span>
             </div>
           </div>
@@ -70,7 +71,7 @@ const TransactionCard = ({
           {transaction.categoria && (
             <div className="detail-row">
               <div className="detail-item full-width">
-                <span className="detail-label">🏷️ Categoría</span>
+                <span className="detail-label"><MdLabel size={16} /> Categoría</span>
                 <span className="category-badge">{transaction.categoria}</span>
               </div>
             </div>
@@ -79,7 +80,7 @@ const TransactionCard = ({
           {transaction.referencia && (
             <div className="detail-row">
               <div className="detail-item full-width">
-                <span className="detail-label">🔗 Referencia</span>
+                <span className="detail-label"><MdLink size={16} /> Referencia</span>
                 <span className="detail-value reference">{transaction.referencia}</span>
               </div>
             </div>
@@ -87,7 +88,7 @@ const TransactionCard = ({
 
           <div className="detail-row">
             <div className="detail-item">
-              <span className="detail-label">✅ Estado</span>
+              <span className="detail-label"><MdCheckCircle size={16} /> Estado</span>
               <span className={`status-badge ${getStatusColor(transaction.estado)}`}>
                 {transaction.estado || 'Activa'}
               </span>
@@ -106,7 +107,7 @@ const TransactionCard = ({
               onEdit && onEdit(transaction);
             }}
           >
-            ✏️ Editar
+            <MdEdit size={18} /> Editar
           </button>
           <button
             className="btn-card-action btn-delete"
@@ -115,7 +116,7 @@ const TransactionCard = ({
               onDelete && onDelete(transaction);
             }}
           >
-            🗑️ Anular
+            <MdDelete size={18} /> Anular
           </button>
         </div>
       )}
