@@ -31,11 +31,6 @@ const Sidebar = ({ isOpen }) => {
       icon: '👤',
       label: 'Mi Perfil',
     },
-    {
-      path: '/admin',
-      icon: '⚙️',
-      label: 'Panel Admin',
-    },
   ];
 
   return (

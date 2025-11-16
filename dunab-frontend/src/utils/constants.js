@@ -149,6 +149,5 @@ export const ROUTES = {
   PROFILE: '/profile',
   TRANSACTIONS: '/transactions',
   EVENTS: '/events',
-  ADMIN: '/admin',
   NOT_FOUND: '/404',
 };

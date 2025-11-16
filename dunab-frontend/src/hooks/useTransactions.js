@@ -3,8 +3,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { getAllTransactions } from '../services/adminService';
-import { getTransactionsByStudent } from '../services/dunabService';
+import dunabService from '../services/dunabService';
 
 export const useTransactions = (studentId = null, initialFilters = {}) => {
   const [transactions, setTransactions] = useState([]);
@@ -33,10 +32,10 @@ export const useTransactions = (studentId = null, initialFilters = {}) => {
       let data;
       if (studentId) {
         // Cargar transacciones de un estudiante específico
-        data = await getTransactionsByStudent(studentId, params);
+        data = await dunabService.getUserTransactions(studentId, params.page, params.size);
       } else {
-        // Cargar todas las transacciones (admin)
-        data = await getAllTransactions(params);
+        // Cargar todas las transacciones
+        data = await dunabService.getAllTransactions(params.page, params.size);
       }
 
       setTransactions(data.content || data);
