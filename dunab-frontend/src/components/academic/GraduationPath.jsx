@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import studentService from '../../services/studentService';
-import { MdSchool, MdMenuBook, MdFlag, MdWork, MdEdit, MdCheckCircle, MdCelebration } from 'react-icons/md';
+import {
+  MdSchool, MdMenuBook, MdFlag, MdWork, MdEdit, MdCheckCircle, MdCelebration,
+  MdGpsFixed, MdWarning, MdDescription, MdBusinessCenter, MdHandshake,
+  MdRecordVoiceOver, MdStar, MdAccessTime, MdRadioButtonUnchecked
+} from 'react-icons/md';
 import './GraduationPath.css';
 
 /**
@@ -294,7 +298,7 @@ const GraduationPath = () => {
     return (
       <div className="graduation-path">
         <div className="path-error">
-          <span className="error-icon">⚠️</span>
+          <span className="error-icon"><MdWarning /></span>
           <p>{error}</p>
         </div>
       </div>
@@ -318,7 +322,7 @@ const GraduationPath = () => {
       {/* Header con resumen */}
       <div className="path-header">
         <div className="path-title">
-          <h2>🎯 Camino a la Graduación</h2>
+          <h2><MdGpsFixed /> Camino a la Graduación</h2>
           <p className="path-subtitle">Tu ruta hacia el éxito académico</p>
         </div>
 
@@ -408,9 +412,9 @@ const GraduationPath = () => {
                 <div className="milestone-footer">
                   <span className="milestone-date">{milestone.date}</span>
                   <span className={`milestone-badge ${milestone.status}`}>
-                    {milestone.status === 'completed' && '✓ Completado'}
-                    {milestone.status === 'in-progress' && '⏳ En Progreso'}
-                    {milestone.status === 'pending' && '○ Pendiente'}
+                    {milestone.status === 'completed' && <><MdCheckCircle /> Completado</>}
+                    {milestone.status === 'in-progress' && <><MdAccessTime /> En Progreso</>}
+                    {milestone.status === 'pending' && <><MdRadioButtonUnchecked /> Pendiente</>}
                   </span>
                 </div>
               </div>
@@ -425,7 +429,7 @@ const GraduationPath = () => {
         <div className="requirements-grid">
           <div className={`requirement-card ${pathData.requirements.thesis ? 'completed' : 'pending'}`}>
             <div className="requirement-icon-wrapper">
-              <span className="requirement-icon">📝</span>
+              <span className="requirement-icon"><MdDescription /></span>
             </div>
             <div className="requirement-content">
               <h4 className="requirement-title">Proyecto de Grado</h4>
@@ -437,7 +441,7 @@ const GraduationPath = () => {
 
           <div className={`requirement-card ${pathData.requirements.internship ? 'completed' : 'pending'}`}>
             <div className="requirement-icon-wrapper">
-              <span className="requirement-icon">💼</span>
+              <span className="requirement-icon"><MdBusinessCenter /></span>
             </div>
             <div className="requirement-content">
               <h4 className="requirement-title">Prácticas Profesionales</h4>
@@ -449,7 +453,7 @@ const GraduationPath = () => {
 
           <div className={`requirement-card ${pathData.requirements.socialService ? 'completed' : 'pending'}`}>
             <div className="requirement-icon-wrapper">
-              <span className="requirement-icon">🤝</span>
+              <span className="requirement-icon"><MdHandshake /></span>
             </div>
             <div className="requirement-content">
               <h4 className="requirement-title">Servicio Social</h4>
@@ -461,7 +465,7 @@ const GraduationPath = () => {
 
           <div className={`requirement-card ${pathData.requirements.englishTest ? 'completed' : 'pending'}`}>
             <div className="requirement-icon-wrapper">
-              <span className="requirement-icon">🗣️</span>
+              <span className="requirement-icon"><MdRecordVoiceOver /></span>
             </div>
             <div className="requirement-content">
               <h4 className="requirement-title">Examen de Inglés</h4>
@@ -476,7 +480,7 @@ const GraduationPath = () => {
       {/* Mensaje motivacional */}
       {pathData.completionPercentage >= 70 && (
         <div className="motivational-message">
-          <span className="message-icon">🌟</span>
+          <span className="message-icon"><MdStar /></span>
           <p className="message-text">
             ¡Estás muy cerca de tu meta! Sigue adelante, tu esfuerzo está dando frutos.
           </p>

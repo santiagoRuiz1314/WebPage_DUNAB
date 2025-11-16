@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { formatCurrency } from '../../utils/formatters';
+import { MdAccountBalanceWallet, MdRefresh, MdTrendingUp, MdTrendingDown } from 'react-icons/md';
 import './BalanceCard.css';
 
 /**
@@ -79,7 +80,7 @@ const BalanceCard = ({
       <div className="balance-card__content">
         <div className="balance-card__header">
           <div className="balance-card__label">
-            <span className="balance-icon">💰</span>
+            <span className="balance-icon"><MdAccountBalanceWallet size={24} /></span>
             <h3>Saldo Disponible</h3>
           </div>
 
@@ -89,7 +90,7 @@ const BalanceCard = ({
               onClick={onRefresh}
               aria-label="Refrescar saldo"
             >
-              🔄
+              <MdRefresh size={20} />
             </button>
           )}
         </div>
@@ -105,7 +106,7 @@ const BalanceCard = ({
         {variation && variation.direction !== 'neutral' && (
           <div className={`balance-card__variation variation--${variation.direction}`}>
             <span className="variation-icon">
-              {variation.direction === 'up' ? '↑' : '↓'}
+              {variation.direction === 'up' ? <MdTrendingUp size={20} /> : <MdTrendingDown size={20} />}
             </span>
             <span className="variation-amount">
               {Math.abs(variation.amount).toFixed(2)} DUNAB

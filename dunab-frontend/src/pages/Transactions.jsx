@@ -8,7 +8,7 @@ import TransactionCard from '../components/shared/TransactionCard';
 import {
   FiCreditCard, FiPlus, FiDownload, FiTable, FiGrid, FiX
 } from 'react-icons/fi';
-import { MdAccountBalance } from 'react-icons/md';
+import { MdAccountBalance, MdInbox, MdAdd } from 'react-icons/md';
 import './Transactions.css';
 
 const Transactions = () => {
@@ -317,7 +317,7 @@ const Transactions = () => {
               ))
             ) : (
               <div className="empty-state">
-                <div className="empty-icon">📭</div>
+                <div className="empty-icon"><MdInbox size={64} /></div>
                 <h3>No hay transacciones</h3>
                 <p>
                   {(filters.searchTerm || filters.type !== 'all' || filters.category !== 'all' ||
@@ -332,7 +332,7 @@ const Transactions = () => {
                     onClick={() => setShowCreateModal(true)}
                     style={{ marginTop: '1rem' }}
                   >
-                    ➕ Crear Primera Transacción
+                    <MdAdd size={18} style={{ verticalAlign: 'middle', marginRight: '4px' }} />Crear Primera Transacción
                   </button>
                 )}
               </div>

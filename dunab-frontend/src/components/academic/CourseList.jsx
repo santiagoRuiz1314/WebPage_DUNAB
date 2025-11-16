@@ -1,5 +1,15 @@
 import React, { useState, useMemo } from 'react';
-import { MdCheckCircle, MdMenuBook, MdSchedule, MdRadioButtonUnchecked } from 'react-icons/md';
+import {
+  MdCheckCircle,
+  MdMenuBook,
+  MdSchedule,
+  MdRadioButtonUnchecked,
+  MdLibraryBooks,
+  MdAccessTime,
+  MdSearch,
+  MdClose,
+  MdInbox
+} from 'react-icons/md';
 import './CourseList.css';
 
 /**
@@ -186,7 +196,7 @@ const CourseList = ({ courses = [], compact = false }) => {
       {!compact && (
         <div className="course-list-header">
           <div className="header-title">
-            <h3>📚 Lista de Materias</h3>
+            <h3><MdLibraryBooks size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Lista de Materias</h3>
             <p className="header-subtitle">
               {stats.completed} de {stats.total} materias completadas
             </p>
@@ -194,17 +204,17 @@ const CourseList = ({ courses = [], compact = false }) => {
 
           <div className="header-stats">
             <div className="stat-badge completed">
-              <span className="stat-icon">✅</span>
+              <span className="stat-icon"><MdCheckCircle size={20} /></span>
               <span className="stat-count">{stats.completed}</span>
               <span className="stat-label">Completadas</span>
             </div>
             <div className="stat-badge in-progress">
-              <span className="stat-icon">📖</span>
+              <span className="stat-icon"><MdMenuBook size={20} /></span>
               <span className="stat-count">{stats.inProgress}</span>
               <span className="stat-label">En Curso</span>
             </div>
             <div className="stat-badge pending">
-              <span className="stat-icon">⏳</span>
+              <span className="stat-icon"><MdAccessTime size={20} /></span>
               <span className="stat-count">{stats.pending}</span>
               <span className="stat-label">Pendientes</span>
             </div>
@@ -217,7 +227,7 @@ const CourseList = ({ courses = [], compact = false }) => {
         <div className="course-filters">
           {/* Búsqueda */}
           <div className="filter-group search-group">
-            <label htmlFor="search">🔍 Buscar</label>
+            <label htmlFor="search"><MdSearch size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />Buscar</label>
             <input
               id="search"
               type="text"
@@ -284,7 +294,7 @@ const CourseList = ({ courses = [], compact = false }) => {
               className="clear-filters-btn"
               title="Limpiar filtros"
             >
-              ✕ Limpiar
+              <MdClose size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />Limpiar
             </button>
           )}
         </div>
@@ -303,7 +313,7 @@ const CourseList = ({ courses = [], compact = false }) => {
       <div className="courses-container">
         {filteredCourses.length === 0 ? (
           <div className="empty-state">
-            <span className="empty-icon">📭</span>
+            <span className="empty-icon"><MdInbox size={64} /></span>
             <p className="empty-message">No se encontraron materias con los filtros aplicados</p>
           </div>
         ) : (

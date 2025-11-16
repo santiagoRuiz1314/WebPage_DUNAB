@@ -4,7 +4,13 @@ import {
   FiTag, FiPlus, FiEdit3, FiTrash2, FiAlertTriangle,
   FiSave, FiX
 } from 'react-icons/fi';
-import { MdCategory } from 'react-icons/md';
+import {
+  MdCategory, MdFolder, MdShoppingCart, MdFastfood, MdDirectionsBus,
+  MdSchool, MdLocalHospital, MdPhone, MdHome, MdSportsEsports,
+  MdTheaterComedy, MdCardGiftcard, MdShoppingBag, MdFitnessCenter,
+  MdPets, MdBuild, MdAttachMoney, MdBarChart, MdEmojiEvents,
+  MdPalette, MdDirectionsRun, MdComputer, MdInbox
+} from 'react-icons/md';
 import './CategoryManagement.css';
 
 /**
@@ -26,7 +32,7 @@ const CategoryManagement = () => {
 
   const [formData, setFormData] = useState({
     nombre: '',
-    icono: '📁',
+    icono: 'MdFolder',
     color: '#3B82F6'
   });
 
@@ -44,10 +50,24 @@ const CategoryManagement = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Array vacío: solo se ejecuta al montar el componente
 
-  // Iconos predefinidos
+  // Iconos predefinidos con React Icons
   const availableIcons = [
-    '📁', '📚', '🎉', '🔧', '🎁', '🛒', '💰', '📊',
-    '🏆', '🎓', '🎨', '🏃', '🍔', '🚗', '🏠', '💻'
+    { name: 'MdFolder', component: MdFolder },
+    { name: 'MdSchool', component: MdSchool },
+    { name: 'MdEmojiEvents', component: MdEmojiEvents },
+    { name: 'MdBuild', component: MdBuild },
+    { name: 'MdCardGiftcard', component: MdCardGiftcard },
+    { name: 'MdShoppingCart', component: MdShoppingCart },
+    { name: 'MdAttachMoney', component: MdAttachMoney },
+    { name: 'MdBarChart', component: MdBarChart },
+    { name: 'MdEmojiEvents', component: MdEmojiEvents },
+    { name: 'MdSchool', component: MdSchool },
+    { name: 'MdPalette', component: MdPalette },
+    { name: 'MdDirectionsRun', component: MdDirectionsRun },
+    { name: 'MdFastfood', component: MdFastfood },
+    { name: 'MdDirectionsBus', component: MdDirectionsBus },
+    { name: 'MdHome', component: MdHome },
+    { name: 'MdComputer', component: MdComputer }
   ];
 
   // Colores predefinidos
@@ -115,7 +135,7 @@ const CategoryManagement = () => {
       }
 
       // Resetear formulario
-      setFormData({ nombre: '', icono: '📁', color: '#3B82F6' });
+      setFormData({ nombre: '', icono: 'MdFolder', color: '#3B82F6' });
       setEditingCategory(null);
       setShowForm(false);
       setErrors({});
@@ -138,7 +158,7 @@ const CategoryManagement = () => {
     setEditingCategory(category);
     setFormData({
       nombre: category.nombre || '',
-      icono: category.icono || '📁',
+      icono: category.icono || 'MdFolder',
       color: category.color || '#3B82F6'
     });
     setShowForm(true);
@@ -175,10 +195,20 @@ const CategoryManagement = () => {
 
   // Cancelar formulario
   const handleCancel = () => {
-    setFormData({ nombre: '', icono: '📁', color: '#3B82F6' });
+    setFormData({ nombre: '', icono: 'MdFolder', color: '#3B82F6' });
     setEditingCategory(null);
     setShowForm(false);
     setErrors({});
+  };
+
+  // Helper para renderizar el icono
+  const renderIcon = (iconName) => {
+    const icon = availableIcons.find(i => i.name === iconName);
+    if (icon) {
+      const IconComponent = icon.component;
+      return <IconComponent />;
+    }
+    return <MdFolder />;
   };
 
   return (
@@ -235,16 +265,19 @@ const CategoryManagement = () => {
               <div className="form-field">
                 <label htmlFor="icono">Icono</label>
                 <div className="icon-selector">
-                  {availableIcons.map((icon) => (
-                    <button
-                      key={icon}
-                      type="button"
-                      className={`icon-option ${formData.icono === icon ? 'selected' : ''}`}
-                      onClick={() => setFormData(prev => ({ ...prev, icono: icon }))}
-                    >
-                      {icon}
-                    </button>
-                  ))}
+                  {availableIcons.map((icon) => {
+                    const IconComponent = icon.component;
+                    return (
+                      <button
+                        key={icon.name}
+                        type="button"
+                        className={`icon-option ${formData.icono === icon.name ? 'selected' : ''}`}
+                        onClick={() => setFormData(prev => ({ ...prev, icono: icon.name }))}
+                      >
+                        <IconComponent />
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -270,7 +303,7 @@ const CategoryManagement = () => {
             <div className="category-preview">
               <span className="preview-label">Vista previa:</span>
               <div className="preview-category" style={{ backgroundColor: `${formData.color}20`, borderColor: formData.color }}>
-                <span className="preview-icon">{formData.icono}</span>
+                <span className="preview-icon">{renderIcon(formData.icono)}</span>
                 <span className="preview-name">{formData.nombre || 'Nombre de la categoría'}</span>
               </div>
             </div>
@@ -311,7 +344,7 @@ const CategoryManagement = () => {
                 }}
               >
                 <div className="category-info">
-                  <span className="category-icon">{category.icono || '📁'}</span>
+                  <span className="category-icon">{renderIcon(category.icono || 'MdFolder')}</span>
                   <div className="category-details">
                     <h4 className="category-name">{category.nombre}</h4>
                     {systemCategories.includes(category.nombre) && (
@@ -343,7 +376,7 @@ const CategoryManagement = () => {
           </div>
         ) : (
           <div className="categories-empty">
-            <p>📭 No hay categorías registradas</p>
+            <p><MdInbox /> No hay categorías registradas</p>
             <button className="btn-add-first" onClick={() => setShowForm(true)}>
               Crear primera categoría
             </button>
@@ -358,7 +391,7 @@ const CategoryManagement = () => {
             <h3><FiAlertTriangle /> Confirmar Eliminación</h3>
             <p>¿Estás seguro de que deseas eliminar esta categoría?</p>
             <div className="category-to-delete">
-              <span className="icon">{deleteConfirm.icono}</span>
+              <span className="icon">{renderIcon(deleteConfirm.icono)}</span>
               <strong>{deleteConfirm.nombre}</strong>
             </div>
             {errors.delete && (

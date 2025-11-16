@@ -2,6 +2,17 @@ import React from 'react';
 import { useDunab } from '../../context/DunabContext';
 import { formatCurrency, formatDate } from '../../utils/formatters';
 import { Link } from 'react-router-dom';
+import {
+  MdTrendingUp,
+  MdTrendingDown,
+  MdCreditCard,
+  MdSchool,
+  MdCelebration,
+  MdBuild,
+  MdCardGiftcard,
+  MdShoppingCart,
+  MdAttachMoney
+} from 'react-icons/md';
 import './RecentTransactions.css';
 
 /**
@@ -22,13 +33,13 @@ const RecentTransactions = ({ limit = 5 }) => {
       case 'ingreso':
       case 'credito':
       case 'credit':
-        return { icon: '📈', color: 'success', symbol: '+' };
+        return { icon: MdTrendingUp, color: 'success', symbol: '+' };
       case 'egreso':
       case 'debito':
       case 'debit':
-        return { icon: '📉', color: 'danger', symbol: '-' };
+        return { icon: MdTrendingDown, color: 'danger', symbol: '-' };
       default:
-        return { icon: '💳', color: 'info', symbol: '' };
+        return { icon: MdCreditCard, color: 'info', symbol: '' };
     }
   };
 
@@ -37,13 +48,13 @@ const RecentTransactions = ({ limit = 5 }) => {
    */
   const getCategoryIcon = (category) => {
     const icons = {
-      'académico': '📚',
-      'academico': '📚',
-      'evento': '🎉',
-      'servicio': '🔧',
-      'recompensa': '🎁',
-      'compra': '🛒',
-      'default': '💰'
+      'académico': MdSchool,
+      'academico': MdSchool,
+      'evento': MdCelebration,
+      'servicio': MdBuild,
+      'recompensa': MdCardGiftcard,
+      'compra': MdShoppingCart,
+      'default': MdAttachMoney
     };
     return icons[category?.toLowerCase()] || icons.default;
   };
@@ -52,7 +63,7 @@ const RecentTransactions = ({ limit = 5 }) => {
     return (
       <div className="recent-transactions">
         <div className="transactions-header">
-          <h3>💳 Transacciones Recientes</h3>
+          <h3><MdCreditCard /> Transacciones Recientes</h3>
         </div>
         <div className="transactions-loading">
           {[1, 2, 3].map(i => (
@@ -74,7 +85,7 @@ const RecentTransactions = ({ limit = 5 }) => {
     return (
       <div className="recent-transactions">
         <div className="transactions-header">
-          <h3>💳 Transacciones Recientes</h3>
+          <h3><MdCreditCard /> Transacciones Recientes</h3>
         </div>
         <div className="transactions-empty">
           <p>No hay transacciones recientes</p>
@@ -87,7 +98,7 @@ const RecentTransactions = ({ limit = 5 }) => {
   return (
     <div className="recent-transactions">
       <div className="transactions-header">
-        <h3>💳 Transacciones Recientes</h3>
+        <h3><MdCreditCard /> Transacciones Recientes</h3>
         <Link to="/transactions" className="view-all-link">
           Ver todas →
         </Link>
@@ -96,7 +107,7 @@ const RecentTransactions = ({ limit = 5 }) => {
       <div className="transactions-list">
         {displayedTransactions.map((transaction) => {
           const style = getTransactionStyle(transaction.tipo || transaction.type);
-          const categoryIcon = getCategoryIcon(transaction.categoria || transaction.category);
+          const CategoryIcon = getCategoryIcon(transaction.categoria || transaction.category);
 
           return (
             <div
@@ -104,7 +115,7 @@ const RecentTransactions = ({ limit = 5 }) => {
               className={`transaction-item transaction-${style.color}`}
             >
               <div className="transaction-icon">
-                {categoryIcon}
+                <CategoryIcon />
               </div>
 
               <div className="transaction-details">

@@ -3,6 +3,7 @@ import { formatCurrency } from '../../utils/formatters';
 import { useAuth } from '../../context/AuthContext';
 import { useDunab } from '../../context/DunabContext';
 import eventService from '../../services/eventService';
+import { MdCelebration, MdCardGiftcard, MdError } from 'react-icons/md';
 import './EventRegistration.css';
 
 /**
@@ -113,7 +114,7 @@ const EventRegistration = ({ event, onClose, onSuccess }) => {
 
               {esGratuito ? (
                 <div className="event-registration__free">
-                  <div className="event-registration__free-icon">🎉</div>
+                  <div className="event-registration__free-icon"><MdCelebration size={48} /></div>
                   <p>¡Este evento es gratuito!</p>
                   <p className="event-registration__free-sub">
                     No se debitará DUNAB de tu cuenta
@@ -159,7 +160,7 @@ const EventRegistration = ({ event, onClose, onSuccess }) => {
               {/* Recompensa */}
               {event.recompensaDunab > 0 && (
                 <div className="event-registration__reward">
-                  <span className="event-registration__reward-icon">🎁</span>
+                  <span className="event-registration__reward-icon"><MdCardGiftcard size={24} /></span>
                   <p>
                     Ganarás <strong>{formatCurrency(event.recompensaDunab)}</strong> al
                     confirmar tu asistencia
@@ -171,7 +172,7 @@ const EventRegistration = ({ event, onClose, onSuccess }) => {
             {/* Error */}
             {error && (
               <div className="event-registration__error">
-                <span className="event-registration__error-icon">❌</span>
+                <span className="event-registration__error-icon"><MdError size={24} /></span>
                 <p>{error}</p>
               </div>
             )}
@@ -222,7 +223,7 @@ const EventRegistration = ({ event, onClose, onSuccess }) => {
 
             {event.recompensaDunab > 0 && (
               <div className="event-registration__success-reward">
-                <span className="event-registration__reward-icon">🎁</span>
+                <span className="event-registration__reward-icon"><MdCardGiftcard size={24} /></span>
                 <p>Recuerda que ganarás {formatCurrency(event.recompensaDunab)} al asistir</p>
               </div>
             )}

@@ -195,7 +195,7 @@ const DunabManagement = () => {
 
       {/* Actividad reciente */}
       <div className="recent-activity">
-        <h4>⚡ Actividad Reciente</h4>
+        <h4><FiTrendingUp style={{ verticalAlign: 'middle', marginRight: '8px' }} />Actividad Reciente</h4>
         {transactions && transactions.length > 0 ? (
           <div className="activity-list">
             {transactions.slice(0, 5).map((transaction) => (
@@ -272,23 +272,23 @@ const DunabManagement = () => {
       <h3><MdAssessment /> Reportes y Exportación</h3>
       <div className="reports-content">
         <div className="report-card">
-          <h4>📊 Reporte de Movimientos DUNAB</h4>
+          <h4><FiBarChart2 style={{ verticalAlign: 'middle', marginRight: '8px' }} />Reporte de Movimientos DUNAB</h4>
           <p>Genera un reporte detallado de todas las transacciones</p>
           <button className="btn-report">Generar Reporte PDF</button>
         </div>
         <div className="report-card">
-          <h4>📈 Reporte de Estadísticas</h4>
+          <h4><FiTrendingUp style={{ verticalAlign: 'middle', marginRight: '8px' }} />Reporte de Estadísticas</h4>
           <p>Estadísticas generales del sistema DUNAB</p>
           <button className="btn-report">Generar Reporte Excel</button>
         </div>
         <div className="report-card">
-          <h4>👥 Reporte de Estudiantes</h4>
+          <h4><FiUsers style={{ verticalAlign: 'middle', marginRight: '8px' }} />Reporte de Estudiantes</h4>
           <p>Lista de estudiantes más activos y sus saldos</p>
           <button className="btn-report">Generar Reporte PDF</button>
         </div>
       </div>
       <div className="reports-placeholder">
-        <p>🚧 Funcionalidad de reportes en desarrollo</p>
+        <p><FiAlertTriangle style={{ verticalAlign: 'middle', marginRight: '8px' }} />Funcionalidad de reportes en desarrollo</p>
         <small>Próximamente: Exportación a PDF, Excel y gráficos avanzados</small>
       </div>
     </div>
@@ -299,7 +299,7 @@ const DunabManagement = () => {
       {/* Header */}
       <div className="management-header">
         <div className="header-content">
-          <h2>⚙️ Gestión DUNAB</h2>
+          <h2><MdDashboard size={28} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Gestión DUNAB</h2>
           <p className="header-subtitle">
             Panel de administración del sistema de moneda virtual
           </p>

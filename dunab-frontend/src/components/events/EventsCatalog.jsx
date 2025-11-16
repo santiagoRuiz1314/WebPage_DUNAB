@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import EventCard from './EventCard';
 import eventService from '../../services/eventService';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { MdSearch, MdCalendarToday } from 'react-icons/md';
 import './EventsCatalog.css';
 
 /**
@@ -161,7 +162,7 @@ const EventsCatalog = ({ onEventClick }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="events-catalog__search-input"
           />
-          <span className="events-catalog__search-icon">🔍</span>
+          <span className="events-catalog__search-icon"><MdSearch size={20} /></span>
         </div>
 
         {/* Filtros */}
@@ -238,7 +239,7 @@ const EventsCatalog = ({ onEventClick }) => {
         </div>
       ) : (
         <div className="events-catalog__empty">
-          <div className="events-catalog__empty-icon">📅</div>
+          <div className="events-catalog__empty-icon"><MdCalendarToday size={64} /></div>
           <h3>No hay eventos disponibles</h3>
           <p>
             {searchTerm || selectedCategory

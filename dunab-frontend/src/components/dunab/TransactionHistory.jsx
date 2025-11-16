@@ -3,6 +3,7 @@ import { useDunab } from '../../context/DunabContext';
 import TransactionTable from './TransactionTable';
 import TransactionCard from '../shared/TransactionCard';
 import FilterBar from './FilterBar';
+import { MdHistory, MdRefresh, MdTableChart, MdViewModule, MdSearch } from 'react-icons/md';
 import './TransactionHistory.css';
 
 /**
@@ -128,7 +129,7 @@ const TransactionHistory = () => {
       {/* Header */}
       <div className="history-header">
         <div className="history-title">
-          <h2>📜 Historial de Transacciones</h2>
+          <h2><MdHistory size={28} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Historial de Transacciones</h2>
           <p className="history-subtitle">
             Consulta y filtra todas tus transacciones DUNAB
           </p>
@@ -141,7 +142,7 @@ const TransactionHistory = () => {
             disabled={loading}
             title="Refrescar"
           >
-            🔄 Refrescar
+            <MdRefresh size={18} style={{ verticalAlign: 'middle', marginRight: '4px' }} />Refrescar
           </button>
 
           {/* View Toggle */}
@@ -151,14 +152,14 @@ const TransactionHistory = () => {
               onClick={() => setView('table')}
               title="Vista de tabla"
             >
-              📊
+              <MdTableChart size={20} />
             </button>
             <button
               className={`toggle-btn ${view === 'cards' ? 'active' : ''}`}
               onClick={() => setView('cards')}
               title="Vista de tarjetas"
             >
-              🗂️
+              <MdViewModule size={20} />
             </button>
           </div>
         </div>
@@ -204,7 +205,7 @@ const TransactionHistory = () => {
           </div>
         ) : filteredTransactions.length === 0 ? (
           <div className="history-empty">
-            <div className="empty-icon">🔍</div>
+            <div className="empty-icon"><MdSearch size={64} /></div>
             <h3>No se encontraron transacciones</h3>
             <p>Intenta ajustar los filtros de búsqueda</p>
             <button className="btn-clear-filters" onClick={handleClearFilters}>

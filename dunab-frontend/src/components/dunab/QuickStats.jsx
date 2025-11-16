@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import StatCard from '../shared/StatCard';
 import { formatCurrency } from '../../utils/formatters';
+import {
+  MdAttachMoney,
+  MdTrendingDown,
+  MdBarChart,
+  MdBalance,
+  MdAccessTime
+} from 'react-icons/md';
 import './QuickStats.css';
 
 /**
@@ -44,7 +51,7 @@ const QuickStats = ({
       id: 'earned',
       label: 'Total Ganado',
       value: formatCurrency(statistics.totalEarned, false),
-      icon: '💰',
+      icon: MdAttachMoney,
       color: 'success',
       trend: statistics.trends?.earned,
       suffix: 'DUNAB'
@@ -53,7 +60,7 @@ const QuickStats = ({
       id: 'spent',
       label: 'Total Gastado',
       value: formatCurrency(statistics.totalSpent, false),
-      icon: '💸',
+      icon: MdTrendingDown,
       color: 'danger',
       trend: statistics.trends?.spent,
       suffix: 'DUNAB'
@@ -62,7 +69,7 @@ const QuickStats = ({
       id: 'monthly',
       label: 'Transacciones Este Mes',
       value: statistics.monthlyTransactions,
-      icon: '📊',
+      icon: MdBarChart,
       color: 'info',
       trend: statistics.trends?.monthly,
       suffix: 'transacciones'
@@ -71,7 +78,7 @@ const QuickStats = ({
       id: 'average',
       label: 'Promedio por Transacción',
       value: formatCurrency(statistics.averageTransaction, false),
-      icon: '⚖️',
+      icon: MdBalance,
       color: 'warning',
       trend: statistics.trends?.average,
       suffix: 'DUNAB'
@@ -87,7 +94,7 @@ const QuickStats = ({
               key={index}
               label="Cargando..."
               value="0"
-              icon="⏳"
+              icon={MdAccessTime}
               loading={true}
             />
           ))}

@@ -1,6 +1,18 @@
 import React from 'react';
 import { formatDate, formatCurrency } from '../../utils/formatters';
-import { MdSchool, MdConstruction, MdSportsBasketball, MdEmojiEvents, MdMic, MdTheaterComedy, MdHandshake, MdCalendarToday } from 'react-icons/md';
+import {
+  MdSchool,
+  MdConstruction,
+  MdSportsBasketball,
+  MdEmojiEvents,
+  MdMic,
+  MdTheaterComedy,
+  MdHandshake,
+  MdCalendarToday,
+  MdLocationOn,
+  MdPeople,
+  MdCardGiftcard
+} from 'react-icons/md';
 import './EventCard.css';
 
 /**
@@ -112,7 +124,7 @@ const EventCard = ({ event, onClick }) => {
         <div className="event-card__info">
           {/* Fecha */}
           <div className="event-card__info-item">
-            <span className="event-card__info-icon">📅</span>
+            <span className="event-card__info-icon"><MdCalendarToday size={18} /></span>
             <span className="event-card__info-text">
               {formatDate(fechaInicio || fecha)}
             </span>
@@ -120,13 +132,13 @@ const EventCard = ({ event, onClick }) => {
 
           {/* Lugar */}
           <div className="event-card__info-item">
-            <span className="event-card__info-icon">📍</span>
+            <span className="event-card__info-icon"><MdLocationOn size={18} /></span>
             <span className="event-card__info-text">{lugar}</span>
           </div>
 
           {/* Cupos */}
           <div className="event-card__info-item">
-            <span className="event-card__info-icon">👥</span>
+            <span className="event-card__info-icon"><MdPeople size={18} /></span>
             <span className="event-card__info-text">
               {cuposDisponibles} de {cuposTotal} cupos
             </span>
@@ -160,7 +172,7 @@ const EventCard = ({ event, onClick }) => {
           {/* Recompensa */}
           {recompensaDunab > 0 && (
             <div className="event-card__reward">
-              <span className="event-card__reward-icon">🎁</span>
+              <span className="event-card__reward-icon"><MdCardGiftcard size={18} /></span>
               <span className="event-card__reward-value">
                 +{formatCurrency(recompensaDunab)}
               </span>

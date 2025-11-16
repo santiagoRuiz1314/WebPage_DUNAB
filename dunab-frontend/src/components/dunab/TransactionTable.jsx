@@ -5,6 +5,7 @@ import {
   FiArrowUp, FiArrowDown, FiEdit3, FiTrash2, FiChevronsUp,
   FiChevronsDown, FiChevronLeft, FiChevronRight
 } from 'react-icons/fi';
+import { MdInbox } from 'react-icons/md';
 import './TransactionTable.css';
 
 const TransactionTable = ({
@@ -113,7 +114,7 @@ const TransactionTable = ({
   if (!transactions || transactions.length === 0) {
     return (
       <div className="transaction-table-empty">
-        <div className="empty-icon">📭</div>
+        <div className="empty-icon"><MdInbox size={64} /></div>
         <h3>No hay transacciones</h3>
         <p>Aún no tienes transacciones registradas en tu cuenta DUNAB</p>
       </div>

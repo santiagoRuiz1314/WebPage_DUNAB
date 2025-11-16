@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNotifications } from '../../context/NotificationContext';
 import NotificationItem from './NotificationItem';
+import { MdInbox } from 'react-icons/md';
 
 const NotificationCenter = ({ onClose }) => {
   const { notifications, markAsRead, deleteNotification, clearAll } = useNotifications();
@@ -19,7 +20,7 @@ const NotificationCenter = ({ onClose }) => {
       <div className="notification-list">
         {notifications.length === 0 ? (
           <div className="no-notifications">
-            <p>📭 No tienes notificaciones</p>
+            <p><MdInbox size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />No tienes notificaciones</p>
           </div>
         ) : (
           notifications.map((notification) => (

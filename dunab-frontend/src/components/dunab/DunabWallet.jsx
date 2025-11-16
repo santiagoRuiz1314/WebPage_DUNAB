@@ -2,6 +2,7 @@ import React from 'react';
 import { useDunab } from '../../context/DunabContext';
 import { formatCurrency } from '../../utils/formatters';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { MdAccountBalanceWallet, MdTrendingUp, MdTrendingDown, MdCreditCard } from 'react-icons/md';
 
 const DunabWallet = () => {
   const { balance, statistics, loading } = useDunab();
@@ -13,7 +14,7 @@ const DunabWallet = () => {
   return (
     <div className="dunab-wallet">
       <div className="wallet-header">
-        <h2>💰 Mi Wallet DUNAB</h2>
+        <h2><MdAccountBalanceWallet size={28} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Mi Wallet DUNAB</h2>
       </div>
 
       <div className="wallet-content">
@@ -34,7 +35,7 @@ const DunabWallet = () => {
         {/* Quick Stats */}
         <div className="quick-stats">
           <div className="stat-card">
-            <div className="stat-icon">📈</div>
+            <div className="stat-icon"><MdTrendingUp size={32} /></div>
             <div className="stat-content">
               <p className="stat-label">Total Ganado</p>
               <p className="stat-value">{formatCurrency(statistics?.totalEarned || 0)} D</p>
@@ -42,7 +43,7 @@ const DunabWallet = () => {
           </div>
 
           <div className="stat-card">
-            <div className="stat-icon">📉</div>
+            <div className="stat-icon"><MdTrendingDown size={32} /></div>
             <div className="stat-content">
               <p className="stat-label">Total Gastado</p>
               <p className="stat-value">{formatCurrency(statistics?.totalSpent || 0)} D</p>
@@ -50,7 +51,7 @@ const DunabWallet = () => {
           </div>
 
           <div className="stat-card">
-            <div className="stat-icon">💳</div>
+            <div className="stat-icon"><MdCreditCard size={32} /></div>
             <div className="stat-content">
               <p className="stat-label">Transacciones</p>
               <p className="stat-value">{statistics?.totalTransactions || 0}</p>

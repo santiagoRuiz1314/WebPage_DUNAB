@@ -2,7 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import eventService from '../../services/eventService';
 import { formatDate, formatCurrency } from '../../utils/formatters';
-import { MdEvent, MdMic, MdConstruction, MdSportsBasketball, MdTheaterComedy, MdSchool, MdCelebration } from 'react-icons/md';
+import {
+  MdEvent,
+  MdMic,
+  MdConstruction,
+  MdSportsBasketball,
+  MdTheaterComedy,
+  MdSchool,
+  MdCelebration,
+  MdCalendarToday,
+  MdAttachMoney,
+  MdCardGiftcard,
+  MdStars
+} from 'react-icons/md';
 import './UpcomingEvents.css';
 
 /**
@@ -116,7 +128,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
           </Link>
         </div>
         <div className="events-empty">
-          <div className="empty-icon">📅</div>
+          <div className="empty-icon"><MdCalendarToday size={48} /></div>
           <p>No hay eventos próximos</p>
           <span>Los próximos eventos aparecerán aquí</span>
         </div>
@@ -169,17 +181,17 @@ const UpcomingEvents = ({ limit = 3 }) => {
               <div className="event-badges">
                 {cost > 0 ? (
                   <span className={`badge badge-cost badge-${costBadgeColor}`}>
-                    💰 {formatCurrency(cost, false)} D
+                    <MdAttachMoney size={16} style={{ verticalAlign: 'middle' }} /> {formatCurrency(cost, false)} D
                   </span>
                 ) : (
                   <span className="badge badge-free">
-                    ✨ Gratis
+                    <MdStars size={16} style={{ verticalAlign: 'middle' }} /> Gratis
                   </span>
                 )}
 
                 {reward > 0 && (
                   <span className="badge badge-reward">
-                    🎁 +{formatCurrency(reward, false)} D
+                    <MdCardGiftcard size={16} style={{ verticalAlign: 'middle' }} /> +{formatCurrency(reward, false)} D
                   </span>
                 )}
               </div>

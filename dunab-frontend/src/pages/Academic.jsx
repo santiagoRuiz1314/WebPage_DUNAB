@@ -2,7 +2,18 @@ import React, { useState } from 'react';
 import AcademicProgress from '../components/academic/AcademicProgress';
 import GraduationPath from '../components/academic/GraduationPath';
 import CourseList from '../components/academic/CourseList';
-import { MdSchool, MdAssessment, MdBook, MdFlag } from 'react-icons/md';
+import {
+  MdSchool,
+  MdAssessment,
+  MdBook,
+  MdFlag,
+  MdDescription,
+  MdCheckCircle,
+  MdCelebration,
+  MdAttachMoney,
+  MdTrendingUp,
+  MdEmojiEvents
+} from 'react-icons/md';
 import './Academic.css';
 
 /**
@@ -91,7 +102,7 @@ const Academic = () => {
                 <div className="card-content">
                   <div className="milestones-list">
                     <div className="milestone-item">
-                      <span className="milestone-icon">📝</span>
+                      <span className="milestone-icon"><MdDescription size={24} /></span>
                       <div className="milestone-content">
                         <h4 className="milestone-title">Proyecto de Grado</h4>
                         <p className="milestone-description">Completa tu trabajo de investigación</p>
@@ -100,7 +111,7 @@ const Academic = () => {
                     </div>
 
                     <div className="milestone-item">
-                      <span className="milestone-icon">✅</span>
+                      <span className="milestone-icon"><MdCheckCircle size={24} /></span>
                       <div className="milestone-content">
                         <h4 className="milestone-title">Requisitos Adicionales</h4>
                         <p className="milestone-description">Servicio social y examen de inglés</p>
@@ -109,7 +120,7 @@ const Academic = () => {
                     </div>
 
                     <div className="milestone-item">
-                      <span className="milestone-icon">🎉</span>
+                      <span className="milestone-icon"><MdCelebration size={24} /></span>
                       <div className="milestone-content">
                         <h4 className="milestone-title">Ceremonia de Graduación</h4>
                         <p className="milestone-description">¡Tu meta final!</p>
@@ -132,7 +143,7 @@ const Academic = () => {
             {/* Información adicional */}
             <div className="info-cards-grid">
               <div className="info-card dunab">
-                <div className="info-icon">💰</div>
+                <div className="info-icon"><MdAttachMoney size={36} /></div>
                 <div className="info-content">
                   <h4 className="info-title">Recompensas DUNAB</h4>
                   <p className="info-description">
@@ -143,7 +154,7 @@ const Academic = () => {
               </div>
 
               <div className="info-card gpa">
-                <div className="info-icon">📈</div>
+                <div className="info-icon"><MdTrendingUp size={36} /></div>
                 <div className="info-content">
                   <h4 className="info-title">Promedio Académico</h4>
                   <p className="info-description">
@@ -154,7 +165,7 @@ const Academic = () => {
               </div>
 
               <div className="info-card graduation">
-                <div className="info-icon">🎓</div>
+                <div className="info-icon"><MdEmojiEvents size={36} /></div>
                 <div className="info-content">
                   <h4 className="info-title">Fecha Estimada</h4>
                   <p className="info-description">

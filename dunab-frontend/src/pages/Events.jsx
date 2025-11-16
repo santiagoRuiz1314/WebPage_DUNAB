@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import EventsCatalog from '../components/events/EventsCatalog';
 import EventDetail from '../components/events/EventDetail';
+import { MdCelebration } from 'react-icons/md';
 import './Events.css';
 
 /**
@@ -28,7 +29,7 @@ const Events = () => {
     <div className="events-page">
       {/* Header de la página */}
       <div className="events-page__header">
-        <h1 className="events-page__title">🎉 Eventos Institucionales</h1>
+        <h1 className="events-page__title"><MdCelebration size={32} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Institucionales</h1>
         <p className="events-page__subtitle">
           Participa en eventos y gana DUNAB por tu asistencia
         </p>

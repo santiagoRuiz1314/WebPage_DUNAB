@@ -15,6 +15,7 @@ import {
 } from 'recharts';
 import { useDunab } from '../../context/DunabContext';
 import { formatCurrency } from '../../utils/formatters';
+import { MdShowChart, MdBarChart, MdStackedLineChart } from 'react-icons/md';
 import './BalanceChart.css';
 
 /**
@@ -226,7 +227,7 @@ const BalanceChart = () => {
     return (
       <div className="balance-chart">
         <div className="chart-header">
-          <h3>📈 Balance DUNAB</h3>
+          <h3><MdShowChart size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Balance DUNAB</h3>
         </div>
         <div className="chart-loading">
           <div className="spinner"></div>
@@ -240,7 +241,7 @@ const BalanceChart = () => {
     return (
       <div className="balance-chart">
         <div className="chart-header">
-          <h3>📈 Balance DUNAB</h3>
+          <h3><MdShowChart size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Balance DUNAB</h3>
         </div>
         <div className="chart-empty">
           <p>No hay suficientes datos para mostrar el gráfico</p>
@@ -254,7 +255,7 @@ const BalanceChart = () => {
     <div className="balance-chart">
       <div className="chart-header">
         <div>
-          <h3>📈 Balance DUNAB</h3>
+          <h3><MdShowChart size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Balance DUNAB</h3>
           <span className="chart-subtitle">Evolución de tus finanzas</span>
         </div>
 
@@ -266,21 +267,21 @@ const BalanceChart = () => {
               onClick={() => setChartType('area')}
               title="Gráfico de área"
             >
-              📊
+              <MdStackedLineChart size={20} />
             </button>
             <button
               className={chartType === 'line' ? 'active' : ''}
               onClick={() => setChartType('line')}
               title="Gráfico de líneas"
             >
-              📈
+              <MdShowChart size={20} />
             </button>
             <button
               className={chartType === 'bar' ? 'active' : ''}
               onClick={() => setChartType('bar')}
               title="Gráfico de barras"
             >
-              📊
+              <MdBarChart size={20} />
             </button>
           </div>
 

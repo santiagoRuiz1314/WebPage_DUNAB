@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import studentService from '../../services/studentService';
 import { useAuth } from '../../context/AuthContext';
-import { MdCheckCircle, MdSchedule } from 'react-icons/md';
+import { MdCheckCircle, MdSchedule, MdMenuBook, MdAccessTime, MdLibraryBooks } from 'react-icons/md';
 import './AcademicProgress.css';
 
 /**
@@ -72,7 +72,7 @@ const AcademicProgress = () => {
     return (
       <div className="academic-progress">
         <div className="progress-header">
-          <h3>📚 Progreso Académico</h3>
+          <h3><MdLibraryBooks size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Progreso Académico</h3>
         </div>
         <div className="progress-loading">
           <div className="spinner"></div>
@@ -86,7 +86,7 @@ const AcademicProgress = () => {
     return (
       <div className="academic-progress">
         <div className="progress-header">
-          <h3>📚 Progreso Académico</h3>
+          <h3><MdLibraryBooks size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Progreso Académico</h3>
         </div>
         <div className="progress-error">
           <p>{error}</p>
@@ -99,7 +99,7 @@ const AcademicProgress = () => {
     return (
       <div className="academic-progress">
         <div className="progress-header">
-          <h3>📚 Progreso Académico</h3>
+          <h3><MdLibraryBooks size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Progreso Académico</h3>
         </div>
         <div className="progress-empty">
           <p>No hay información académica disponible</p>
@@ -113,7 +113,7 @@ const AcademicProgress = () => {
   return (
     <div className="academic-progress">
       <div className="progress-header">
-        <h3>📚 Progreso Académico</h3>
+        <h3><MdLibraryBooks size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Progreso Académico</h3>
         <span className="semester-badge">
           Semestre {progress.currentSemester}
         </span>
@@ -154,7 +154,7 @@ const AcademicProgress = () => {
       {/* Resumen de materias */}
       <div className="courses-summary">
         <div className="course-stat">
-          <div className="course-stat-icon completed">✅</div>
+          <div className="course-stat-icon completed"><MdCheckCircle size={28} /></div>
           <div className="course-stat-content">
             <span className="course-stat-value">{progress.coursesCompleted}</span>
             <span className="course-stat-label">Completadas</span>
@@ -162,7 +162,7 @@ const AcademicProgress = () => {
         </div>
 
         <div className="course-stat">
-          <div className="course-stat-icon in-progress">📖</div>
+          <div className="course-stat-icon in-progress"><MdMenuBook size={28} /></div>
           <div className="course-stat-content">
             <span className="course-stat-value">{progress.coursesInProgress}</span>
             <span className="course-stat-label">En Curso</span>
@@ -170,7 +170,7 @@ const AcademicProgress = () => {
         </div>
 
         <div className="course-stat">
-          <div className="course-stat-icon pending">⏳</div>
+          <div className="course-stat-icon pending"><MdAccessTime size={28} /></div>
           <div className="course-stat-content">
             <span className="course-stat-value">{progress.coursesPending}</span>
             <span className="course-stat-label">Pendientes</span>
