@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import AcademicProgress from '../components/academic/AcademicProgress';
 import GraduationPath from '../components/academic/GraduationPath';
 import CourseList from '../components/academic/CourseList';
@@ -21,6 +22,7 @@ import './Academic.css';
  * Integra progreso académico, camino a graduación y lista de materias
  */
 const Academic = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('overview'); // overview, courses, path
 
   return (
@@ -28,9 +30,9 @@ const Academic = () => {
       {/* Page Header */}
       <div className="page-header">
         <div className="header-content">
-          <h1 className="page-title"><MdSchool /> Módulo Académico</h1>
+          <h1 className="page-title"><MdSchool /> {t('academic.moduleTitle')}</h1>
           <p className="page-subtitle">
-            Gestiona tu progreso académico y visualiza tu camino hacia la graduación
+            {t('academic.moduleSubtitle')}
           </p>
         </div>
       </div>
@@ -42,7 +44,7 @@ const Academic = () => {
           onClick={() => setActiveTab('overview')}
         >
           <span className="tab-icon"><MdAssessment /></span>
-          <span className="tab-label">Resumen</span>
+          <span className="tab-label">{t('academic.overview')}</span>
         </button>
 
         <button
@@ -50,7 +52,7 @@ const Academic = () => {
           onClick={() => setActiveTab('courses')}
         >
           <span className="tab-icon"><MdBook /></span>
-          <span className="tab-label">Materias</span>
+          <span className="tab-label">{t('academic.courses')}</span>
         </button>
 
         <button
@@ -58,7 +60,7 @@ const Academic = () => {
           onClick={() => setActiveTab('path')}
         >
           <span className="tab-icon"><MdFlag /></span>
-          <span className="tab-label">Camino a Graduación</span>
+          <span className="tab-label">{t('academic.graduationPath')}</span>
         </button>
       </div>
 
@@ -77,8 +79,8 @@ const Academic = () => {
               {/* Quick stats de materias */}
               <div className="overview-card">
                 <div className="card-header">
-                  <h3 className="card-title">Materias Actuales</h3>
-                  <span className="card-badge in-progress">En Curso</span>
+                  <h3 className="card-title">{t('academic.currentCourses')}</h3>
+                  <span className="card-badge in-progress">{t('academic.inCourse')}</span>
                 </div>
                 <div className="card-content">
                   <CourseList compact={true} />
@@ -88,7 +90,7 @@ const Academic = () => {
                     className="view-all-button"
                     onClick={() => setActiveTab('courses')}
                   >
-                    Ver Todas las Materias →
+                    {t('academic.viewAllCourses')} →
                   </button>
                 </div>
               </div>
@@ -96,35 +98,35 @@ const Academic = () => {
               {/* Próximos hitos */}
               <div className="overview-card highlights">
                 <div className="card-header">
-                  <h3 className="card-title">Próximos Hitos</h3>
-                  <span className="card-badge pending">Pendientes</span>
+                  <h3 className="card-title">{t('academic.upcomingMilestones')}</h3>
+                  <span className="card-badge pending">{t('academic.pendingMilestones')}</span>
                 </div>
                 <div className="card-content">
                   <div className="milestones-list">
                     <div className="milestone-item">
                       <span className="milestone-icon"><MdDescription size={24} /></span>
                       <div className="milestone-content">
-                        <h4 className="milestone-title">Proyecto de Grado</h4>
-                        <p className="milestone-description">Completa tu trabajo de investigación</p>
-                        <span className="milestone-status in-progress">En Progreso</span>
+                        <h4 className="milestone-title">{t('academic.thesisProject')}</h4>
+                        <p className="milestone-description">{t('academic.thesisDescription')}</p>
+                        <span className="milestone-status in-progress">{t('academic.inProgress')}</span>
                       </div>
                     </div>
 
                     <div className="milestone-item">
                       <span className="milestone-icon"><MdCheckCircle size={24} /></span>
                       <div className="milestone-content">
-                        <h4 className="milestone-title">Requisitos Adicionales</h4>
-                        <p className="milestone-description">Servicio social y examen de inglés</p>
-                        <span className="milestone-status pending">Pendiente</span>
+                        <h4 className="milestone-title">{t('academic.additionalRequirements')}</h4>
+                        <p className="milestone-description">{t('academic.additionalRequirementsDescription')}</p>
+                        <span className="milestone-status pending">{t('academic.pending')}</span>
                       </div>
                     </div>
 
                     <div className="milestone-item">
                       <span className="milestone-icon"><MdCelebration size={24} /></span>
                       <div className="milestone-content">
-                        <h4 className="milestone-title">Ceremonia de Graduación</h4>
-                        <p className="milestone-description">¡Tu meta final!</p>
-                        <span className="milestone-status pending">Pendiente</span>
+                        <h4 className="milestone-title">{t('academic.graduationCeremony')}</h4>
+                        <p className="milestone-description">{t('academic.graduationCeremonyDescription')}</p>
+                        <span className="milestone-status pending">{t('academic.pending')}</span>
                       </div>
                     </div>
                   </div>
@@ -134,7 +136,7 @@ const Academic = () => {
                     className="view-all-button"
                     onClick={() => setActiveTab('path')}
                   >
-                    Ver Camino Completo →
+                    {t('academic.viewFullPath')} →
                   </button>
                 </div>
               </div>
@@ -145,31 +147,31 @@ const Academic = () => {
               <div className="info-card dunab">
                 <div className="info-icon"><MdAttachMoney size={36} /></div>
                 <div className="info-content">
-                  <h4 className="info-title">Recompensas DUNAB</h4>
+                  <h4 className="info-title">{t('academic.dunabRewards')}</h4>
                   <p className="info-description">
-                    Gana DUNAB por completar materias y alcanzar hitos académicos
+                    {t('academic.dunabRewardsDescription')}
                   </p>
-                  <span className="info-value">100 DUNAB por crédito</span>
+                  <span className="info-value">{t('academic.dunabPerCredit', { amount: 100 })}</span>
                 </div>
               </div>
 
               <div className="info-card gpa">
                 <div className="info-icon"><MdTrendingUp size={36} /></div>
                 <div className="info-content">
-                  <h4 className="info-title">Promedio Académico</h4>
+                  <h4 className="info-title">{t('academic.academicAverage')}</h4>
                   <p className="info-description">
-                    Mantén un buen rendimiento para acceder a beneficios
+                    {t('academic.academicAverageDescription')}
                   </p>
-                  <span className="info-value">GPA: 4.2 / 5.0</span>
+                  <span className="info-value">{t('academic.gpaValue', { gpa: 4.2 })}</span>
                 </div>
               </div>
 
               <div className="info-card graduation">
                 <div className="info-icon"><MdEmojiEvents size={36} /></div>
                 <div className="info-content">
-                  <h4 className="info-title">Fecha Estimada</h4>
+                  <h4 className="info-title">{t('academic.estimatedDate')}</h4>
                   <p className="info-description">
-                    Fecha proyectada de graduación según tu avance
+                    {t('academic.estimatedDateDescription')}
                   </p>
                   <span className="info-value">Diciembre 2025</span>
                 </div>

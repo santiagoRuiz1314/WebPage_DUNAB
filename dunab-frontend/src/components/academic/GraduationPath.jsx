@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import studentService from '../../services/studentService';
 import {
@@ -26,6 +27,7 @@ const iconMap = {
  * Incluye timeline de semestres, hitos académicos y fecha estimada
  */
 const GraduationPath = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [pathData, setPathData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -50,7 +52,7 @@ const GraduationPath = () => {
         setPathData(path);
       } catch (err) {
         console.error('Error fetching graduation path:', err);
-        setError('No se pudo cargar el camino a la graduación');
+        setError(t('academic.pathLoadError'));
 
         // Datos mock para desarrollo
         setPathData(getMockGraduationPath());
@@ -94,8 +96,8 @@ const GraduationPath = () => {
       {
         id: 1,
         semester: 1,
-        title: 'Inicio del Programa',
-        description: 'Bienvenida e introducción a la carrera',
+        title: t('academic.milestones.programStart'),
+        description: t('academic.milestones.programStartDescription'),
         status: 'completed',
         icon: 'school',
         date: '2021-08',
@@ -103,8 +105,8 @@ const GraduationPath = () => {
       {
         id: 2,
         semester: 2,
-        title: 'Fundamentos Completados',
-        description: 'Materias básicas del programa',
+        title: t('academic.milestones.fundamentalsCompleted'),
+        description: t('academic.milestones.fundamentalsDescription'),
         status: 'completed',
         icon: 'book',
         date: '2022-01',
@@ -112,8 +114,8 @@ const GraduationPath = () => {
       {
         id: 3,
         semester: 4,
-        title: 'Electivas Profesionales',
-        description: 'Inicio de especialización',
+        title: t('academic.milestones.professionalElectives'),
+        description: t('academic.milestones.professionalElectivesDescription'),
         status: currentSemester >= 4 ? 'completed' : 'pending',
         icon: 'flag',
         date: '2023-01',
@@ -121,40 +123,40 @@ const GraduationPath = () => {
       {
         id: 4,
         semester: 6,
-        title: 'Prácticas Profesionales',
-        description: 'Experiencia laboral supervisada',
+        title: t('academic.milestones.professionalPractice'),
+        description: t('academic.milestones.professionalPracticeDescription'),
         status: progress.requirements?.internship ? 'completed' : currentSemester >= 6 ? 'in-progress' : 'pending',
         icon: 'work',
-        date: currentSemester >= 6 ? '2024-01' : 'Pendiente',
+        date: currentSemester >= 6 ? '2024-01' : t('academic.milestones.datePending'),
       },
       {
         id: 5,
         semester: 8,
-        title: 'Proyecto de Grado',
-        description: 'Trabajo de investigación final',
+        title: t('academic.milestones.thesisProject'),
+        description: t('academic.milestones.thesisDescription'),
         status: progress.requirements?.thesis ? 'completed' : currentSemester >= 8 ? 'in-progress' : 'pending',
         icon: 'edit',
-        date: currentSemester >= 8 ? '2025-01' : 'Pendiente',
+        date: currentSemester >= 8 ? '2025-01' : t('academic.milestones.datePending'),
       },
       {
         id: 6,
         semester: 9,
-        title: 'Requisitos Adicionales',
-        description: 'Servicio social, examen de inglés',
+        title: t('academic.milestones.additionalRequirements'),
+        description: t('academic.milestones.additionalRequirementsDescription'),
         status: (progress.requirements?.socialService && progress.requirements?.englishTest)
           ? 'completed'
           : currentSemester >= 9 ? 'in-progress' : 'pending',
         icon: 'check',
-        date: 'Pendiente',
+        date: t('academic.milestones.datePending'),
       },
       {
         id: 7,
         semester: 10,
-        title: 'Graduación',
-        description: 'Ceremonia de grado',
+        title: t('academic.milestones.graduation'),
+        description: t('academic.milestones.graduationDescription'),
         status: progress.completionPercentage >= 100 ? 'completed' : 'pending',
         icon: 'celebration',
-        date: 'Por definir',
+        date: t('academic.milestones.dateToDefine'),
       },
     ];
 
@@ -179,8 +181,8 @@ const GraduationPath = () => {
         {
           id: 1,
           semester: 1,
-          title: 'Inicio del Programa',
-          description: 'Bienvenida e introducción a la carrera',
+          title: t('academic.milestones.programStart'),
+          description: t('academic.milestones.programStartDescription'),
           status: 'completed',
           icon: 'school',
           date: '2021-08',
@@ -188,8 +190,8 @@ const GraduationPath = () => {
         {
           id: 2,
           semester: 2,
-          title: 'Fundamentos Completados',
-          description: 'Materias básicas del programa',
+          title: t('academic.milestones.fundamentalsCompleted'),
+          description: t('academic.milestones.fundamentalsDescription'),
           status: 'completed',
           icon: 'book',
           date: '2022-01',
@@ -197,8 +199,8 @@ const GraduationPath = () => {
         {
           id: 3,
           semester: 4,
-          title: 'Electivas Profesionales',
-          description: 'Inicio de especialización',
+          title: t('academic.milestones.professionalElectives'),
+          description: t('academic.milestones.professionalElectivesDescription'),
           status: 'completed',
           icon: 'flag',
           date: '2023-01',
@@ -206,8 +208,8 @@ const GraduationPath = () => {
         {
           id: 4,
           semester: 6,
-          title: 'Prácticas Profesionales',
-          description: 'Experiencia laboral supervisada',
+          title: t('academic.milestones.professionalPractice'),
+          description: t('academic.milestones.professionalPracticeDescription'),
           status: 'completed',
           icon: 'work',
           date: '2024-01',
@@ -215,8 +217,8 @@ const GraduationPath = () => {
         {
           id: 5,
           semester: 8,
-          title: 'Proyecto de Grado',
-          description: 'Trabajo de investigación final',
+          title: t('academic.milestones.thesisProject'),
+          description: t('academic.milestones.thesisDescription'),
           status: 'in-progress',
           icon: 'edit',
           date: '2025-01',
@@ -224,20 +226,20 @@ const GraduationPath = () => {
         {
           id: 6,
           semester: 9,
-          title: 'Requisitos Adicionales',
-          description: 'Servicio social, examen de inglés',
+          title: t('academic.milestones.additionalRequirements'),
+          description: t('academic.milestones.additionalRequirementsDescription'),
           status: 'pending',
           icon: 'check',
-          date: 'Pendiente',
+          date: t('academic.milestones.datePending'),
         },
         {
           id: 7,
           semester: 10,
-          title: 'Graduación',
-          description: 'Ceremonia de grado',
+          title: t('academic.milestones.graduation'),
+          description: t('academic.milestones.graduationDescription'),
           status: 'pending',
           icon: 'celebration',
-          date: 'Por definir',
+          date: t('academic.milestones.dateToDefine'),
         },
       ],
       requirements: {
@@ -288,7 +290,7 @@ const GraduationPath = () => {
       <div className="graduation-path">
         <div className="path-loading">
           <div className="spinner"></div>
-          <p>Cargando camino a la graduación...</p>
+          <p>{t('academic.loadingPath')}</p>
         </div>
       </div>
     );
@@ -309,7 +311,7 @@ const GraduationPath = () => {
     return (
       <div className="graduation-path">
         <div className="path-empty">
-          <p>No hay datos disponibles del camino a la graduación</p>
+          <p>{t('academic.noPathData')}</p>
         </div>
       </div>
     );
@@ -322,36 +324,36 @@ const GraduationPath = () => {
       {/* Header con resumen */}
       <div className="path-header">
         <div className="path-title">
-          <h2><MdGpsFixed /> Camino a la Graduación</h2>
-          <p className="path-subtitle">Tu ruta hacia el éxito académico</p>
+          <h2><MdGpsFixed /> {t('academic.pathToGraduation')}</h2>
+          <p className="path-subtitle">{t('academic.pathSubtitle')}</p>
         </div>
 
         <div className="path-summary">
           <div className="summary-card">
-            <span className="summary-label">Semestre Actual</span>
+            <span className="summary-label">{t('academic.currentSemesterLabel')}</span>
             <span className="summary-value primary">
-              {pathData.currentSemester} / {pathData.totalSemesters}
+              {t('academic.semesterProgress', { current: pathData.currentSemester, total: pathData.totalSemesters })}
             </span>
           </div>
 
           <div className="summary-card">
-            <span className="summary-label">Semestres Restantes</span>
+            <span className="summary-label">{t('academic.remainingSemesters')}</span>
             <span className="summary-value warning">
               {pathData.remainingSemesters}
             </span>
           </div>
 
           <div className="summary-card">
-            <span className="summary-label">Fecha Estimada</span>
+            <span className="summary-label">{t('academic.estimatedGraduation')}</span>
             <span className="summary-value success">
               {formatEstimatedDate(pathData.estimatedGraduationDate)}
             </span>
           </div>
 
           <div className="summary-card">
-            <span className="summary-label">Tiempo Restante</span>
+            <span className="summary-label">{t('academic.timeRemaining')}</span>
             <span className="summary-value info">
-              {monthsRemaining} meses
+              {t('academic.monthsRemaining', { months: monthsRemaining })}
             </span>
           </div>
         </div>
@@ -360,7 +362,7 @@ const GraduationPath = () => {
       {/* Barra de progreso general */}
       <div className="path-progress-section">
         <div className="progress-info">
-          <span className="progress-text">Progreso General</span>
+          <span className="progress-text">{t('academic.generalProgress')}</span>
           <span className="progress-percentage-text">
             {pathData.completionPercentage}%
           </span>
@@ -377,7 +379,7 @@ const GraduationPath = () => {
 
       {/* Timeline de hitos */}
       <div className="milestones-section">
-        <h3 className="milestones-title">Hitos Académicos</h3>
+        <h3 className="milestones-title">{t('academic.academicMilestones')}</h3>
 
         <div className="timeline">
           {pathData.milestones.map((milestone, index) => (
@@ -403,7 +405,7 @@ const GraduationPath = () => {
                 <div className="milestone-header">
                   <h4 className="milestone-title">{milestone.title}</h4>
                   <span className="milestone-semester">
-                    Semestre {milestone.semester}
+                    {t('academic.semesterNumber', { number: milestone.semester })}
                   </span>
                 </div>
 
@@ -412,9 +414,9 @@ const GraduationPath = () => {
                 <div className="milestone-footer">
                   <span className="milestone-date">{milestone.date}</span>
                   <span className={`milestone-badge ${milestone.status}`}>
-                    {milestone.status === 'completed' && <><MdCheckCircle /> Completado</>}
-                    {milestone.status === 'in-progress' && <><MdAccessTime /> En Progreso</>}
-                    {milestone.status === 'pending' && <><MdRadioButtonUnchecked /> Pendiente</>}
+                    {milestone.status === 'completed' && <><MdCheckCircle /> {t('academic.milestones.statusCompleted')}</>}
+                    {milestone.status === 'in-progress' && <><MdAccessTime /> {t('academic.milestones.statusInProgress')}</>}
+                    {milestone.status === 'pending' && <><MdRadioButtonUnchecked /> {t('academic.milestones.statusPending')}</>}
                   </span>
                 </div>
               </div>
@@ -425,16 +427,16 @@ const GraduationPath = () => {
 
       {/* Requisitos pendientes destacados */}
       <div className="pending-requirements-section">
-        <h3 className="requirements-section-title">Requisitos para Graduación</h3>
+        <h3 className="requirements-section-title">{t('academic.graduationRequirements')}</h3>
         <div className="requirements-grid">
           <div className={`requirement-card ${pathData.requirements.thesis ? 'completed' : 'pending'}`}>
             <div className="requirement-icon-wrapper">
               <span className="requirement-icon"><MdDescription /></span>
             </div>
             <div className="requirement-content">
-              <h4 className="requirement-title">Proyecto de Grado</h4>
+              <h4 className="requirement-title">{t('academic.thesisProject')}</h4>
               <p className="requirement-status">
-                {pathData.requirements.thesis ? 'Completado' : 'Pendiente'}
+                {pathData.requirements.thesis ? t('academic.requirementCompleted') : t('academic.requirementPending')}
               </p>
             </div>
           </div>
@@ -444,9 +446,9 @@ const GraduationPath = () => {
               <span className="requirement-icon"><MdBusinessCenter /></span>
             </div>
             <div className="requirement-content">
-              <h4 className="requirement-title">Prácticas Profesionales</h4>
+              <h4 className="requirement-title">{t('academic.professionalPractice')}</h4>
               <p className="requirement-status">
-                {pathData.requirements.internship ? 'Completado' : 'Pendiente'}
+                {pathData.requirements.internship ? t('academic.requirementCompleted') : t('academic.requirementPending')}
               </p>
             </div>
           </div>
@@ -456,9 +458,9 @@ const GraduationPath = () => {
               <span className="requirement-icon"><MdHandshake /></span>
             </div>
             <div className="requirement-content">
-              <h4 className="requirement-title">Servicio Social</h4>
+              <h4 className="requirement-title">{t('academic.socialService')}</h4>
               <p className="requirement-status">
-                {pathData.requirements.socialService ? 'Completado' : 'Pendiente'}
+                {pathData.requirements.socialService ? t('academic.requirementCompleted') : t('academic.requirementPending')}
               </p>
             </div>
           </div>
@@ -468,9 +470,9 @@ const GraduationPath = () => {
               <span className="requirement-icon"><MdRecordVoiceOver /></span>
             </div>
             <div className="requirement-content">
-              <h4 className="requirement-title">Examen de Inglés</h4>
+              <h4 className="requirement-title">{t('academic.englishTest')}</h4>
               <p className="requirement-status">
-                {pathData.requirements.englishTest ? 'Completado' : 'Pendiente'}
+                {pathData.requirements.englishTest ? t('academic.requirementCompleted') : t('academic.requirementPending')}
               </p>
             </div>
           </div>
@@ -482,7 +484,7 @@ const GraduationPath = () => {
         <div className="motivational-message">
           <span className="message-icon"><MdStar /></span>
           <p className="message-text">
-            ¡Estás muy cerca de tu meta! Sigue adelante, tu esfuerzo está dando frutos.
+            {t('academic.motivationalMessage')}
           </p>
         </div>
       )}

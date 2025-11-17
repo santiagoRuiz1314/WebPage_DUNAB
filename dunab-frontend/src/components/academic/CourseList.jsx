@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   MdCheckCircle,
   MdMenuBook,
@@ -17,6 +18,7 @@ import './CourseList.css';
  * Con filtros por estado, semestre y búsqueda
  */
 const CourseList = ({ courses = [], compact = false }) => {
+  const { t } = useTranslation();
   const [filters, setFilters] = useState({
     status: 'all', // all, completed, in-progress, pending
     semester: 'all', // all, 1-10
@@ -180,13 +182,13 @@ const CourseList = ({ courses = [], compact = false }) => {
   const getStatusText = (status) => {
     switch (status) {
       case 'completed':
-        return 'Completada';
+        return t('academic.courseStatus.completed');
       case 'in-progress':
-        return 'En Curso';
+        return t('academic.courseStatus.inProgress');
       case 'pending':
-        return 'Pendiente';
+        return t('academic.courseStatus.pending');
       default:
-        return 'Desconocido';
+        return t('academic.courseStatus.unknown');
     }
   };
 
@@ -196,9 +198,9 @@ const CourseList = ({ courses = [], compact = false }) => {
       {!compact && (
         <div className="course-list-header">
           <div className="header-title">
-            <h3><MdLibraryBooks size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Lista de Materias</h3>
+            <h3><MdLibraryBooks size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('academic.courseList')}</h3>
             <p className="header-subtitle">
-              {stats.completed} de {stats.total} materias completadas
+              {t('academic.courseListSubtitle', { completed: stats.completed, total: stats.total })}
             </p>
           </div>
 
@@ -206,17 +208,17 @@ const CourseList = ({ courses = [], compact = false }) => {
             <div className="stat-badge completed">
               <span className="stat-icon"><MdCheckCircle size={20} /></span>
               <span className="stat-count">{stats.completed}</span>
-              <span className="stat-label">Completadas</span>
+              <span className="stat-label">{t('academic.completed')}</span>
             </div>
             <div className="stat-badge in-progress">
               <span className="stat-icon"><MdMenuBook size={20} /></span>
               <span className="stat-count">{stats.inProgress}</span>
-              <span className="stat-label">En Curso</span>
+              <span className="stat-label">{t('academic.inProgress')}</span>
             </div>
             <div className="stat-badge pending">
               <span className="stat-icon"><MdAccessTime size={20} /></span>
               <span className="stat-count">{stats.pending}</span>
-              <span className="stat-label">Pendientes</span>
+              <span className="stat-label">{t('academic.pending')}</span>
             </div>
           </div>
         </div>
@@ -227,11 +229,11 @@ const CourseList = ({ courses = [], compact = false }) => {
         <div className="course-filters">
           {/* Búsqueda */}
           <div className="filter-group search-group">
-            <label htmlFor="search"><MdSearch size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />Buscar</label>
+            <label htmlFor="search"><MdSearch size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />{t('academic.search')}</label>
             <input
               id="search"
               type="text"
-              placeholder="Nombre o código..."
+              placeholder={t('academic.searchPlaceholder')}
               value={filters.search}
               onChange={(e) => setFilters({ ...filters, search: e.target.value })}
               className="filter-input"
@@ -240,33 +242,33 @@ const CourseList = ({ courses = [], compact = false }) => {
 
           {/* Filtro por estado */}
           <div className="filter-group">
-            <label htmlFor="status">Estado</label>
+            <label htmlFor="status">{t('academic.status')}</label>
             <select
               id="status"
               value={filters.status}
               onChange={(e) => setFilters({ ...filters, status: e.target.value })}
               className="filter-select"
             >
-              <option value="all">Todos</option>
-              <option value="completed">Completadas</option>
-              <option value="in-progress">En Curso</option>
-              <option value="pending">Pendientes</option>
+              <option value="all">{t('academic.allStatus')}</option>
+              <option value="completed">{t('academic.completedStatus')}</option>
+              <option value="in-progress">{t('academic.inProgressStatus')}</option>
+              <option value="pending">{t('academic.pendingStatus')}</option>
             </select>
           </div>
 
           {/* Filtro por semestre */}
           <div className="filter-group">
-            <label htmlFor="semester">Semestre</label>
+            <label htmlFor="semester">{t('academic.semester')}</label>
             <select
               id="semester"
               value={filters.semester}
               onChange={(e) => setFilters({ ...filters, semester: e.target.value })}
               className="filter-select"
             >
-              <option value="all">Todos</option>
+              <option value="all">{t('academic.allSemesters')}</option>
               {[...Array(10)].map((_, i) => (
                 <option key={i + 1} value={i + 1}>
-                  Semestre {i + 1}
+                  {t('academic.semesterNumber', { number: i + 1 })}
                 </option>
               ))}
             </select>
@@ -274,16 +276,16 @@ const CourseList = ({ courses = [], compact = false }) => {
 
           {/* Ordenar */}
           <div className="filter-group">
-            <label htmlFor="sort">Ordenar por</label>
+            <label htmlFor="sort">{t('academic.sortBy')}</label>
             <select
               id="sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="filter-select"
             >
-              <option value="semester">Semestre</option>
-              <option value="name">Nombre</option>
-              <option value="credits">Créditos</option>
+              <option value="semester">{t('academic.sortBySemester')}</option>
+              <option value="name">{t('academic.sortByName')}</option>
+              <option value="credits">{t('academic.sortByCredits')}</option>
             </select>
           </div>
 
@@ -292,9 +294,9 @@ const CourseList = ({ courses = [], compact = false }) => {
             <button
               onClick={() => setFilters({ status: 'all', semester: 'all', search: '' })}
               className="clear-filters-btn"
-              title="Limpiar filtros"
+              title={t('academic.clearFilters')}
             >
-              <MdClose size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />Limpiar
+              <MdClose size={16} style={{ verticalAlign: 'middle', marginRight: '4px' }} />{t('academic.clearFilters')}
             </button>
           )}
         </div>
@@ -304,7 +306,7 @@ const CourseList = ({ courses = [], compact = false }) => {
       {!compact && (
         <div className="results-count">
           <span>
-            Mostrando {filteredCourses.length} de {courseData.length} materias
+            {t('academic.showingResults', { count: filteredCourses.length, total: courseData.length })}
           </span>
         </div>
       )}
@@ -314,7 +316,7 @@ const CourseList = ({ courses = [], compact = false }) => {
         {filteredCourses.length === 0 ? (
           <div className="empty-state">
             <span className="empty-icon"><MdInbox size={64} /></span>
-            <p className="empty-message">No se encontraron materias con los filtros aplicados</p>
+            <p className="empty-message">{t('academic.noCoursesFound')}</p>
           </div>
         ) : (
           <div className={`courses-grid ${compact ? 'compact-grid' : ''}`}>
@@ -337,16 +339,16 @@ const CourseList = ({ courses = [], compact = false }) => {
                 {/* Información del curso */}
                 <div className="course-info">
                   <div className="info-item">
-                    <span className="info-label">Semestre</span>
+                    <span className="info-label">{t('academic.semester')}</span>
                     <span className="info-value">{course.semester}</span>
                   </div>
                   <div className="info-item">
-                    <span className="info-label">Créditos</span>
+                    <span className="info-label">{t('academic.credits')}</span>
                     <span className="info-value">{course.credits}</span>
                   </div>
                   {course.grade !== null && course.grade !== undefined && (
                     <div className="info-item">
-                      <span className="info-label">Nota</span>
+                      <span className="info-label">{t('academic.grade')}</span>
                       <span className="info-value grade">{course.grade.toFixed(1)}</span>
                     </div>
                   )}
@@ -366,7 +368,7 @@ const CourseList = ({ courses = [], compact = false }) => {
                     <div className="progress-bar-mini">
                       <div className="progress-fill" style={{ width: '60%' }}></div>
                     </div>
-                    <span className="progress-text">En progreso</span>
+                    <span className="progress-text">{t('academic.inProgress')}</span>
                   </div>
                 )}
               </div>
@@ -379,12 +381,12 @@ const CourseList = ({ courses = [], compact = false }) => {
       {!compact && filteredCourses.length > 0 && (
         <div className="credits-summary">
           <div className="summary-item">
-            <span className="summary-label">Créditos Completados</span>
+            <span className="summary-label">{t('academic.creditsSummary')}</span>
             <span className="summary-value">{stats.completedCredits}</span>
           </div>
           <div className="summary-divider">/</div>
           <div className="summary-item">
-            <span className="summary-label">Créditos Totales</span>
+            <span className="summary-label">{t('academic.totalCreditsSummary')}</span>
             <span className="summary-value">{stats.totalCredits}</span>
           </div>
         </div>
