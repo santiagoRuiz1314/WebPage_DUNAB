@@ -23,7 +23,8 @@
     "warning": "Advertencia",
     "info": "Información",
     "actions": "Acciones",
-    "current": "Actual"
+    "current": "Actual",
+    "user": "Usuario"
   },
   "auth": {
     "login": "Iniciar Sesión",
@@ -71,7 +72,11 @@
     "categories": "Categorías",
     "categoryManagement": "Gestión de Categorías",
     "rewards": "Recompensas",
-    "ranking": "Ranking de Estudiantes"
+    "ranking": "Ranking de Estudiantes",
+    "viewAll": "Ver todas",
+    "recentTransactionsPlaceholder": "Tus últimas transacciones aparecerán aquí",
+    "showingRecent": "Stack (LIFO) - Mostrando las {{count}} más recientes",
+    "yourBalance": "Tu Saldo DUNAB"
   },
   "transactions": {
     "title": "Transacciones",
@@ -140,7 +145,31 @@
     "confirmRegistration": "¿Confirmar inscripción al evento?",
     "eventCost": "Costo del evento: {{cost}} DUNAB",
     "eventReward": "Recompensa: {{reward}} DUNAB",
-    "myEvents": "Mis Eventos"
+    "myEvents": "Mis Eventos",
+    "spotsExhausted": "Cupos Agotados",
+    "lastSpots": "¡Últimos Cupos!",
+    "freeEntry": "Entrada Gratuita",
+    "soldOut": "Agotado",
+    "spotsAvailableCount": "{{available}} de {{total}} cupos",
+    "filterError": "Error al aplicar filtros. Por favor, intente de nuevo.",
+    "retry": "Reintentar",
+    "catalogSubtitle": "Explora y participa en eventos institucionales",
+    "searchPlaceholder": "Buscar eventos...",
+    "allCategories": "Todas las categorías",
+    "all": "Todos",
+    "freeEvents": "Gratuitos",
+    "paidEvents": "Con costo",
+    "sortByDate": "Por fecha",
+    "sortByName": "Por nombre",
+    "sortByReward": "Por recompensa",
+    "clearFilters": "Limpiar filtros",
+    "noEventsFound": "No se encontraron eventos",
+    "eventsFound": "{{count}} evento encontrado",
+    "eventsFound_plural": "{{count}} eventos encontrados",
+    "adjustFilters": "Intenta ajustar los filtros de búsqueda",
+    "noEventsScheduled": "No hay eventos programados en este momento",
+    "institutionalEvents": "Eventos Institucionales",
+    "participateAndEarn": "Participa en eventos y gana DUNAB por tu asistencia"
   },
   "dashboard": {
     "welcome": "Bienvenido, {{name}}",
@@ -152,7 +181,13 @@
     "dunabSummary": "Resumen DUNAB",
     "thisMonth": "Este Mes",
     "lastMonth": "Mes Pasado",
-    "thisYear": "Este Año"
+    "thisYear": "Este Año",
+    "goodMorning": "¡Buenos días",
+    "goodAfternoon": "¡Buenas tardes",
+    "goodEvening": "¡Buenas noches",
+    "student": "Estudiante",
+    "activitySummary": "Aquí tienes un resumen de tu actividad en DUNAB",
+    "loadingDashboard": "Cargando tu dashboard..."
   },
   "profile": {
     "title": "Perfil",

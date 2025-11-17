@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import EventCard from './EventCard';
 import eventService from '../../services/eventService';
 import LoadingSpinner from '../shared/LoadingSpinner';
@@ -10,6 +11,7 @@ import './EventsCatalog.css';
  * Permite explorar todos los eventos disponibles
  */
 const EventsCatalog = ({ onEventClick }) => {
+  const { t } = useTranslation();
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -92,7 +94,7 @@ const EventsCatalog = ({ onEventClick }) => {
 
     } catch (err) {
       console.error('Error applying filters:', err);
-      setError('Error al aplicar filtros. Por favor, intente de nuevo.');
+      setError(t('events.filterError'));
       setFilteredEvents([]);
     } finally {
       setLoading(false);
@@ -134,7 +136,7 @@ const EventsCatalog = ({ onEventClick }) => {
         <div className="events-catalog__error">
           <p>{error}</p>
           <button onClick={applyFilters} className="events-catalog__retry-button">
-            Reintentar
+            {t('events.retry')}
           </button>
         </div>
       </div>
@@ -145,9 +147,9 @@ const EventsCatalog = ({ onEventClick }) => {
     <div className="events-catalog">
       {/* Header */}
       <div className="events-catalog__header">
-        <h2 className="events-catalog__title">Catálogo de Eventos</h2>
+        <h2 className="events-catalog__title">{t('events.catalog')}</h2>
         <p className="events-catalog__subtitle">
-          Explora y participa en eventos institucionales
+          {t('events.catalogSubtitle')}
         </p>
       </div>
 
@@ -157,7 +159,7 @@ const EventsCatalog = ({ onEventClick }) => {
         <div className="events-catalog__search">
           <input
             type="text"
-            placeholder="Buscar eventos..."
+            placeholder={t('events.searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="events-catalog__search-input"
@@ -173,7 +175,7 @@ const EventsCatalog = ({ onEventClick }) => {
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="events-catalog__select"
           >
-            <option value="">Todas las categorías</option>
+            <option value="">{t('events.allCategories')}</option>
             {categories.map(cat => (
               <option key={cat.id} value={cat.id}>
                 {cat.icono} {cat.nombre}
@@ -187,9 +189,9 @@ const EventsCatalog = ({ onEventClick }) => {
             onChange={(e) => setFilterType(e.target.value)}
             className="events-catalog__select"
           >
-            <option value="all">Todos</option>
-            <option value="free">Gratuitos</option>
-            <option value="paid">Con costo</option>
+            <option value="all">{t('events.all')}</option>
+            <option value="free">{t('events.freeEvents')}</option>
+            <option value="paid">{t('events.paidEvents')}</option>
           </select>
 
           {/* Ordenar por */}
@@ -198,9 +200,9 @@ const EventsCatalog = ({ onEventClick }) => {
             onChange={(e) => setSortBy(e.target.value)}
             className="events-catalog__select"
           >
-            <option value="date">Por fecha</option>
-            <option value="name">Por nombre</option>
-            <option value="reward">Por recompensa</option>
+            <option value="date">{t('events.sortByDate')}</option>
+            <option value="name">{t('events.sortByName')}</option>
+            <option value="reward">{t('events.sortByReward')}</option>
           </select>
 
           {/* Botón limpiar filtros */}
@@ -209,7 +211,7 @@ const EventsCatalog = ({ onEventClick }) => {
               onClick={clearFilters}
               className="events-catalog__clear-button"
             >
-              Limpiar filtros
+              {t('events.clearFilters')}
             </button>
           )}
         </div>
@@ -218,10 +220,10 @@ const EventsCatalog = ({ onEventClick }) => {
       {/* Contador de resultados */}
       <div className="events-catalog__results-count">
         {filteredEvents.length === 0 ? (
-          <span>No se encontraron eventos</span>
+          <span>{t('events.noEventsFound')}</span>
         ) : (
           <span>
-            {filteredEvents.length} {filteredEvents.length === 1 ? 'evento encontrado' : 'eventos encontrados'}
+            {t('events.eventsFound', { count: filteredEvents.length })}
           </span>
         )}
       </div>
@@ -240,11 +242,11 @@ const EventsCatalog = ({ onEventClick }) => {
       ) : (
         <div className="events-catalog__empty">
           <div className="events-catalog__empty-icon"><MdCalendarToday size={64} /></div>
-          <h3>No hay eventos disponibles</h3>
+          <h3>{t('events.noEvents')}</h3>
           <p>
             {searchTerm || selectedCategory
-              ? 'Intenta ajustar los filtros de búsqueda'
-              : 'No hay eventos programados en este momento'}
+              ? t('events.adjustFilters')
+              : t('events.noEventsScheduled')}
           </p>
         </div>
       )}

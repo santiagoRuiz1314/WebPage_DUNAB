@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import EventsCatalog from '../components/events/EventsCatalog';
 import EventDetail from '../components/events/EventDetail';
 import { MdCelebration } from 'react-icons/md';
@@ -9,6 +10,7 @@ import './Events.css';
  * Muestra el catálogo y permite ver detalles de eventos
  */
 const Events = () => {
+  const { t } = useTranslation();
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   /**
@@ -29,9 +31,9 @@ const Events = () => {
     <div className="events-page">
       {/* Header de la página */}
       <div className="events-page__header">
-        <h1 className="events-page__title"><MdCelebration size={32} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Institucionales</h1>
+        <h1 className="events-page__title"><MdCelebration size={32} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('events.institutionalEvents')}</h1>
         <p className="events-page__subtitle">
-          Participa en eventos y gana DUNAB por tu asistencia
+          {t('events.participateAndEarn')}
         </p>
       </div>
 

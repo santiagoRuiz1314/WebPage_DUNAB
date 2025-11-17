@@ -1,12 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { MdLanguage } from 'react-icons/md';
+import { setLanguage } from '../../utils/storage';
 
 const LanguageSelector = () => {
   const { i18n } = useTranslation();
 
   const changeLanguage = (e) => {
-    i18n.changeLanguage(e.target.value);
+    const newLanguage = e.target.value;
+    // Guardar idioma en localStorage
+    setLanguage(newLanguage);
+    // Cambiar idioma en i18n
+    i18n.changeLanguage(newLanguage);
   };
 
   return (

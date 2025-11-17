@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import DunabBalance from '../dunab/DunabBalance';
 import NotificationBell from '../notifications/NotificationBell';
 import LanguageSelector from '../shared/LanguageSelector';
@@ -13,6 +14,7 @@ import unabLogo from '../../assets/unab-logo.png';
 const Header = ({ toggleSidebar, sidebarOpen }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogout = () => {
@@ -82,7 +84,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
                   setDropdownOpen(false);
                 }}
               >
-                <MdPerson size={18} /> Mi Perfil
+                <MdPerson size={18} /> {t('profile.myProfile')}
               </button>
               <button
                 className="dropdown-item"
@@ -91,14 +93,14 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
                   setDropdownOpen(false);
                 }}
               >
-                <MdAccountBalanceWallet size={18} /> Mis Transacciones
+                <MdAccountBalanceWallet size={18} /> {t('dunab.transactionHistory')}
               </button>
               <div className="dropdown-divider"></div>
               <button
                 className="dropdown-item logout-btn"
                 onClick={handleLogout}
               >
-                <MdLogout size={18} /> Cerrar Sesión
+                <MdLogout size={18} /> {t('auth.logout')}
               </button>
             </div>
           )}

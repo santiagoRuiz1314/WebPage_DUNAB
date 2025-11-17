@@ -21,7 +21,10 @@
     "error": "Error",
     "success": "Success",
     "warning": "Warning",
-    "info": "Information"
+    "info": "Information",
+    "actions": "Actions",
+    "current": "Current",
+    "user": "User"
   },
   "auth": {
     "login": "Login",
@@ -69,7 +72,11 @@
     "categories": "Categories",
     "categoryManagement": "Category Management",
     "rewards": "Rewards",
-    "ranking": "Student Ranking"
+    "ranking": "Student Ranking",
+    "viewAll": "View all",
+    "recentTransactionsPlaceholder": "Your latest transactions will appear here",
+    "showingRecent": "Stack (LIFO) - Showing the {{count}} most recent",
+    "yourBalance": "Your DUNAB Balance"
   },
   "transactions": {
     "title": "Transactions",
@@ -138,7 +145,31 @@
     "confirmRegistration": "Confirm event registration?",
     "eventCost": "Event cost: {{cost}} DUNAB",
     "eventReward": "Reward: {{reward}} DUNAB",
-    "myEvents": "My Events"
+    "myEvents": "My Events",
+    "spotsExhausted": "Spots Exhausted",
+    "lastSpots": "Last Spots!",
+    "freeEntry": "Free Entry",
+    "soldOut": "Sold Out",
+    "spotsAvailableCount": "{{available}} of {{total}} spots",
+    "filterError": "Error applying filters. Please try again.",
+    "retry": "Retry",
+    "catalogSubtitle": "Explore and participate in institutional events",
+    "searchPlaceholder": "Search events...",
+    "allCategories": "All categories",
+    "all": "All",
+    "freeEvents": "Free",
+    "paidEvents": "Paid",
+    "sortByDate": "By date",
+    "sortByName": "By name",
+    "sortByReward": "By reward",
+    "clearFilters": "Clear filters",
+    "noEventsFound": "No events found",
+    "eventsFound": "{{count}} event found",
+    "eventsFound_plural": "{{count}} events found",
+    "adjustFilters": "Try adjusting the search filters",
+    "noEventsScheduled": "No events scheduled at this time",
+    "institutionalEvents": "Institutional Events",
+    "participateAndEarn": "Participate in events and earn DUNAB for your attendance"
   },
   "dashboard": {
     "welcome": "Welcome, {{name}}",
@@ -150,7 +181,13 @@
     "dunabSummary": "DUNAB Summary",
     "thisMonth": "This Month",
     "lastMonth": "Last Month",
-    "thisYear": "This Year"
+    "thisYear": "This Year",
+    "goodMorning": "Good morning",
+    "goodAfternoon": "Good afternoon",
+    "goodEvening": "Good evening",
+    "student": "Student",
+    "activitySummary": "Here's a summary of your DUNAB activity",
+    "loadingDashboard": "Loading your dashboard..."
   },
   "profile": {
     "title": "Profile",
@@ -173,7 +210,16 @@
     "studentInfo": "Student Information",
     "program": "Program",
     "semester": "Semester",
-    "credits": "Credits"
+    "credits": "Credits",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "role": "Role",
+    "emailNotEditable": "Email cannot be modified",
+    "showPasswords": "Show passwords",
+    "themeDescription": "Switch between light and dark mode",
+    "languageDescription": "Select your preferred language",
+    "notificationsDescription": "Receive notifications about DUNAB movements",
+    "emailNotificationsDescription": "Receive notifications via email"
   },
   "academic": {
     "title": "Academic",

@@ -7,7 +7,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import esTranslation from '../locales/es/translation.json';
 import enTranslation from '../locales/en/translation.json';
-import { getLanguage } from '../utils/storage';
+import { getLanguage, setLanguage } from '../utils/storage';
 
 // Recursos de traducción
 const resources = {
@@ -41,12 +41,16 @@ i18n
 
     // Namespace por defecto
     defaultNS: 'translation',
-
-    // Detección automática de cambios
-    detection: {
-      order: ['localStorage', 'navigator'],
-      caches: ['localStorage'],
-    },
   });
+
+// Sincronizar cambios de idioma con localStorage
+i18n.on('languageChanged', (lng) => {
+  setLanguage(lng);
+  // Actualizar el atributo lang del documento HTML para accesibilidad
+  document.documentElement.lang = lng;
+});
+
+// Establecer el idioma inicial en el documento HTML
+document.documentElement.lang = savedLanguage || 'es';
 
 export default i18n;

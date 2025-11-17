@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDunab } from '../../context/DunabContext';
+import { useTranslation } from 'react-i18next';
 import { formatCurrency, formatDate } from '../../utils/formatters';
 import { Link } from 'react-router-dom';
 import {
@@ -21,6 +22,7 @@ import './RecentTransactions.css';
  */
 const RecentTransactions = ({ limit = 5 }) => {
   const { recentTransactions, loading } = useDunab();
+  const { t } = useTranslation();
 
   // Limitar el número de transacciones mostradas
   const displayedTransactions = recentTransactions.slice(0, limit);
@@ -63,7 +65,7 @@ const RecentTransactions = ({ limit = 5 }) => {
     return (
       <div className="recent-transactions">
         <div className="transactions-header">
-          <h3><MdCreditCard /> Transacciones Recientes</h3>
+          <h3><MdCreditCard /> {t('dunab.recentTransactions')}</h3>
         </div>
         <div className="transactions-loading">
           {[1, 2, 3].map(i => (
@@ -85,11 +87,11 @@ const RecentTransactions = ({ limit = 5 }) => {
     return (
       <div className="recent-transactions">
         <div className="transactions-header">
-          <h3><MdCreditCard /> Transacciones Recientes</h3>
+          <h3><MdCreditCard /> {t('dunab.recentTransactions')}</h3>
         </div>
         <div className="transactions-empty">
-          <p>No hay transacciones recientes</p>
-          <span>Tus últimas transacciones aparecerán aquí</span>
+          <p>{t('transactions.noTransactions')}</p>
+          <span>{t('dunab.recentTransactionsPlaceholder')}</span>
         </div>
       </div>
     );
@@ -98,9 +100,9 @@ const RecentTransactions = ({ limit = 5 }) => {
   return (
     <div className="recent-transactions">
       <div className="transactions-header">
-        <h3><MdCreditCard /> Transacciones Recientes</h3>
+        <h3><MdCreditCard /> {t('dunab.recentTransactions')}</h3>
         <Link to="/transactions" className="view-all-link">
-          Ver todas →
+          {t('dunab.viewAll')} →
         </Link>
       </div>
 
@@ -147,7 +149,7 @@ const RecentTransactions = ({ limit = 5 }) => {
 
       <div className="transactions-footer">
         <p className="transactions-info">
-          Stack (LIFO) - Mostrando las {displayedTransactions.length} más recientes
+          {t('dunab.showingRecent', { count: displayedTransactions.length })}
         </p>
       </div>
     </div>

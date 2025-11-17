@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { formatDate, formatCurrency } from '../../utils/formatters';
 import {
   MdSchool,
@@ -20,6 +21,7 @@ import './EventCard.css';
  * Muestra información resumida y permite navegar al detalle
  */
 const EventCard = ({ event, onClick }) => {
+  const { t } = useTranslation();
   if (!event) return null;
 
   const {
@@ -85,17 +87,17 @@ const EventCard = ({ event, onClick }) => {
         {/* Badge de estado */}
         {sinCupos && (
           <div className="event-card__badge event-card__badge--sold-out">
-            Cupos Agotados
+            {t('events.spotsExhausted')}
           </div>
         )}
         {pocosCupos && !sinCupos && (
           <div className="event-card__badge event-card__badge--limited">
-            ¡Últimos Cupos!
+            {t('events.lastSpots')}
           </div>
         )}
         {esGratuito && (
           <div className="event-card__badge event-card__badge--free">
-            GRATIS
+            {t('events.free').toUpperCase()}
           </div>
         )}
       </div>
@@ -140,7 +142,7 @@ const EventCard = ({ event, onClick }) => {
           <div className="event-card__info-item">
             <span className="event-card__info-icon"><MdPeople size={18} /></span>
             <span className="event-card__info-text">
-              {cuposDisponibles} de {cuposTotal} cupos
+              {t('events.spotsAvailableCount', { available: cuposDisponibles, total: cuposTotal })}
             </span>
           </div>
         </div>
@@ -158,10 +160,10 @@ const EventCard = ({ event, onClick }) => {
           {/* Costo */}
           <div className="event-card__cost">
             {esGratuito ? (
-              <span className="event-card__cost-free">Entrada Gratuita</span>
+              <span className="event-card__cost-free">{t('events.freeEntry')}</span>
             ) : (
               <>
-                <span className="event-card__cost-label">Costo:</span>
+                <span className="event-card__cost-label">{t('events.cost')}:</span>
                 <span className="event-card__cost-value">
                   {formatCurrency(costoDunab)}
                 </span>
@@ -185,7 +187,7 @@ const EventCard = ({ event, onClick }) => {
           className={`event-card__button ${sinCupos ? 'event-card__button--disabled' : ''}`}
           disabled={sinCupos}
         >
-          {sinCupos ? 'Agotado' : 'Ver Detalles'}
+          {sinCupos ? t('events.soldOut') : t('common.viewDetails')}
         </button>
       </div>
     </div>

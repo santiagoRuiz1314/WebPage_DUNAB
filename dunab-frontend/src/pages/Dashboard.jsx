@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useDunab } from '../context/DunabContext';
+import { useTranslation } from 'react-i18next';
 import { MdWavingHand } from 'react-icons/md';
 
 // Componentes del Dashboard
@@ -20,19 +21,20 @@ import './Dashboard.css';
 const Dashboard = () => {
   const { user } = useAuth();
   const { loading } = useDunab();
+  const { t } = useTranslation();
 
   // Obtener el saludo según la hora del día
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return '¡Buenos días';
-    if (hour < 18) return '¡Buenas tardes';
-    return '¡Buenas noches';
+    if (hour < 12) return t('dashboard.goodMorning');
+    if (hour < 18) return t('dashboard.goodAfternoon');
+    return t('dashboard.goodEvening');
   };
 
   if (loading && !user) {
     return (
       <div className="dashboard-loading">
-        <LoadingSpinner message="Cargando tu dashboard..." />
+        <LoadingSpinner message={t('dashboard.loadingDashboard')} />
       </div>
     );
   }
@@ -43,10 +45,10 @@ const Dashboard = () => {
       <div className="dashboard-header">
         <div className="dashboard-welcome">
           <h1 className="dashboard-title">
-            {getGreeting()}, {user?.nombre || 'Estudiante'}! <MdWavingHand size={32} style={{ display: 'inline', verticalAlign: 'middle' }} />
+            {getGreeting()}, {user?.nombre || t('dashboard.student')}! <MdWavingHand size={32} style={{ display: 'inline', verticalAlign: 'middle' }} />
           </h1>
           <p className="dashboard-subtitle">
-            Aquí tienes un resumen de tu actividad en DUNAB
+            {t('dashboard.activitySummary')}
           </p>
         </div>
       </div>

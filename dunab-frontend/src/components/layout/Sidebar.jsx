@@ -1,36 +1,38 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import { MdDashboard, MdAccountBalanceWallet, MdEvent, MdSchool, MdPerson } from 'react-icons/md';
 
 const Sidebar = ({ isOpen }) => {
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   const navItems = [
     {
       path: '/',
       icon: MdDashboard,
-      label: 'Dashboard',
+      label: t('navigation.dashboard'),
     },
     {
       path: '/transactions',
       icon: MdAccountBalanceWallet,
-      label: 'Transacciones',
+      label: t('navigation.transactions'),
     },
     {
       path: '/events',
       icon: MdEvent,
-      label: 'Eventos',
+      label: t('navigation.events'),
     },
     {
       path: '/academic',
       icon: MdSchool,
-      label: 'Académico',
+      label: t('navigation.academic'),
     },
     {
       path: '/profile',
       icon: MdPerson,
-      label: 'Mi Perfil',
+      label: t('navigation.profile'),
     },
   ];
 
@@ -69,7 +71,7 @@ const Sidebar = ({ isOpen }) => {
                 <p className="user-name-small">
                   {user?.firstName} {user?.lastName}
                 </p>
-                <p className="user-role-small">Usuario</p>
+                <p className="user-role-small">{t('common.user')}</p>
               </div>
             </div>
           </div>

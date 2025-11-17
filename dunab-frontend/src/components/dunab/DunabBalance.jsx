@@ -1,10 +1,12 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDunab } from '../../context/DunabContext';
 import { formatCurrency } from '../../utils/formatters';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { MdAccountBalanceWallet } from 'react-icons/md';
 
 const DunabBalance = () => {
+  const { t } = useTranslation();
   const { balance, loading } = useDunab();
 
   if (loading) {
@@ -21,7 +23,7 @@ const DunabBalance = () => {
         <MdAccountBalanceWallet size={24} />
       </span>
       <div className="balance-info">
-        <span className="balance-label">Tu Saldo DUNAB</span>
+        <span className="balance-label">{t('dunab.yourBalance')}</span>
         <span className="balance-value">{formatCurrency(balance || 0)} D</span>
       </div>
     </div>
