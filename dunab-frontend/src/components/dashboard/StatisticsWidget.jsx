@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDunab } from '../../context/DunabContext';
+import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '../../utils/formatters';
 import { MdAccountBalanceWallet, MdTrendingUp, MdTrendingDown, MdCreditCard, MdBarChart } from 'react-icons/md';
 import './StatisticsWidget.css';
@@ -10,12 +11,13 @@ import './StatisticsWidget.css';
  */
 const StatisticsWidget = () => {
   const { balance, statistics, loading } = useDunab();
+  const { t } = useTranslation();
 
   const stats = [
     {
       id: 'balance',
       icon: MdAccountBalanceWallet,
-      label: 'Saldo Actual',
+      label: t('dashboard.currentBalance'),
       value: formatCurrency(balance || 0),
       suffix: 'D',
       color: 'primary',
@@ -24,7 +26,7 @@ const StatisticsWidget = () => {
     {
       id: 'earned',
       icon: MdTrendingUp,
-      label: 'Total Ganado',
+      label: t('dashboard.totalEarned'),
       value: formatCurrency(statistics?.totalEarned || 0),
       suffix: 'D',
       color: 'success',
@@ -33,7 +35,7 @@ const StatisticsWidget = () => {
     {
       id: 'spent',
       icon: MdTrendingDown,
-      label: 'Total Gastado',
+      label: t('dashboard.totalSpent'),
       value: formatCurrency(statistics?.totalSpent || 0),
       suffix: 'D',
       color: 'danger',
@@ -42,7 +44,7 @@ const StatisticsWidget = () => {
     {
       id: 'transactions',
       icon: MdCreditCard,
-      label: 'Transacciones',
+      label: t('dashboard.transactions'),
       value: statistics?.totalTransactions || 0,
       suffix: '',
       color: 'info',
@@ -54,7 +56,7 @@ const StatisticsWidget = () => {
     return (
       <div className="statistics-widget">
         <div className="widget-header">
-          <h3><MdBarChart size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Estadísticas</h3>
+          <h3><MdBarChart size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('dashboard.statisticsTitle')}</h3>
         </div>
         <div className="stats-grid loading">
           {[1, 2, 3, 4].map(i => (
@@ -71,8 +73,8 @@ const StatisticsWidget = () => {
   return (
     <div className="statistics-widget">
       <div className="widget-header">
-        <h3><MdBarChart size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Estadísticas</h3>
-        <span className="widget-subtitle">Resumen de tu actividad DUNAB</span>
+        <h3><MdBarChart size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('dashboard.statisticsTitle')}</h3>
+        <span className="widget-subtitle">{t('dashboard.statisticsSubtitle')}</span>
       </div>
 
       <div className="stats-grid">

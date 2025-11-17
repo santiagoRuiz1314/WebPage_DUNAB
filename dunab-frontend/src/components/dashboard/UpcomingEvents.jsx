@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import eventService from '../../services/eventService';
 import { formatDate, formatCurrency } from '../../utils/formatters';
 import {
@@ -22,6 +23,7 @@ import './UpcomingEvents.css';
  * Permite inscripción rápida y visualización de eventos destacados
  */
 const UpcomingEvents = ({ limit = 3 }) => {
+  const { t } = useTranslation();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,7 +49,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
         setEvents(upcoming);
       } catch (err) {
         console.error('Error fetching upcoming events:', err);
-        setError('No se pudieron cargar los eventos');
+        setError(t('dashboard.eventsLoadError'));
         setEvents([]); // Asegurar que events sea un array incluso en caso de error
       } finally {
         setLoading(false);
@@ -88,7 +90,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
     return (
       <div className="upcoming-events">
         <div className="events-header">
-          <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Próximos</h3>
+          <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('dashboard.upcomingEventsTitle')}</h3>
         </div>
         <div className="events-loading">
           {[1, 2, 3].map(i => (
@@ -109,7 +111,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
     return (
       <div className="upcoming-events">
         <div className="events-header">
-          <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Próximos</h3>
+          <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('dashboard.upcomingEventsTitle')}</h3>
         </div>
         <div className="events-error">
           <p>{error}</p>
@@ -122,15 +124,15 @@ const UpcomingEvents = ({ limit = 3 }) => {
     return (
       <div className="upcoming-events">
         <div className="events-header">
-          <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Próximos</h3>
+          <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('dashboard.upcomingEventsTitle')}</h3>
           <Link to="/events" className="view-all-link">
-            Ver todos →
+            {t('dashboard.viewAllEvents')} →
           </Link>
         </div>
         <div className="events-empty">
           <div className="empty-icon"><MdCalendarToday size={48} /></div>
-          <p>No hay eventos próximos</p>
-          <span>Los próximos eventos aparecerán aquí</span>
+          <p>{t('dashboard.noUpcomingEvents')}</p>
+          <span>{t('dashboard.nextEventsHere')}</span>
         </div>
       </div>
     );
@@ -139,9 +141,9 @@ const UpcomingEvents = ({ limit = 3 }) => {
   return (
     <div className="upcoming-events">
       <div className="events-header">
-        <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Eventos Próximos</h3>
+        <h3><MdEvent size={24} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('dashboard.upcomingEventsTitle')}</h3>
         <Link to="/events" className="view-all-link">
-          Ver todos →
+          {t('dashboard.viewAllEvents')} →
         </Link>
       </div>
 
@@ -185,7 +187,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
                   </span>
                 ) : (
                   <span className="badge badge-free">
-                    <MdStars size={16} style={{ verticalAlign: 'middle' }} /> Gratis
+                    <MdStars size={16} style={{ verticalAlign: 'middle' }} /> {t('dashboard.free')}
                   </span>
                 )}
 
@@ -202,7 +204,7 @@ const UpcomingEvents = ({ limit = 3 }) => {
 
       <div className="events-footer">
         <Link to="/events" className="view-all-button">
-          Ver Todos los Eventos
+          {t('dashboard.viewAllEventsButton')}
         </Link>
       </div>
     </div>
