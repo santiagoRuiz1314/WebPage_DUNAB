@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { formatCurrency, formatDate } from '../../utils/formatters';
 import usePagination from '../../hooks/usePagination';
 import {
@@ -16,6 +17,7 @@ const TransactionTable = ({
   onEdit = null,
   onDelete = null
 }) => {
+  const { t } = useTranslation();
   const [sortConfig, setSortConfig] = useState({ key: 'fecha', direction: 'desc' });
   const itemsPerPage = 10;
 
@@ -105,7 +107,7 @@ const TransactionTable = ({
     return (
       <div className="transaction-table-loading">
         <div className="loading-spinner"></div>
-        <p>Cargando transacciones...</p>
+        <p>{t('transactions.loadingTransactions')}</p>
       </div>
     );
   }
@@ -115,8 +117,8 @@ const TransactionTable = ({
     return (
       <div className="transaction-table-empty">
         <div className="empty-icon"><MdInbox size={64} /></div>
-        <h3>No hay transacciones</h3>
-        <p>Aún no tienes transacciones registradas en tu cuenta DUNAB</p>
+        <h3>{t('transactions.noTransactions')}</h3>
+        <p>{t('transactions.noTransactionsRegistered')}</p>
       </div>
     );
   }
@@ -126,7 +128,7 @@ const TransactionTable = ({
       {/* Información de paginación */}
       <div className="table-info">
         <p>
-          Mostrando {currentItems.length} de {transactions.length} transacciones
+          {t('transactions.showing')} {currentItems.length} {t('transactions.of')} {transactions.length} {t('navigation.transactions').toLowerCase()}
         </p>
       </div>
 
@@ -136,23 +138,23 @@ const TransactionTable = ({
           <thead>
             <tr>
               <th onClick={() => handleSort('id')} className="sortable">
-                ID {getSortIcon('id')}
+                {t('transactions.id')} {getSortIcon('id')}
               </th>
               <th onClick={() => handleSort('fecha')} className="sortable">
-                Fecha {getSortIcon('fecha')}
+                {t('transactions.date')} {getSortIcon('fecha')}
               </th>
               <th onClick={() => handleSort('tipo')} className="sortable">
-                Tipo {getSortIcon('tipo')}
+                {t('transactions.type')} {getSortIcon('tipo')}
               </th>
               <th onClick={() => handleSort('monto')} className="sortable">
-                Monto {getSortIcon('monto')}
+                {t('transactions.amount')} {getSortIcon('monto')}
               </th>
               <th onClick={() => handleSort('categoria')} className="sortable">
-                Categoría {getSortIcon('categoria')}
+                {t('transactions.category')} {getSortIcon('categoria')}
               </th>
-              <th>Descripción</th>
-              <th>Estado</th>
-              {showActions && <th>Acciones</th>}
+              <th>{t('transactions.description')}</th>
+              <th>{t('transactions.status')}</th>
+              {showActions && <th>{t('transactions.actions')}</th>}
             </tr>
           </thead>
           <tbody>
@@ -169,7 +171,7 @@ const TransactionTable = ({
                 <td className={`transaction-type ${getTransactionTypeClass(transaction.tipo)}`}>
                   <span className="type-badge">
                     <span className="type-icon">{getTransactionIcon(transaction.tipo)}</span>
-                    {transaction.tipo}
+                    {t(`transactions.types.${transaction.tipo?.toLowerCase()}`, transaction.tipo)}
                   </span>
                 </td>
                 <td className={`transaction-amount ${getTransactionTypeClass(transaction.tipo)}`}>
@@ -180,7 +182,7 @@ const TransactionTable = ({
                 </td>
                 <td className="transaction-category">
                   <span className="category-tag">
-                    {transaction.categoria || 'Sin categoría'}
+                    {transaction.categoria || t('transactions.noCategory')}
                   </span>
                 </td>
                 <td className="transaction-description">
@@ -188,7 +190,7 @@ const TransactionTable = ({
                 </td>
                 <td className="transaction-status">
                   <span className={`status-badge status-${transaction.estado?.toLowerCase() || 'activa'}`}>
-                    {transaction.estado || 'Activa'}
+                    {transaction.estado || t('transactions.active')}
                   </span>
                 </td>
                 {showActions && (
@@ -199,7 +201,7 @@ const TransactionTable = ({
                         e.stopPropagation();
                         onEdit && onEdit(transaction);
                       }}
-                      title="Editar"
+                      title={t('common.edit')}
                     >
                       <FiEdit3 />
                     </button>
@@ -209,7 +211,7 @@ const TransactionTable = ({
                         e.stopPropagation();
                         onDelete && onDelete(transaction);
                       }}
-                      title="Anular"
+                      title={t('transactions.void')}
                     >
                       <FiTrash2 />
                     </button>
@@ -229,7 +231,7 @@ const TransactionTable = ({
             disabled={!canGoPrevious}
             className="pagination-btn"
           >
-            <FiChevronLeft /> Anterior
+            <FiChevronLeft /> {t('transactions.previous')}
           </button>
 
           <div className="pagination-info">
@@ -249,7 +251,7 @@ const TransactionTable = ({
             disabled={!canGoNext}
             className="pagination-btn"
           >
-            Siguiente <FiChevronRight />
+            {t('transactions.next')} <FiChevronRight />
           </button>
         </div>
       )}

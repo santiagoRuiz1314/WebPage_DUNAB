@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { formatCurrency, formatDate } from '../../utils/formatters';
 import { MdArrowUpward, MdArrowDownward, MdCalendarToday, MdAssessment, MdLabel, MdLink, MdCheckCircle, MdEdit, MdDelete } from 'react-icons/md';
 import './TransactionCard.css';
@@ -11,6 +12,7 @@ const TransactionCard = ({
   onDelete = null,
   compact = false
 }) => {
+  const { t } = useTranslation();
   if (!transaction) return null;
 
   const isIncome = transaction.tipo?.toLowerCase() === 'ingreso' ||
@@ -44,7 +46,7 @@ const TransactionCard = ({
         </div>
         <div className="transaction-info">
           <h4 className="transaction-description">
-            {transaction.descripcion || 'Sin descripción'}
+            {transaction.descripcion || t('transactions.noDescription')}
           </h4>
           <span className="transaction-id">#{transaction.id}</span>
         </div>
@@ -59,19 +61,19 @@ const TransactionCard = ({
         <div className="card-details">
           <div className="detail-row">
             <div className="detail-item">
-              <span className="detail-label"><MdCalendarToday size={16} /> Fecha</span>
+              <span className="detail-label"><MdCalendarToday size={16} /> {t('transactions.date')}</span>
               <span className="detail-value">{formatDate(transaction.fecha)}</span>
             </div>
             <div className="detail-item">
-              <span className="detail-label"><MdAssessment size={16} /> Tipo</span>
-              <span className="detail-value">{transaction.tipo}</span>
+              <span className="detail-label"><MdAssessment size={16} /> {t('transactions.type')}</span>
+              <span className="detail-value">{t(`transactions.types.${transaction.tipo?.toLowerCase()}`, transaction.tipo)}</span>
             </div>
           </div>
 
           {transaction.categoria && (
             <div className="detail-row">
               <div className="detail-item full-width">
-                <span className="detail-label"><MdLabel size={16} /> Categoría</span>
+                <span className="detail-label"><MdLabel size={16} /> {t('transactions.category')}</span>
                 <span className="category-badge">{transaction.categoria}</span>
               </div>
             </div>
@@ -80,7 +82,7 @@ const TransactionCard = ({
           {transaction.referencia && (
             <div className="detail-row">
               <div className="detail-item full-width">
-                <span className="detail-label"><MdLink size={16} /> Referencia</span>
+                <span className="detail-label"><MdLink size={16} /> {t('transactions.reference')}</span>
                 <span className="detail-value reference">{transaction.referencia}</span>
               </div>
             </div>
@@ -88,9 +90,9 @@ const TransactionCard = ({
 
           <div className="detail-row">
             <div className="detail-item">
-              <span className="detail-label"><MdCheckCircle size={16} /> Estado</span>
+              <span className="detail-label"><MdCheckCircle size={16} /> {t('transactions.status')}</span>
               <span className={`status-badge ${getStatusColor(transaction.estado)}`}>
-                {transaction.estado || 'Activa'}
+                {transaction.estado || t('transactions.active')}
               </span>
             </div>
           </div>
@@ -107,7 +109,7 @@ const TransactionCard = ({
               onEdit && onEdit(transaction);
             }}
           >
-            <MdEdit size={18} /> Editar
+            <MdEdit size={18} /> {t('common.edit')}
           </button>
           <button
             className="btn-card-action btn-delete"
@@ -116,7 +118,7 @@ const TransactionCard = ({
               onDelete && onDelete(transaction);
             }}
           >
-            <MdDelete size={18} /> Anular
+            <MdDelete size={18} /> {t('transactions.void')}
           </button>
         </div>
       )}

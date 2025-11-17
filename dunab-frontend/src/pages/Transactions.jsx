@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDunab } from '../context/DunabContext';
 import { useAuth } from '../context/AuthContext';
 import TransactionTable from '../components/dunab/TransactionTable';
@@ -12,6 +13,7 @@ import { MdAccountBalance, MdInbox, MdAdd } from 'react-icons/md';
 import './Transactions.css';
 
 const Transactions = () => {
+  const { t } = useTranslation();
   const {
     transactions,
     fetchTransactions,
@@ -141,7 +143,7 @@ const Transactions = () => {
 
   // Manejar eliminación
   const handleDelete = async (transaction) => {
-    if (!window.confirm(`¿Estás seguro de que deseas anular la transacción #${transaction.id}?`)) {
+    if (!window.confirm(t('transactions.confirmVoid', { id: transaction.id }))) {
       return;
     }
 
@@ -152,7 +154,7 @@ const Transactions = () => {
         await fetchStatistics(); // Recargar estadísticas
       }
     } catch (error) {
-      alert('Error al anular la transacción: ' + (error.response?.data?.message || error.message));
+      alert(t('transactions.errorVoiding') + ': ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -169,11 +171,19 @@ const Transactions = () => {
   // Exportar transacciones a CSV
   const handleExport = () => {
     if (!filteredTransactions || filteredTransactions.length === 0) {
-      alert('No hay transacciones para exportar');
+      alert(t('transactions.noTransactionsToExport'));
       return;
     }
 
-    const headers = ['ID', 'Fecha', 'Tipo', 'Monto', 'Categoría', 'Descripción', 'Estado'];
+    const headers = [
+      t('transactions.csvHeaders.id'),
+      t('transactions.csvHeaders.date'),
+      t('transactions.csvHeaders.type'),
+      t('transactions.csvHeaders.amount'),
+      t('transactions.csvHeaders.category'),
+      t('transactions.csvHeaders.description'),
+      t('transactions.csvHeaders.status')
+    ];
     const csvData = [
       headers.join(','),
       ...filteredTransactions.map(t =>
@@ -208,9 +218,9 @@ const Transactions = () => {
       {/* Header */}
       <div className="page-header">
         <div className="header-content">
-          <h1><FiCreditCard /> Mis Transacciones</h1>
+          <h1><FiCreditCard /> {t('transactions.myTransactions')}</h1>
           <p className="page-subtitle">
-            Historial completo de tus movimientos DUNAB
+            {t('transactions.historyComplete')}
           </p>
         </div>
         <div className="header-actions">
@@ -222,7 +232,7 @@ const Transactions = () => {
                 setShowCreateModal(true);
               }}
             >
-              <FiPlus /> Nueva Transacción
+              <FiPlus /> {t('transactions.newTransaction')}
             </button>
           )}
           <button
@@ -230,20 +240,20 @@ const Transactions = () => {
             onClick={handleExport}
             disabled={!filteredTransactions || filteredTransactions.length === 0}
           >
-            <FiDownload /> Exportar
+            <FiDownload /> {t('common.export')}
           </button>
           <div className="view-toggle">
             <button
               className={`toggle-btn ${viewMode === 'table' ? 'active' : ''}`}
               onClick={() => setViewMode('table')}
-              title="Vista de tabla"
+              title={t('transactions.viewTable')}
             >
               <FiTable />
             </button>
             <button
               className={`toggle-btn ${viewMode === 'cards' ? 'active' : ''}`}
               onClick={() => setViewMode('cards')}
-              title="Vista de tarjetas"
+              title={t('transactions.viewCards')}
             >
               <FiGrid />
             </button>
@@ -263,23 +273,23 @@ const Transactions = () => {
       {/* Estadísticas rápidas */}
       <div className="quick-stats">
         <div className="stat-card">
-          <span className="stat-label">Total Transacciones</span>
+          <span className="stat-label">{t('transactions.totalTransactions')}</span>
           <span className="stat-value">{statistics?.totalTransacciones || filteredTransactions?.length || 0}</span>
         </div>
         <div className="stat-card income">
-          <span className="stat-label">Total Ganado</span>
+          <span className="stat-label">{t('transactions.totalEarned')}</span>
           <span className="stat-value">
             {statistics?.totalGanado?.toFixed(2) || '0.00'} D
           </span>
         </div>
         <div className="stat-card expense">
-          <span className="stat-label">Total Gastado</span>
+          <span className="stat-label">{t('transactions.totalSpent')}</span>
           <span className="stat-value">
             {statistics?.totalGastado?.toFixed(2) || '0.00'} D
           </span>
         </div>
         <div className="stat-card balance">
-          <span className="stat-label">Saldo Actual</span>
+          <span className="stat-label">{t('transactions.currentBalance')}</span>
           <span className="stat-value">
             {statistics?.saldoActual?.toFixed(2) || '0.00'} D
           </span>
@@ -302,7 +312,7 @@ const Transactions = () => {
             {loading ? (
               <div className="loading-container">
                 <div className="loading-spinner"></div>
-                <p>Cargando transacciones...</p>
+                <p>{t('transactions.loadingTransactions')}</p>
               </div>
             ) : filteredTransactions && filteredTransactions.length > 0 ? (
               filteredTransactions.map(transaction => (
@@ -318,12 +328,12 @@ const Transactions = () => {
             ) : (
               <div className="empty-state">
                 <div className="empty-icon"><MdInbox size={64} /></div>
-                <h3>No hay transacciones</h3>
+                <h3>{t('transactions.noTransactions')}</h3>
                 <p>
                   {(filters.searchTerm || filters.type !== 'all' || filters.category !== 'all' ||
                     filters.status !== 'all' || filters.dateFrom || filters.dateTo)
-                    ? 'No se encontraron transacciones con los filtros aplicados. Intenta ajustar tus criterios de búsqueda.'
-                    : 'Aún no tienes transacciones. Empieza a ganar DUNAB completando tareas y participando en actividades.'}
+                    ? t('transactions.noFiltersMatch')
+                    : t('transactions.startEarning')}
                 </p>
                 {!(filters.searchTerm || filters.type !== 'all' || filters.category !== 'all' ||
                    filters.status !== 'all' || filters.dateFrom || filters.dateTo) && isAdmin && (
@@ -332,7 +342,7 @@ const Transactions = () => {
                     onClick={() => setShowCreateModal(true)}
                     style={{ marginTop: '1rem' }}
                   >
-                    <MdAdd size={18} style={{ verticalAlign: 'middle', marginRight: '4px' }} />Crear Primera Transacción
+                    <MdAdd size={18} style={{ verticalAlign: 'middle', marginRight: '4px' }} />{t('transactions.createFirst')}
                   </button>
                 )}
               </div>

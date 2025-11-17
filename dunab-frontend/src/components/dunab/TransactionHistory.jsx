@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDunab } from '../../context/DunabContext';
 import TransactionTable from './TransactionTable';
 import TransactionCard from '../shared/TransactionCard';
@@ -11,6 +12,7 @@ import './TransactionHistory.css';
  * Incluye filtros avanzados, búsqueda, paginación y vistas (tabla/tarjetas)
  */
 const TransactionHistory = () => {
+  const { t } = useTranslation();
   const { transactions, loading, fetchTransactions } = useDunab();
   const [view, setView] = useState('table'); // 'table' o 'cards'
   const [filteredTransactions, setFilteredTransactions] = useState([]);
@@ -129,9 +131,9 @@ const TransactionHistory = () => {
       {/* Header */}
       <div className="history-header">
         <div className="history-title">
-          <h2><MdHistory size={28} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Historial de Transacciones</h2>
+          <h2><MdHistory size={28} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('transactions.history')}</h2>
           <p className="history-subtitle">
-            Consulta y filtra todas tus transacciones DUNAB
+            {t('transactions.historySubtitle')}
           </p>
         </div>
 
@@ -140,9 +142,9 @@ const TransactionHistory = () => {
             className="btn-refresh"
             onClick={handleRefresh}
             disabled={loading}
-            title="Refrescar"
+            title={t('common.refresh')}
           >
-            <MdRefresh size={18} style={{ verticalAlign: 'middle', marginRight: '4px' }} />Refrescar
+            <MdRefresh size={18} style={{ verticalAlign: 'middle', marginRight: '4px' }} />{t('common.refresh')}
           </button>
 
           {/* View Toggle */}
@@ -150,14 +152,14 @@ const TransactionHistory = () => {
             <button
               className={`toggle-btn ${view === 'table' ? 'active' : ''}`}
               onClick={() => setView('table')}
-              title="Vista de tabla"
+              title={t('transactions.viewTable')}
             >
               <MdTableChart size={20} />
             </button>
             <button
               className={`toggle-btn ${view === 'cards' ? 'active' : ''}`}
               onClick={() => setView('cards')}
-              title="Vista de tarjetas"
+              title={t('transactions.viewCards')}
             >
               <MdViewModule size={20} />
             </button>
@@ -168,19 +170,19 @@ const TransactionHistory = () => {
       {/* Estadísticas rápidas */}
       <div className="history-stats">
         <div className="stat-item">
-          <span className="stat-label">Total:</span>
+          <span className="stat-label">{t('transactions.total')}:</span>
           <span className="stat-value">{statistics.total}</span>
         </div>
         <div className="stat-item stat-success">
-          <span className="stat-label">Ingresos:</span>
+          <span className="stat-label">{t('transactions.incomes')}:</span>
           <span className="stat-value">{statistics.ingresos}</span>
         </div>
         <div className="stat-item stat-danger">
-          <span className="stat-label">Egresos:</span>
+          <span className="stat-label">{t('transactions.expenses')}:</span>
           <span className="stat-value">{statistics.egresos}</span>
         </div>
         <div className={`stat-item ${statistics.montoTotal >= 0 ? 'stat-success' : 'stat-danger'}`}>
-          <span className="stat-label">Neto:</span>
+          <span className="stat-label">{t('transactions.net')}:</span>
           <span className="stat-value">
             {statistics.montoTotal >= 0 ? '+' : ''}
             {statistics.montoTotal.toFixed(2)} DUNAB
@@ -201,15 +203,15 @@ const TransactionHistory = () => {
         {loading ? (
           <div className="history-loading">
             <div className="loading-spinner"></div>
-            <p>Cargando historial...</p>
+            <p>{t('common.loading')}</p>
           </div>
         ) : filteredTransactions.length === 0 ? (
           <div className="history-empty">
             <div className="empty-icon"><MdSearch size={64} /></div>
-            <h3>No se encontraron transacciones</h3>
-            <p>Intenta ajustar los filtros de búsqueda</p>
+            <h3>{t('transactions.noTransactions')}</h3>
+            <p>{t('transactions.tryAdjustFilters')}</p>
             <button className="btn-clear-filters" onClick={handleClearFilters}>
-              Limpiar filtros
+              {t('transactions.clearFiltersButton')}
             </button>
           </div>
         ) : view === 'table' ? (
