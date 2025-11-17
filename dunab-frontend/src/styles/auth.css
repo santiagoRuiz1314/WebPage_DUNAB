@@ -39,7 +39,9 @@
   height: 60px;
   width: auto;
   object-fit: contain;
-  filter: brightness(0) invert(1);
+  background: white;
+  padding: 8px;
+  border-radius: var(--border-radius-sm);
 }
 
 .logo-icon {
