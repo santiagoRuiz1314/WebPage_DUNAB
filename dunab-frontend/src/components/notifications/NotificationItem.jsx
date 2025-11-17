@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { formatRelativeTime } from '../../utils/formatters';
 import { MdCheckCircle, MdInfo, MdWarning, MdError, MdAttachMoney, MdCheck, MdClose } from 'react-icons/md';
 
 const NotificationItem = ({ notification, onMarkAsRead, onDelete }) => {
+  const { t } = useTranslation();
   const { id, type, message, timestamp, read } = notification;
 
   const typeIcons = {
@@ -29,7 +31,7 @@ const NotificationItem = ({ notification, onMarkAsRead, onDelete }) => {
           <button
             className="notification-action-btn"
             onClick={() => onMarkAsRead(id)}
-            title="Marcar como leída"
+            title={t('notifications.markAsRead')}
           >
             <MdCheck size={18} />
           </button>
@@ -37,7 +39,7 @@ const NotificationItem = ({ notification, onMarkAsRead, onDelete }) => {
         <button
           className="notification-action-btn delete"
           onClick={() => onDelete(id)}
-          title="Eliminar"
+          title={t('common.delete')}
         >
           <MdClose size={18} />
         </button>

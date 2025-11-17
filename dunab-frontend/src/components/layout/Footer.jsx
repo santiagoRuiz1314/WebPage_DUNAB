@@ -19,8 +19,7 @@ const Footer = () => {
               <h3 className="footer-column-title">DUNAB</h3>
             </div>
             <p className="footer-description">
-              Sistema de Gestión de Dinero UNAB - Plataforma integral para administrar
-              tus finanzas universitarias de manera eficiente y segura.
+              {t('footer.description')}
             </p>
             <div className="footer-social">
               <a href="https://www.facebook.com/UNABoficial" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Facebook">
@@ -43,36 +42,36 @@ const Footer = () => {
 
           {/* Quick Links Section */}
           <div className="footer-column">
-            <h3 className="footer-column-title">Acceso Rápido</h3>
+            <h3 className="footer-column-title">{t('footer.quickAccess')}</h3>
             <ul className="footer-links-list">
               <li>
                 <Link to="/" className="footer-link">
                   <i className="fas fa-home"></i>
-                  <span>Inicio</span>
+                  <span>{t('navigation.home')}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/transactions" className="footer-link">
                   <i className="fas fa-exchange-alt"></i>
-                  <span>Transacciones</span>
+                  <span>{t('navigation.transactions')}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/events" className="footer-link">
                   <i className="fas fa-calendar"></i>
-                  <span>Eventos</span>
+                  <span>{t('navigation.events')}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/academic" className="footer-link">
                   <i className="fas fa-graduation-cap"></i>
-                  <span>Académico</span>
+                  <span>{t('navigation.academic')}</span>
                 </Link>
               </li>
               <li>
                 <Link to="/profile" className="footer-link">
                   <i className="fas fa-user"></i>
-                  <span>Perfil</span>
+                  <span>{t('navigation.profile')}</span>
                 </Link>
               </li>
             </ul>
@@ -80,36 +79,36 @@ const Footer = () => {
 
           {/* Resources Section */}
           <div className="footer-column">
-            <h3 className="footer-column-title">Recursos UNAB</h3>
+            <h3 className="footer-column-title">{t('footer.unabResources')}</h3>
             <ul className="footer-links-list">
               <li>
                 <a href="https://www.unab.edu.co" target="_blank" rel="noopener noreferrer" className="footer-link">
                   <i className="fas fa-university"></i>
-                  <span>Portal UNAB</span>
+                  <span>{t('footer.unabPortal')}</span>
                 </a>
               </li>
               <li>
                 <a href="https://canvas.unab.edu.co" target="_blank" rel="noopener noreferrer" className="footer-link">
                   <i className="fas fa-graduation-cap"></i>
-                  <span>Canvas LMS</span>
+                  <span>{t('footer.canvasLMS')}</span>
                 </a>
               </li>
               <li>
                 <a href="https://biblioteca.unab.edu.co" target="_blank" rel="noopener noreferrer" className="footer-link">
                   <i className="fas fa-book"></i>
-                  <span>Biblioteca</span>
+                  <span>{t('footer.library')}</span>
                 </a>
               </li>
               <li>
                 <a href="https://www.unab.edu.co/estudiantes" target="_blank" rel="noopener noreferrer" className="footer-link">
                   <i className="fas fa-user-graduate"></i>
-                  <span>Portal Estudiantes</span>
+                  <span>{t('footer.studentPortal')}</span>
                 </a>
               </li>
               <li>
                 <a href="https://www.unab.edu.co/servicios" target="_blank" rel="noopener noreferrer" className="footer-link">
                   <i className="fas fa-life-ring"></i>
-                  <span>Servicios</span>
+                  <span>{t('footer.services')}</span>
                 </a>
               </li>
             </ul>
@@ -117,11 +116,11 @@ const Footer = () => {
 
           {/* Contact Section */}
           <div className="footer-column">
-            <h3 className="footer-column-title">Contacto</h3>
+            <h3 className="footer-column-title">{t('footer.contact')}</h3>
             <ul className="footer-contact-list">
               <li>
                 <i className="fas fa-map-marker-alt"></i>
-                <span>Avenida 42 No. 48-11<br/>Bucaramanga, Colombia</span>
+                <span>{t('footer.address')}<br/>{t('footer.city')}</span>
               </li>
               <li>
                 <i className="fas fa-phone"></i>
@@ -133,7 +132,7 @@ const Footer = () => {
               </li>
               <li>
                 <i className="fas fa-clock"></i>
-                <span>Lun - Vie: 8:00 AM - 6:00 PM</span>
+                <span>{t('footer.hours')}</span>
               </li>
             </ul>
           </div>
@@ -143,16 +142,16 @@ const Footer = () => {
         <div className="footer-bottom">
           <div className="footer-legal">
             <p className="footer-copyright">
-              © {currentYear} Universidad Autónoma de Bucaramanga. Todos los derechos reservados.
+              © {currentYear} {t('footer.copyright')}
             </p>
             <div className="footer-legal-links">
-              <a href="/privacy" className="footer-legal-link">Política de Privacidad</a>
+              <a href="/privacy" className="footer-legal-link">{t('footer.privacyPolicy')}</a>
               <span className="separator">•</span>
-              <a href="/terms" className="footer-legal-link">Términos de Servicio</a>
+              <a href="/terms" className="footer-legal-link">{t('footer.termsOfService')}</a>
               <span className="separator">•</span>
-              <a href="/cookies" className="footer-legal-link">Política de Cookies</a>
+              <a href="/cookies" className="footer-legal-link">{t('footer.cookiesPolicy')}</a>
               <span className="separator">•</span>
-              <a href="/accessibility" className="footer-legal-link">Accesibilidad</a>
+              <a href="/accessibility" className="footer-legal-link">{t('footer.accessibility')}</a>
             </div>
           </div>
         </div>

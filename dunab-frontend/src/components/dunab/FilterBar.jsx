@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FiSearch, FiFilter, FiX, FiChevronDown, FiChevronUp, FiTag, FiCheckCircle } from 'react-icons/fi';
 import { BiMoney, BiCalendar } from 'react-icons/bi';
 import './FilterBar.css';
@@ -15,6 +16,7 @@ const FilterBar = ({
   showStatusFilter = true,
   showSearchFilter = true
 }) => {
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(true);
 
   // Usar filtros externos si se proporcionan
@@ -29,18 +31,18 @@ const FilterBar = ({
 
   // Tipos de transacción
   const tipos = [
-    { value: 'all', label: 'Todos los tipos' },
-    { value: 'ingreso', label: 'Ingresos' },
-    { value: 'egreso', label: 'Egresos' }
+    { value: 'all', label: t('filterBar.allTypes') },
+    { value: 'ingreso', label: t('filterBar.incomes') },
+    { value: 'egreso', label: t('filterBar.expenses') }
   ];
 
   // Estados de transacción
   const estados = [
-    { value: 'all', label: 'Todos los estados' },
-    { value: 'activa', label: 'Activa' },
-    { value: 'completada', label: 'Completada' },
-    { value: 'pendiente', label: 'Pendiente' },
-    { value: 'anulada', label: 'Anulada' }
+    { value: 'all', label: t('filterBar.allStatuses') },
+    { value: 'activa', label: t('filterBar.active') },
+    { value: 'completada', label: t('filterBar.completed') },
+    { value: 'pendiente', label: t('filterBar.pending') },
+    { value: 'anulada', label: t('filterBar.cancelled') }
   ];
 
   // Categorías predefinidas si no se proporcionan
@@ -92,7 +94,7 @@ const FilterBar = ({
       <div className="filter-header">
         <div className="filter-title-section">
           <h3 className="filter-title">
-            <FiFilter /> Filtros
+            <FiFilter /> {t('filterBar.filters')}
             {hasActiveFilters && (
               <span className="active-filters-badge">
                 {activeFiltersCount}
@@ -101,7 +103,7 @@ const FilterBar = ({
           </h3>
           {resultCount !== undefined && (
             <span className="result-count">
-              {resultCount} resultado{resultCount !== 1 ? 's' : ''}
+              {resultCount} {resultCount !== 1 ? t('filterBar.results_plural') : t('filterBar.results')}
             </span>
           )}
         </div>
@@ -110,15 +112,15 @@ const FilterBar = ({
             <button
               className="btn-clear-filters"
               onClick={handleClearAll}
-              title="Limpiar filtros"
+              title={t('filterBar.clearFilters')}
             >
-              <FiX /> Limpiar
+              <FiX /> {t('filterBar.clearFilters')}
             </button>
           )}
           <button
             className="btn-toggle-filters"
             onClick={() => setIsExpanded(!isExpanded)}
-            title={isExpanded ? 'Ocultar filtros' : 'Mostrar filtros'}
+            title={isExpanded ? t('filterBar.hideFilters') : t('filterBar.showFilters')}
           >
             {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
           </button>
@@ -131,11 +133,11 @@ const FilterBar = ({
             {/* Búsqueda por texto */}
             {showSearchFilter && (
               <div className="filter-field filter-field-full">
-                <label htmlFor="searchTerm"><FiSearch /> Buscar</label>
+                <label htmlFor="searchTerm"><FiSearch /> {t('filterBar.search')}</label>
                 <input
                   type="text"
                   id="searchTerm"
-                  placeholder="Buscar por descripción, ID, monto..."
+                  placeholder={t('filterBar.searchPlaceholder')}
                   value={filters.searchTerm}
                   onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
                   className="filter-input"
@@ -146,7 +148,7 @@ const FilterBar = ({
             {/* Filtro por tipo */}
             {showTypeFilter && (
               <div className="filter-field">
-                <label htmlFor="type"><BiMoney /> Tipo</label>
+                <label htmlFor="type"><BiMoney /> {t('filterBar.type')}</label>
                 <select
                   id="type"
                   value={filters.type || 'all'}
@@ -165,14 +167,14 @@ const FilterBar = ({
             {/* Filtro por categoría */}
             {showCategoryFilter && (
               <div className="filter-field">
-                <label htmlFor="category"><FiTag /> Categoría</label>
+                <label htmlFor="category"><FiTag /> {t('filterBar.category')}</label>
                 <select
                   id="category"
                   value={filters.category || 'all'}
                   onChange={(e) => handleFilterChange('category', e.target.value)}
                   className="filter-select"
                 >
-                  <option value="all">Todas las categorías</option>
+                  <option value="all">{t('filterBar.allCategories')}</option>
                   {availableCategories.map(cat => (
                     <option key={cat.id || cat} value={cat.nombre || cat}>
                       {cat.nombre || cat}
@@ -185,7 +187,7 @@ const FilterBar = ({
             {/* Filtro por estado */}
             {showStatusFilter && (
               <div className="filter-field">
-                <label htmlFor="status"><FiCheckCircle /> Estado</label>
+                <label htmlFor="status"><FiCheckCircle /> {t('filterBar.status')}</label>
                 <select
                   id="status"
                   value={filters.status || 'all'}
@@ -204,7 +206,7 @@ const FilterBar = ({
             {/* Filtro por fecha de inicio */}
             {showDateFilter && (
               <div className="filter-field">
-                <label htmlFor="dateFrom"><BiCalendar /> Desde</label>
+                <label htmlFor="dateFrom"><BiCalendar /> {t('filterBar.dateFrom')}</label>
                 <input
                   type="date"
                   id="dateFrom"
@@ -218,7 +220,7 @@ const FilterBar = ({
             {/* Filtro por fecha fin */}
             {showDateFilter && (
               <div className="filter-field">
-                <label htmlFor="dateTo"><BiCalendar /> Hasta</label>
+                <label htmlFor="dateTo"><BiCalendar /> {t('filterBar.dateTo')}</label>
                 <input
                   type="date"
                   id="dateTo"
@@ -234,15 +236,15 @@ const FilterBar = ({
           {/* Resumen de filtros activos */}
           {hasActiveFilters && (
             <div className="active-filters-summary">
-              <span className="summary-label">Filtros activos:</span>
+              <span className="summary-label">{t('filterBar.activeFilters')}</span>
               <div className="filter-tags">
                 {filters.searchTerm && (
                   <span className="filter-tag">
-                    Búsqueda: "{filters.searchTerm}"
+                    {t('filterBar.searchFilter')}: "{filters.searchTerm}"
                     <button
                       onClick={() => handleFilterChange('searchTerm', '')}
                       className="remove-filter"
-                      title="Quitar este filtro"
+                      title={t('filterBar.removeFilter')}
                     >
                       <FiX />
                     </button>
@@ -250,11 +252,11 @@ const FilterBar = ({
                 )}
                 {filters.type && filters.type !== 'all' && (
                   <span className="filter-tag">
-                    Tipo: {tipos.find(t => t.value === filters.type)?.label}
+                    {t('filterBar.typeFilter')}: {tipos.find(t => t.value === filters.type)?.label}
                     <button
                       onClick={() => handleFilterChange('type', 'all')}
                       className="remove-filter"
-                      title="Quitar este filtro"
+                      title={t('filterBar.removeFilter')}
                     >
                       <FiX />
                     </button>
@@ -262,11 +264,11 @@ const FilterBar = ({
                 )}
                 {filters.category && filters.category !== 'all' && (
                   <span className="filter-tag">
-                    Categoría: {filters.category}
+                    {t('filterBar.categoryFilter')}: {filters.category}
                     <button
                       onClick={() => handleFilterChange('category', 'all')}
                       className="remove-filter"
-                      title="Quitar este filtro"
+                      title={t('filterBar.removeFilter')}
                     >
                       <FiX />
                     </button>
@@ -274,11 +276,11 @@ const FilterBar = ({
                 )}
                 {filters.status && filters.status !== 'all' && (
                   <span className="filter-tag">
-                    Estado: {estados.find(e => e.value === filters.status)?.label}
+                    {t('filterBar.statusFilter')}: {estados.find(e => e.value === filters.status)?.label}
                     <button
                       onClick={() => handleFilterChange('status', 'all')}
                       className="remove-filter"
-                      title="Quitar este filtro"
+                      title={t('filterBar.removeFilter')}
                     >
                       <FiX />
                     </button>
@@ -286,11 +288,11 @@ const FilterBar = ({
                 )}
                 {filters.dateFrom && (
                   <span className="filter-tag">
-                    Desde: {filters.dateFrom}
+                    {t('filterBar.dateFromFilter')}: {filters.dateFrom}
                     <button
                       onClick={() => handleFilterChange('dateFrom', '')}
                       className="remove-filter"
-                      title="Quitar este filtro"
+                      title={t('filterBar.removeFilter')}
                     >
                       <FiX />
                     </button>
@@ -298,11 +300,11 @@ const FilterBar = ({
                 )}
                 {filters.dateTo && (
                   <span className="filter-tag">
-                    Hasta: {filters.dateTo}
+                    {t('filterBar.dateToFilter')}: {filters.dateTo}
                     <button
                       onClick={() => handleFilterChange('dateTo', '')}
                       className="remove-filter"
-                      title="Quitar este filtro"
+                      title={t('filterBar.removeFilter')}
                     >
                       <FiX />
                     </button>

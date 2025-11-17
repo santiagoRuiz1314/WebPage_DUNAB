@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDunab } from '../../context/DunabContext';
 import { useAuth } from '../../context/AuthContext';
 import dunabService from '../../services/dunabService';
@@ -12,6 +13,7 @@ import { BiMoney } from 'react-icons/bi';
 import './CreateTransaction.css';
 
 const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'create' }) => {
+  const { t } = useTranslation();
   const { createTransaction, updateTransaction, categories, loadCategories, students, loadStudents } = useDunab();
   const { user } = useAuth();
 
@@ -164,32 +166,32 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
     const newErrors = {};
 
     if (!validateRequired(formData.cuentaId)) {
-      newErrors.cuentaId = 'No se ha cargado la cuenta del usuario';
+      newErrors.cuentaId = t('transactionForm.errors.accountNotLoaded');
     }
 
     if (!validateRequired(formData.tipo)) {
-      newErrors.tipo = 'El tipo de transacción es requerido';
+      newErrors.tipo = t('transactionForm.errors.typeRequired');
     }
 
     if (!validateRequired(formData.monto)) {
-      newErrors.monto = 'El monto es requerido';
+      newErrors.monto = t('transactionForm.errors.amountRequired');
     } else if (!validateTransactionAmount(formData.monto)) {
-      newErrors.monto = 'El monto debe ser mayor a 0';
+      newErrors.monto = t('transactionForm.errors.amountInvalid');
     }
 
     // Validar saldo suficiente para débitos
     if (balancePreview && balancePreview.insufficient) {
-      newErrors.monto = 'Saldo insuficiente para esta transacción';
+      newErrors.monto = t('transactionForm.errors.insufficientBalance');
     }
 
     if (!validateRequired(formData.descripcion)) {
-      newErrors.descripcion = 'La descripción es requerida';
+      newErrors.descripcion = t('transactionForm.errors.descriptionRequired');
     } else if (formData.descripcion.length < 10) {
-      newErrors.descripcion = 'La descripción debe tener al menos 10 caracteres';
+      newErrors.descripcion = t('transactionForm.errors.descriptionMinLength');
     }
 
     if (!validateRequired(formData.categoriaId)) {
-      newErrors.categoriaId = 'La categoría es requerida';
+      newErrors.categoriaId = t('transactionForm.errors.categoryRequired');
     }
 
     setErrors(newErrors);
@@ -261,12 +263,12 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
     <div className="create-transaction">
       <div className="form-header">
         <h2>
-          {mode === 'edit' ? <><FiEdit3 /> Editar Transacción</> : <><FiPlus /> Crear Nueva Transacción</>}
+          {mode === 'edit' ? <><FiEdit3 /> {t('transactionForm.editTitle')}</> : <><FiPlus /> {t('transactionForm.createTitle')}</>}
         </h2>
         <p className="form-subtitle">
           {mode === 'edit'
-            ? 'Modifica los detalles de la transacción'
-            : 'Registra una nueva transacción DUNAB para un estudiante'}
+            ? t('transactionForm.editSubtitle')
+            : t('transactionForm.createSubtitle')}
         </p>
       </div>
 
@@ -282,18 +284,18 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Información de la Cuenta */}
           <div className="form-field form-field-full">
             <label>
-              <FiUser /> Cuenta
+              <FiUser /> {t('transactionForm.account')}
             </label>
             {currentUserAccount ? (
               <div className="selected-student-info">
                 <div className="student-details">
-                  <span className="detail-label">Usuario:</span>
+                  <span className="detail-label">{t('transactionForm.user')}:</span>
                   <span className="detail-value">
                     {user?.nombre} {user?.apellido}
                   </span>
                 </div>
                 <div className="student-details">
-                  <span className="detail-label">Saldo actual:</span>
+                  <span className="detail-label">{t('transactionForm.currentBalance')}:</span>
                   <span className="detail-value balance">
                     {(parseFloat(currentUserAccount.saldoActual) || 0).toFixed(2)} DUNAB
                   </span>
@@ -301,7 +303,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
               </div>
             ) : (
               <div className="loading-account">
-                Cargando información de cuenta...
+                {t('transactionForm.loadingAccount')}
               </div>
             )}
           </div>
@@ -386,7 +388,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Tipo de Transacción */}
           <div className="form-field">
             <label htmlFor="tipo">
-              <BiMoney /> Tipo de Transacción <span className="required">*</span>
+              <BiMoney /> {t('transactionForm.transactionType')} <span className="required">{t('transactionForm.required')}</span>
             </label>
             <select
               id="tipo"
@@ -395,10 +397,10 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
               onChange={handleChange}
               className={errors.tipo ? 'error' : ''}
             >
-              <option value="CREDITO">Crédito (Recibir DUNAB)</option>
-              <option value="DEBITO">Débito (Gastar DUNAB)</option>
-              <option value="INGRESO">Ingreso</option>
-              <option value="EGRESO">Egreso</option>
+              <option value="CREDITO">{t('transactionForm.credit')}</option>
+              <option value="DEBITO">{t('transactionForm.debit')}</option>
+              <option value="INGRESO">{t('transactionForm.income')}</option>
+              <option value="EGRESO">{t('transactionForm.expense')}</option>
             </select>
             {errors.tipo && (
               <span className="field-error">{errors.tipo}</span>
@@ -408,7 +410,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Monto */}
           <div className="form-field">
             <label htmlFor="monto">
-              <FiDollarSign /> Monto (DUNAB) <span className="required">*</span>
+              <FiDollarSign /> {t('transactionForm.amount')} <span className="required">{t('transactionForm.required')}</span>
             </label>
             <input
               type="number"
@@ -416,7 +418,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
               name="monto"
               value={formData.monto}
               onChange={handleChange}
-              placeholder="Ej: 100"
+              placeholder={t('transactionForm.amountPlaceholder')}
               min="0"
               step="0.01"
               className={errors.monto ? 'error' : ''}
@@ -429,7 +431,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Categoría */}
           <div className="form-field">
             <label htmlFor="categoriaId">
-              <FiTag /> Categoría <span className="required">*</span>
+              <FiTag /> {t('transactionForm.category')} <span className="required">{t('transactionForm.required')}</span>
             </label>
             <select
               id="categoriaId"
@@ -438,7 +440,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
               onChange={handleChange}
               className={errors.categoriaId ? 'error' : ''}
             >
-              <option value="">Seleccionar categoría...</option>
+              <option value="">{t('transactionForm.selectCategory')}</option>
               {categories && categories.map((cat) => (
                 <option key={cat.id || cat} value={cat.id || cat}>
                   {cat.nombre || cat}
@@ -455,18 +457,18 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
             <div className="form-field form-field-full">
               <div className={`balance-preview ${balancePreview.insufficient ? 'insufficient' : ''}`}>
                 <h4 className="preview-title">
-                  <FiAlertCircle /> Preview de Saldo
+                  <FiAlertCircle /> {t('transactionForm.balancePreview')}
                 </h4>
                 <div className="preview-content">
                   <div className="preview-row">
-                    <span className="preview-label">Saldo actual:</span>
+                    <span className="preview-label">{t('transactionForm.currentBalance')}:</span>
                     <span className="preview-value">
                       {balancePreview.current.toFixed(2)} DUNAB
                     </span>
                   </div>
                   <div className="preview-row">
                     <span className="preview-label">
-                      {balancePreview.change >= 0 ? 'Se agregará:' : 'Se debitará:'}
+                      {balancePreview.change >= 0 ? t('transactionForm.willBeAdded') : t('transactionForm.willBeDebited')}
                     </span>
                     <span className={`preview-value ${balancePreview.change >= 0 ? 'positive' : 'negative'}`}>
                       {balancePreview.change >= 0 ? '+' : ''}
@@ -474,14 +476,14 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
                     </span>
                   </div>
                   <div className="preview-row preview-total">
-                    <span className="preview-label">Nuevo saldo:</span>
+                    <span className="preview-label">{t('transactionForm.newBalance')}:</span>
                     <span className={`preview-value ${balancePreview.insufficient ? 'error' : 'success'}`}>
                       {balancePreview.new.toFixed(2)} DUNAB
                     </span>
                   </div>
                   {balancePreview.insufficient && (
                     <div className="preview-warning">
-                      <FiAlertTriangle /> Saldo insuficiente para realizar esta transacción
+                      <FiAlertTriangle /> {t('transactionForm.insufficientBalance')}
                     </div>
                   )}
                 </div>
@@ -492,14 +494,14 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Descripción */}
           <div className="form-field form-field-full">
             <label htmlFor="descripcion">
-              <FiFileText /> Descripción <span className="required">*</span>
+              <FiFileText /> {t('transactionForm.description')} <span className="required">{t('transactionForm.required')}</span>
             </label>
             <textarea
               id="descripcion"
               name="descripcion"
               value={formData.descripcion}
               onChange={handleChange}
-              placeholder="Describe el motivo de la transacción..."
+              placeholder={t('transactionForm.descriptionPlaceholder')}
               rows="3"
               className={errors.descripcion ? 'error' : ''}
             />
@@ -511,7 +513,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
           {/* Referencia */}
           <div className="form-field form-field-full">
             <label htmlFor="referencia">
-              <FiLink /> Referencia (Opcional)
+              <FiLink /> {t('transactionForm.reference')}
             </label>
             <input
               type="text"
@@ -519,7 +521,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
               name="referencia"
               value={formData.referencia}
               onChange={handleChange}
-              placeholder="Código de referencia o ID relacionado..."
+              placeholder={t('transactionForm.referencePlaceholder')}
             />
           </div>
         </div>
@@ -532,7 +534,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
             className="btn-secondary"
             disabled={loading}
           >
-            {onCancel ? 'Cancelar' : 'Limpiar'}
+            {onCancel ? t('common.cancel') : t('transactionForm.clear')}
           </button>
           <button
             type="submit"
@@ -542,10 +544,10 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
             {loading ? (
               <>
                 <span className="spinner"></span>
-                Procesando...
+                {t('transactionForm.processing')}
               </>
             ) : (
-              mode === 'edit' ? <><FiSave /> Guardar Cambios</> : <><FiPlus /> Crear Transacción</>
+              mode === 'edit' ? <><FiSave /> {t('transactionForm.saveChanges')}</> : <><FiPlus /> {t('transactionForm.createButton')}</>
             )}
           </button>
         </div>
