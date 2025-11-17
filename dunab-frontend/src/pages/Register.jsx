@@ -8,7 +8,8 @@ import {
   validateName,
   validateStudentCode,
 } from '../utils/validators';
-import { MdAttachMoney, MdVisibility, MdVisibilityOff, MdSchool } from 'react-icons/md';
+import { MdVisibility, MdVisibilityOff, MdSchool } from 'react-icons/md';
+import unabLogo from '../assets/unab-logo.png';
 import '../styles/auth.css';
 
 console.log('📄 REGISTER.JSX FILE LOADED - TOP LEVEL');
@@ -203,9 +204,7 @@ const Register = () => {
       <div className="auth-card">
         <div className="auth-header">
           <div className="auth-logo">
-            <span className="logo-icon">
-              <MdAttachMoney size={40} />
-            </span>
+            <img src={unabLogo} alt="UNAB Logo" className="auth-logo-image" />
             <h1>DUNAB</h1>
           </div>
           <p className="auth-subtitle">Sistema de Gestión de Dinero UNAB</p>

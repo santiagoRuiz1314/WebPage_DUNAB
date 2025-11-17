@@ -6,8 +6,9 @@ import NotificationBell from '../notifications/NotificationBell';
 import LanguageSelector from '../shared/LanguageSelector';
 import ThemeToggle from '../shared/ThemeToggle';
 import { HiMenu, HiX } from 'react-icons/hi';
-import { MdAttachMoney, MdPerson, MdAccountBalanceWallet, MdLogout } from 'react-icons/md';
+import { MdPerson, MdAccountBalanceWallet, MdLogout } from 'react-icons/md';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
+import unabLogo from '../../assets/unab-logo.png';
 
 const Header = ({ toggleSidebar, sidebarOpen }) => {
   const { user, logout } = useAuth();
@@ -37,9 +38,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
         </button>
 
         <div className="header-logo">
-          <span className="logo-icon">
-            <MdAttachMoney size={28} />
-          </span>
+          <img src={unabLogo} alt="UNAB Logo" className="logo-image" />
           <h1 className="logo-text">DUNAB</h1>
         </div>
       </div>

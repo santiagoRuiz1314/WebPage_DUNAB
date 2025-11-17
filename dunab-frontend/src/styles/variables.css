@@ -5,11 +5,11 @@
 
 :root {
   /* ============================================
-     COLORES PRINCIPALES
+     COLORES PRINCIPALES - UNAB BRANDING
      ============================================ */
-  --primary-color: #4f46e5; /* Indigo */
-  --primary-dark: #3730a3;
-  --primary-light: #eef2ff;
+  --primary-color: #eb1406; /* UNAB Red */
+  --primary-dark: #b30f05;
+  --primary-light: #fee2e0;
 
   --secondary-color: #06b6d4; /* Cyan */
   --secondary-dark: #0891b2;
@@ -39,15 +39,15 @@
   --info-light: #dbeafe;
 
   /* ============================================
-     COLORES DUNAB ESPECÍFICOS
+     COLORES DUNAB ESPECÍFICOS - UNAB THEME
      ============================================ */
-  --dunab-gold: #fbbf24;
-  --dunab-gold-dark: #f59e0b;
-  --dunab-gold-light: #fef3c7;
+  --dunab-red: #eb1406; /* UNAB Red Primary */
+  --dunab-red-dark: #b30f05;
+  --dunab-red-light: #fee2e0;
 
-  --dunab-blue: #4f46e5;
-  --dunab-blue-dark: #3730a3;
-  --dunab-blue-light: #eef2ff;
+  --dunab-accent: #c41e3a; /* UNAB Red Accent */
+  --dunab-accent-dark: #9a1729;
+  --dunab-accent-light: #fce8eb;
 
   /* ============================================
      COLORES DE FONDO
@@ -162,7 +162,7 @@
   --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
   --gradient-success: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
   --gradient-danger: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%);
-  --gradient-dunab: linear-gradient(135deg, var(--dunab-gold) 0%, var(--dunab-gold-dark) 100%);
+  --gradient-dunab: linear-gradient(135deg, var(--dunab-red) 0%, var(--dunab-red-dark) 100%);
 }
 
 /* ============================================
@@ -196,16 +196,16 @@
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
 
   /* Colores DUNAB ajustados para modo oscuro */
-  --dunab-gold: #fbbf24;
-  --dunab-gold-dark: #f59e0b;
-  --dunab-gold-light: #451a03;
+  --dunab-red: #eb1406;
+  --dunab-red-dark: #b30f05;
+  --dunab-red-light: #4a0a03;
 
   /* Skeleton loading en modo oscuro */
   --skeleton-base: #374151;
   --skeleton-highlight: #4b5563;
 
   /* Colores de estado ajustados */
-  --primary-light: #312e81;
+  --primary-light: #4a0a03;
   --success-light: #064e3b;
   --danger-light: #7f1d1d;
   --warning-light: #78350f;

@@ -3,7 +3,8 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { validateEmail, validatePassword } from '../utils/validators';
-import { MdAttachMoney, MdVisibility, MdVisibilityOff, MdLock } from 'react-icons/md';
+import { MdVisibility, MdVisibilityOff, MdLock } from 'react-icons/md';
+import unabLogo from '../assets/unab-logo.png';
 import '../styles/auth.css';
 
 const Login = () => {
@@ -142,9 +143,7 @@ const Login = () => {
       <div className="auth-card">
         <div className="auth-header">
           <div className="auth-logo">
-            <span className="logo-icon">
-              <MdAttachMoney size={40} />
-            </span>
+            <img src={unabLogo} alt="UNAB Logo" className="auth-logo-image" />
             <h1>DUNAB</h1>
           </div>
           <p className="auth-subtitle">Sistema de Gestión de Dinero UNAB</p>

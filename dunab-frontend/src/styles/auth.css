@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--dunab-blue) 0%, var(--primary-color) 100%);
+  background: linear-gradient(135deg, var(--dunab-red) 0%, var(--dunab-accent) 100%);
   padding: var(--spacing-lg);
 }
 
@@ -21,7 +21,7 @@
 }
 
 .auth-header {
-  background: linear-gradient(135deg, var(--dunab-blue) 0%, var(--primary-color) 100%);
+  background: linear-gradient(135deg, var(--dunab-red) 0%, var(--dunab-accent) 100%);
   color: white;
   padding: var(--spacing-xl);
   text-align: center;
@@ -33,6 +33,13 @@
   justify-content: center;
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-md);
+}
+
+.auth-logo-image {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .logo-icon {

@@ -1,24 +1,24 @@
-/* BalanceCard Component Styles - DUNAB Theme */
+/* BalanceCard Component Styles - UNAB Theme */
 
 .balance-card {
   position: relative;
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  background: linear-gradient(135deg, #eb1406 0%, #c41e3a 100%);
   border-radius: 20px;
   padding: 2rem;
   min-height: 220px;
   overflow: hidden;
   box-shadow:
-    0 10px 30px rgba(255, 215, 0, 0.3),
-    0 0 0 1px rgba(255, 215, 0, 0.1);
+    0 10px 30px rgba(235, 20, 6, 0.3),
+    0 0 0 1px rgba(235, 20, 6, 0.1);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .balance-card:hover {
   transform: translateY(-4px);
   box-shadow:
-    0 20px 40px rgba(255, 215, 0, 0.4),
-    0 0 0 1px rgba(255, 215, 0, 0.2),
-    0 0 60px rgba(255, 215, 0, 0.2);
+    0 20px 40px rgba(235, 20, 6, 0.4),
+    0 0 0 1px rgba(235, 20, 6, 0.2),
+    0 0 60px rgba(235, 20, 6, 0.2);
 }
 
 /* Background Effects */
@@ -291,17 +291,17 @@
 
 /* Dark Mode */
 [data-theme='dark'] .balance-card {
-  background: linear-gradient(135deg, #B8860B 0%, #996515 100%);
+  background: linear-gradient(135deg, #b30f05 0%, #9a1729 100%);
   box-shadow:
-    0 10px 30px rgba(184, 134, 11, 0.3),
-    0 0 0 1px rgba(184, 134, 11, 0.1);
+    0 10px 30px rgba(179, 15, 5, 0.3),
+    0 0 0 1px rgba(179, 15, 5, 0.1);
 }
 
 [data-theme='dark'] .balance-card:hover {
   box-shadow:
-    0 20px 40px rgba(184, 134, 11, 0.4),
-    0 0 0 1px rgba(184, 134, 11, 0.2),
-    0 0 60px rgba(184, 134, 11, 0.2);
+    0 20px 40px rgba(179, 15, 5, 0.4),
+    0 0 0 1px rgba(179, 15, 5, 0.2),
+    0 0 60px rgba(179, 15, 5, 0.2);
 }
 
 [data-theme='dark'] .balance-card__label h3,

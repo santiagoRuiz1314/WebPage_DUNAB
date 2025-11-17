@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import unabLogo from '../../assets/unab-logo.png';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -13,7 +14,10 @@ const Footer = () => {
         <div className="footer-main">
           {/* About Section */}
           <div className="footer-column">
-            <h3 className="footer-column-title">DUNAB</h3>
+            <div className="footer-logo">
+              <img src={unabLogo} alt="UNAB Logo" className="footer-logo-image" />
+              <h3 className="footer-column-title">DUNAB</h3>
+            </div>
             <p className="footer-description">
               Sistema de Gestión de Dinero UNAB - Plataforma integral para administrar
               tus finanzas universitarias de manera eficiente y segura.
