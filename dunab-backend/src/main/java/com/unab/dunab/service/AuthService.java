@@ -1,5 +1,6 @@
 package com.unab.dunab.service;
 
+import com.unab.dunab.dto.request.ChangePasswordRequest;
 import com.unab.dunab.dto.request.LoginRequest;
 import com.unab.dunab.dto.request.RegisterRequest;
 import com.unab.dunab.dto.response.AuthResponse;
@@ -10,6 +11,7 @@ import com.unab.dunab.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -195,5 +197,31 @@ public class AuthService {
                 .apellido(usuario.getApellido())
                 .tipo("Bearer")
                 .build();
+    }
+
+    /**
+     * Cambia la contraseña del usuario autenticado
+     */
+    @Transactional
+    public void cambiarPassword(String email, ChangePasswordRequest request) {
+        // Obtener el usuario
+        User usuario = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Verificar que la contraseña actual sea correcta
+        if (!passwordEncoder.matches(request.getCurrentPassword(), usuario.getPassword())) {
+            throw new BadCredentialsException("La contraseña actual es incorrecta");
+        }
+
+        // Validar que la nueva contraseña sea diferente a la actual
+        if (passwordEncoder.matches(request.getNewPassword(), usuario.getPassword())) {
+            throw new IllegalArgumentException("La nueva contraseña debe ser diferente a la actual");
+        }
+
+        // Actualizar la contraseña
+        usuario.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(usuario);
+
+        log.info("Contraseña actualizada exitosamente para el usuario: {}", email);
     }
 }

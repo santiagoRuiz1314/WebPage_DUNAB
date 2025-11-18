@@ -1,5 +1,6 @@
 package com.unab.dunab.controller;
 
+import com.unab.dunab.dto.request.ChangePasswordRequest;
 import com.unab.dunab.dto.request.LoginRequest;
 import com.unab.dunab.dto.request.RegisterRequest;
 import com.unab.dunab.dto.response.ApiResponse;
@@ -79,5 +80,25 @@ public class AuthController {
     public ResponseEntity<ApiResponse<Void>> logout() {
         authService.logout();
         return ResponseEntity.ok(ApiResponse.success(null, "Sesión cerrada exitosamente"));
+    }
+
+    /**
+     * POST /api/auth/change-password - Cambiar contraseña del usuario autenticado
+     */
+    @PostMapping("/change-password")
+    public ResponseEntity<ApiResponse<Void>> cambiarPassword(@Valid @RequestBody ChangePasswordRequest request) {
+        // Obtener el usuario autenticado del SecurityContext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated() ||
+            authentication.getPrincipal().equals("anonymousUser")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ApiResponse.error("No autenticado"));
+        }
+
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        authService.cambiarPassword(userPrincipal.getEmail(), request);
+
+        return ResponseEntity.ok(ApiResponse.success(null, "Contraseña actualizada exitosamente"));
     }
 }

@@ -15,6 +15,7 @@ export const API_ENDPOINTS = {
   LOGOUT: '/auth/logout',
   REFRESH: '/auth/refresh',
   VERIFY: '/auth/verify',
+  CHANGE_PASSWORD: '/auth/change-password',
 
   // DUNAB Accounts
   DUNAB_ACCOUNTS: '/dunab/accounts',

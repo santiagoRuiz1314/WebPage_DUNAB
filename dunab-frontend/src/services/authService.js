@@ -223,13 +223,16 @@ const authService = {
    */
   changePassword: async (currentPassword, newPassword) => {
     try {
-      const response = await post('/auth/change-password', {
+      console.log('🔐 Cambiando contraseña...');
+      const response = await api.post(API_ENDPOINTS.CHANGE_PASSWORD, {
         currentPassword,
         newPassword,
       });
-      return response;
+
+      console.log('✅ Contraseña cambiada exitosamente');
+      return response.data || response;
     } catch (error) {
-      console.error('Error changing password:', error);
+      console.error('❌ Error cambiando contraseña:', error);
       throw error;
     }
   },
