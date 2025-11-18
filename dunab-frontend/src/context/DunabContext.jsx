@@ -127,11 +127,17 @@ export const DunabProvider = ({ children }) => {
 
     try {
       loadingRef.categories = true;
-      const cats = await dunabService.getCategories();
-      setCategories(cats || []);
+      const response = await dunabService.getCategories();
+      console.log('🔍 Raw categories response:', response);
+      // El backend devuelve ApiResponse {success, data}
+      const cats = response.data || response || [];
+      console.log('🔍 Extracted categories:', cats);
+      console.log('🔍 Is array?', Array.isArray(cats));
+      setCategories(cats);
       return cats;
     } catch (err) {
       console.error('Error fetching categories:', err);
+      setCategories([]); // Asegurar que siempre sea un array
     } finally {
       loadingRef.categories = false;
     }

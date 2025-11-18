@@ -72,14 +72,23 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
 
   // Cargar categorías y estudiantes al montar (solo una vez)
   useEffect(() => {
+    console.log('🔄 CreateTransaction: Loading categories and students...');
     if (loadCategories) {
-      loadCategories();
+      loadCategories().then(() => {
+        console.log('✅ Categories loaded in CreateTransaction');
+      });
     }
     if (loadStudents) {
       loadStudents();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Array vacío: solo se ejecuta al montar el componente
+
+  // Debug: Log categories cuando cambien
+  useEffect(() => {
+    console.log('📋 Categories in CreateTransaction:', categories);
+    console.log('📋 Categories is array?', Array.isArray(categories));
+  }, [categories]);
 
   // Buscar estudiantes cuando cambia el término de búsqueda
   useEffect(() => {
@@ -441,7 +450,7 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
               className={errors.categoriaId ? 'error' : ''}
             >
               <option value="">{t('transactionForm.selectCategory')}</option>
-              {categories && categories.map((cat) => (
+              {Array.isArray(categories) && categories.map((cat) => (
                 <option key={cat.id || cat} value={cat.id || cat}>
                   {cat.nombre || cat}
                 </option>
