@@ -45,8 +45,8 @@ public class DunabService {
 
         CuentaDunab cuenta = CuentaDunab.builder()
                 .estudiante(estudiante)
-                .saldoActual(BigDecimal.ZERO)
-                .totalGanado(BigDecimal.ZERO)
+                .saldoActual(new BigDecimal("500.00"))
+                .totalGanado(new BigDecimal("500.00"))
                 .totalGastado(BigDecimal.ZERO)
                 .estado(AccountStatus.ACTIVA)
                 .limiteTransaccion(new BigDecimal("10000.00"))

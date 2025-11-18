@@ -408,8 +408,6 @@ const CreateTransaction = ({ onSuccess, onCancel, initialData = null, mode = 'cr
             >
               <option value="CREDITO">{t('transactionForm.credit')}</option>
               <option value="DEBITO">{t('transactionForm.debit')}</option>
-              <option value="INGRESO">{t('transactionForm.income')}</option>
-              <option value="EGRESO">{t('transactionForm.expense')}</option>
             </select>
             {errors.tipo && (
               <span className="field-error">{errors.tipo}</span>
