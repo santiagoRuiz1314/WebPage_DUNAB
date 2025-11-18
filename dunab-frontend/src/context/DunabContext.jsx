@@ -35,7 +35,7 @@ export const DunabProvider = ({ children }) => {
     if (!user?.id) return null;
 
     try {
-      const response = await dunabService.getAccount(user.id);
+      const response = await dunabService.getAccountByStudent(user.id);
       const account = response.data || response;
       setDunabAccount(account);
       // Actualizar balance directamente de la cuenta

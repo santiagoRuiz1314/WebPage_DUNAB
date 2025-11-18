@@ -42,6 +42,21 @@ const dunabService = {
   },
 
   /**
+   * Obtener cuenta DUNAB por ID de estudiante
+   * @param {number|string} estudianteId - ID del estudiante
+   * @returns {Promise<object>} Datos de la cuenta
+   */
+  getAccountByStudent: async (estudianteId) => {
+    try {
+      const response = await api.get(API_ENDPOINTS.DUNAB_ACCOUNT_BY_STUDENT(estudianteId));
+      return response;
+    } catch (error) {
+      console.error('Error obteniendo cuenta DUNAB por estudiante:', error);
+      throw error;
+    }
+  },
+
+  /**
    * Obtener saldo de una cuenta DUNAB
    * @param {number|string} accountId - ID de la cuenta
    * @returns {Promise<number>} Saldo actual

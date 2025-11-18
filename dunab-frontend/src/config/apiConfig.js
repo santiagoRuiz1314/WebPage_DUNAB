@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
 
   // DUNAB Accounts
   DUNAB_ACCOUNTS: '/dunab/accounts',
+  DUNAB_ACCOUNT_BY_STUDENT: (estudianteId) => `/dunab/accounts/student/${estudianteId}`,
   DUNAB_BALANCE: (id) => `/dunab/accounts/${id}/balance`,
 
   // DUNAB Transactions
