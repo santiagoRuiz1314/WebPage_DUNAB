@@ -10,6 +10,7 @@ const DunabContext = createContext(null);
 
 export const DunabProvider = ({ children }) => {
   const { user, isAuthenticated } = useAuth();
+  const [dunabAccount, setDunabAccount] = useState(null); // Cuenta DUNAB del usuario
   const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
   const [recentTransactions, setRecentTransactions] = useState([]); // Stack - LIFO
@@ -28,6 +29,28 @@ export const DunabProvider = ({ children }) => {
   })[0];
 
   /**
+   * Obtener cuenta DUNAB del usuario actual
+   */
+  const fetchDunabAccount = async () => {
+    if (!user?.id) return null;
+
+    try {
+      const response = await dunabService.getAccount(user.id);
+      const account = response.data || response;
+      setDunabAccount(account);
+      // Actualizar balance directamente de la cuenta
+      if (account?.saldoActual !== undefined) {
+        setBalance(account.saldoActual || 0);
+      }
+      return account;
+    } catch (err) {
+      console.error('Error fetching DUNAB account:', err);
+      setError(err.message || 'Error al obtener la cuenta DUNAB');
+      return null;
+    }
+  };
+
+  /**
    * Obtener saldo del usuario actual
    */
   const fetchBalance = async () => {
@@ -36,8 +59,18 @@ export const DunabProvider = ({ children }) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await dunabService.getBalance(user.id);
-      setBalance(response.balance || 0);
+
+      // Si ya tenemos la cuenta, usamos su ID
+      if (dunabAccount?.id) {
+        const response = await dunabService.getBalance(dunabAccount.id);
+        setBalance(response.balance || response.data || 0);
+      } else {
+        // Si no, primero obtenemos la cuenta
+        const account = await fetchDunabAccount();
+        if (account?.saldoActual !== undefined) {
+          setBalance(account.saldoActual || 0);
+        }
+      }
     } catch (err) {
       console.error('Error fetching balance:', err);
       setError(err.message || 'Error al obtener el saldo');
@@ -357,23 +390,25 @@ export const DunabProvider = ({ children }) => {
    * Refrescar todos los datos
    */
   const refreshAll = async () => {
+    // Primero obtenemos la cuenta DUNAB, que incluye el balance
+    await fetchDunabAccount();
+    // Luego el resto de datos en paralelo
     await Promise.all([
-      fetchBalance(),
       fetchTransactions(),
       fetchStatistics(),
       fetchCategories(),
     ]);
   };
 
-  // Los datos se cargan bajo demanda cuando los componentes los necesitan
-  // No cargamos automáticamente para evitar bucles infinitos
-  // useEffect(() => {
-  //   if (isAuthenticated && user?.id) {
-  //     refreshAll();
-  //   }
-  // }, [isAuthenticated, user?.id]);
+  // Cargar datos automáticamente cuando el usuario inicia sesión
+  useEffect(() => {
+    if (isAuthenticated && user?.id) {
+      refreshAll();
+    }
+  }, [isAuthenticated, user?.id]);
 
   const value = {
+    dunabAccount,
     balance,
     transactions,
     recentTransactions,
@@ -382,6 +417,7 @@ export const DunabProvider = ({ children }) => {
     students,
     loading,
     error,
+    fetchDunabAccount,
     fetchBalance,
     fetchTransactions,
     fetchTransactionsPaginated,
