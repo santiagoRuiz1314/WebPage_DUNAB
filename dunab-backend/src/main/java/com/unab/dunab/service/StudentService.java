@@ -85,6 +85,15 @@ public class StudentService {
         if (studentData.getCodigoEstudiante() != null) {
             student.setCodigoEstudiante(studentData.getCodigoEstudiante());
         }
+        if (studentData.getTelefono() != null) {
+            student.setTelefono(studentData.getTelefono());
+        }
+        if (studentData.getPrograma() != null) {
+            student.setPrograma(studentData.getPrograma());
+        }
+        if (studentData.getSemestre() != null) {
+            student.setSemestre(studentData.getSemestre());
+        }
 
         return userRepository.save(student);
     }

@@ -31,6 +31,8 @@ export const AuthProvider = ({ children }) => {
         const userData = {
           id: authData.id,
           email: authData.email,
+          firstName: authData.nombre,
+          lastName: authData.apellido,
           nombre: authData.nombre,
           apellido: authData.apellido,
           rol: authData.rol,
@@ -138,6 +140,49 @@ export const AuthProvider = ({ children }) => {
     saveUser(updatedUser);
   };
 
+  /**
+   * Update user profile in backend
+   * @param {Object} profileData - Profile data to update
+   * @returns {Promise<Object>} Updated user data
+   */
+  const updateUserProfile = async (profileData) => {
+    try {
+      console.log('🚀 AuthContext: Actualizando perfil del usuario...');
+
+      if (!user || !user.id) {
+        throw new Error('Usuario no autenticado');
+      }
+
+      const updatedUser = await authService.updateUserProfile(user.id, profileData);
+
+      console.log('📥 AuthContext: Usuario actualizado:', updatedUser);
+
+      // Actualizar el estado local con los datos actualizados
+      const userData = {
+        id: updatedUser.id,
+        email: updatedUser.email,
+        firstName: updatedUser.nombre,
+        lastName: updatedUser.apellido,
+        nombre: updatedUser.nombre,
+        apellido: updatedUser.apellido,
+        rol: updatedUser.rol,
+        phone: updatedUser.telefono,
+        program: updatedUser.programa,
+        semester: updatedUser.semestre,
+      };
+
+      setUser(userData);
+      saveUser(userData);
+
+      console.log('✅ AuthContext: Perfil actualizado en estado local');
+
+      return updatedUser;
+    } catch (error) {
+      console.error('❌ AuthContext: Error actualizando perfil:', error);
+      throw error;
+    }
+  };
+
 
   // Verify and restore session on mount
   useEffect(() => {
@@ -181,6 +226,7 @@ export const AuthProvider = ({ children }) => {
     register,
     refreshToken,
     updateUser,
+    updateUserProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

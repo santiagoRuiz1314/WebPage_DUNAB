@@ -47,6 +47,8 @@ const authService = {
       const user = {
         id: authData.id,
         email: authData.email,
+        firstName: authData.nombre,
+        lastName: authData.apellido,
         nombre: authData.nombre,
         apellido: authData.apellido,
         rol: authData.rol,
@@ -158,6 +160,8 @@ const authService = {
       const user = {
         id: authData.id,
         email: authData.email,
+        firstName: authData.nombre,
+        lastName: authData.apellido,
         nombre: authData.nombre,
         apellido: authData.apellido,
         rol: authData.rol,
@@ -186,6 +190,8 @@ const authService = {
       const user = {
         id: authData.id,
         email: authData.email,
+        firstName: authData.nombre,
+        lastName: authData.apellido,
         nombre: authData.nombre,
         apellido: authData.apellido,
         rol: authData.rol,
@@ -224,6 +230,43 @@ const authService = {
       return response;
     } catch (error) {
       console.error('Error changing password:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Actualizar perfil del usuario
+   * @param {number} userId - ID del usuario
+   * @param {object} profileData - Datos del perfil a actualizar
+   * @returns {Promise<object>} Usuario actualizado
+   */
+  updateUserProfile: async (userId, profileData) => {
+    try {
+      console.log('🔄 Actualizando perfil del usuario:', userId, profileData);
+
+      // Mapear campos del formulario al formato esperado por el backend
+      const updateData = {
+        nombre: profileData.firstName,
+        apellido: profileData.lastName,
+        email: profileData.email,
+        telefono: profileData.phone,
+        programa: profileData.program,
+        semestre: profileData.semester,
+      };
+
+      console.log('📤 Datos enviados al backend:', updateData);
+      const response = await api.put(API_ENDPOINTS.UPDATE_PROFILE(userId), updateData);
+
+      console.log('📦 Response completo:', response);
+
+      // El interceptor ya retorna response.data (ApiResponse)
+      const userData = response.data || response;
+
+      console.log('✅ Perfil actualizado exitosamente:', userData);
+
+      return userData;
+    } catch (error) {
+      console.error('❌ Error actualizando perfil:', error);
       throw error;
     }
   },

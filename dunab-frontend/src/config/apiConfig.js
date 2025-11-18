@@ -52,6 +52,7 @@ export const API_ENDPOINTS = {
   STUDENTS: '/students',
   STUDENT: (id) => `/students/${id}`,
   STUDENT_PROGRESS: (id) => `/students/${id}/progress`,
+  UPDATE_PROFILE: (id) => `/students/${id}`,
 
   // Events
   EVENTS: '/events',

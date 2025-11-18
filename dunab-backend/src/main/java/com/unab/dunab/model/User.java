@@ -47,6 +47,15 @@ public class User {
     @Column(unique = true, length = 20)
     private String codigoEstudiante;
 
+    @Column(length = 20)
+    private String telefono;
+
+    @Column(length = 150)
+    private String programa;
+
+    @Column
+    private Integer semestre;
+
     @Column(nullable = false)
     private Boolean activo = true;
 
